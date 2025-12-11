@@ -12,6 +12,6 @@
   },
   "client": [
     "ChestValueMixin",
-    "accessors.HandledScreenAccessor",
+    "accessors.HandledScreenAccessor"
   ]
 }
