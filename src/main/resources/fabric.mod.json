@@ -21,7 +21,7 @@
 			"fr.flastar.magiqolsky.MagiQoLSkyDataGenerator"
 		],
 		"client": [
-			"fr.flastar.magiqolsky.MagicalQoLSkyClient"
+			"fr.flastar.magiqolsky.MagiQoLSkyClient"
 		]
 	},
 	"mixins": [
