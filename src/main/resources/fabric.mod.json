@@ -1,15 +1,14 @@
 {
 	"schemaVersion": 1,
-	"id": "magiqol-sky",
+	"id": "magicalqol-sky",
 	"version": "${version}",
-	"name": "MagiQoL Sky",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "MagicalQoL Sky",
+	"description": "Mod visant à développer des outils QoL pour le skyblock MagicalSky.",
 	"authors": [
-		"Me!"
+		"flastar"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/flastar-fr/magicalqol-sky-fabric"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/magiqol-sky/icon.png",
@@ -20,6 +19,9 @@
 		],
 		"fabric-datagen": [
 			"fr.flastar.magiqolsky.MagiQoLSkyDataGenerator"
+		],
+		"client": [
+			"fr.flastar.magiqolsky.MagicalQoLSkyClient"
 		]
 	},
 	"mixins": [
