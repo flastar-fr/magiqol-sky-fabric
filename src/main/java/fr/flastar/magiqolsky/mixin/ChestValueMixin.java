@@ -1,10 +1,8 @@
 package fr.flastar.magiqolsky.mixin;
 
-
-import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
-import fr.flastar.magiqolsky.mixin.accessors.ScreenAccessor;
-import fr.flastar.magiqolsky.widget.ChestValueWidget;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -12,40 +10,68 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HandledScreen.class)
-public class ChestValueMixin {
-    @Inject(method = "init", at = @At("HEAD"))
-    private void init(CallbackInfo ci) {
-        ScreenAccessor screenAccessor = (ScreenAccessor) this;
-        HandledScreenAccessor handledScreenAccessor = (HandledScreenAccessor) this;
+public abstract class ChestValueMixin {
+    @Unique
+    private static final int TEXT_Y = 6;
 
+    @Unique
+    private static final int TEXT_X_OFFSET = 8;
+
+    @Unique
+    private static final int TEXT_COLOR = 0x404040;
+
+    @Unique
+    private Text amountText = null;
+
+    @Inject(method = "handledScreenTick", at = @At("HEAD"))
+    private void updateChestValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
 
         if (!(handler instanceof GenericContainerScreenHandler chestHandler)) {
+            this.amountText = null;
             return;
         }
 
         Inventory chestInventory = chestHandler.getInventory();
         int amountItems = 0;
-        MagiQoLSky.LOGGER.info("Chest inventory size: " + chestInventory.size());
 
         for (int i = 0; i < chestInventory.size(); i++) {
             ItemStack stack = chestInventory.getStack(i);
 
-            MagiQoLSky.LOGGER.info("Item: " + stack.getName().getString() + " - Count: " + stack.getCount());
-
-            amountItems += stack.getCount();
+            if (!stack.isEmpty()) {
+                amountItems += stack.getCount();
+            }
         }
 
-        int x = handledScreenAccessor.x();
-        int y = handledScreenAccessor.y();
+        this.amountText = Text.of(Integer.toString(amountItems));
+    }
 
-        ChestValueWidget chestValueWidget = new ChestValueWidget(x, y, 100, 100, Text.of("Test " + amountItems));
+    @Inject(method = "drawForeground", at = @At(value = "HEAD"))
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+        if (this.amountText == null) {
+            return;
+        }
 
-        screenAccessor.invokeAddDrawableChild(chestValueWidget);
+        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
+        int screenX = ((HandledScreenAccessor) screen).backgroundWidth();
+
+        TextRenderer textRenderer = screen.getTextRenderer();
+
+        int textX = screenX - TEXT_X_OFFSET - textRenderer.getWidth(this.amountText);
+
+        context.drawText(
+                textRenderer,
+                this.amountText,
+                textX,
+                TEXT_Y,
+                TEXT_COLOR,
+                false
+        );
     }
 }
