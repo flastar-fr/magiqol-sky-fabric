@@ -94,6 +94,7 @@ public abstract class ChestValueMixin {
         );
     }
 
+    @Unique
     private String retrieveIDFromStack(ItemStack stack) {
         NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
         if (nbtComponent == null) {
