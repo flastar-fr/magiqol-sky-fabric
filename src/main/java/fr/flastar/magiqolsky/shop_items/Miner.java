@@ -18,7 +18,6 @@ public enum Miner implements IShopItems {
     EMERALD("minecraft:emerald", 10.f),
     DIAMOND("minecraft:diamond", 12.f),
     NETHER_QUARTZ("minecraft:quartz", 2.f),
-    BUDDING_AMETHYST("minecraft:budding_amethyst", 100.f),
     AMETHYST_SHARD("minecraft:amethyst_shard", 1.f);
 
     private final String id;
