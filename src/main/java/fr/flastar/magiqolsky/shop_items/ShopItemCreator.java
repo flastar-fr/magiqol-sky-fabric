@@ -13,6 +13,7 @@ public class ShopItemCreator {
         createShopItem(Arrays.asList(Hunter.values()));
         createShopItem(Arrays.asList(Farmer.values()));
         createShopItem(Arrays.asList(Miner.values()));
+        createShopItem(Arrays.asList(Lumberjack.values()));
     }
 
     private <T extends IShopItems> void createShopItem(List<T> list) {
