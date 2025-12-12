@@ -3,14 +3,19 @@ package fr.flastar.magiqolsky.mixin;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.FloatToString;
+import fr.flastar.magiqolsky.utils.NbtExtractor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,14 +54,14 @@ public abstract class ChestValueMixin {
         for (int i = 0; i < chestInventory.size(); i++) {
             ItemStack stack = chestInventory.getStack(i);
 
-            String itemName = stack.getItem().getName().getString();
+            String itemID = retrieveIDFromStack(stack);
 
-            if (!shopItems.containsKey(itemName)) {
+            if (!shopItems.containsKey(itemID)) {
                 continue;
             }
 
             int amountItems = stack.getCount();
-            float itemValue = shopItems.get(itemName);
+            float itemValue = shopItems.get(itemID);
 
             totalValue += amountItems * itemValue;
         }
@@ -87,5 +92,16 @@ public abstract class ChestValueMixin {
                 TEXT_COLOR,
                 false
         );
+    }
+
+    private String retrieveIDFromStack(ItemStack stack) {
+        NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
+        if (nbtComponent == null) {
+            Identifier itemIDIdentifier = Registries.ITEM.getId(stack.getItem());
+
+            return itemIDIdentifier.toString();
+        } else {
+            return NbtExtractor.extractPluginIdentifier(stack);
+        }
     }
 }

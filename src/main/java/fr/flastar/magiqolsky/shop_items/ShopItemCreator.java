@@ -15,7 +15,7 @@ public class ShopItemCreator {
 
     private <T extends IShopItems> void createShopItem(List<T> list) {
         for (T item : list) {
-            shopItems.put(item.getName(), item.getPrice());
+            shopItems.put(item.getID(), item.getPrice());
         }
     }
 

@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.shop_items;
 
 public interface IShopItems {
-    String getName();
+    String getID();
     float getPrice();
 }

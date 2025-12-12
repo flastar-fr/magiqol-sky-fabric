@@ -1,19 +1,20 @@
 package fr.flastar.magiqolsky.shop_items;
 
 public enum Hunter implements IShopItems {
-    BONE("Bone", 0.2f);
+    BONE("minecraft:bone", 0.2f),
+    PANDA_TEETH("nexo:panda_teeth", 375.f);
 
-    private final String name;
+    private final String id;
     private final float price;
 
-    Hunter(String name, float price) {
-        this.name = name;
+    Hunter(String id, float price) {
+        this.id = id;
         this.price = price;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getID() {
+        return id;
     }
 
     @Override
