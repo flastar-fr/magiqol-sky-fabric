@@ -1,6 +1,8 @@
 package fr.flastar.magiqolsky.mixin;
 
+import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
+import fr.flastar.magiqolsky.utils.FloatToString;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -14,6 +16,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.HashMap;
 
 @Mixin(HandledScreen.class)
 public abstract class ChestValueMixin {
@@ -39,17 +43,27 @@ public abstract class ChestValueMixin {
         }
 
         Inventory chestInventory = chestHandler.getInventory();
-        int amountItems = 0;
+        float totalValue = 0;
+        HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
 
         for (int i = 0; i < chestInventory.size(); i++) {
             ItemStack stack = chestInventory.getStack(i);
 
-            if (!stack.isEmpty()) {
-                amountItems += stack.getCount();
+            String itemName = stack.getItem().getName().getString();
+
+            if (!shopItems.containsKey(itemName)) {
+                continue;
             }
+
+            int amountItems = stack.getCount();
+            float itemValue = shopItems.get(itemName);
+
+            totalValue += amountItems * itemValue;
         }
 
-        this.amountText = Text.of(Integer.toString(amountItems));
+        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, 2);
+
+        this.amountText = Text.of(stringifiedValue);
     }
 
     @Inject(method = "drawForeground", at = @At(value = "HEAD"))
