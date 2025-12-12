@@ -16,6 +16,7 @@ public class ShopItemCreator {
         createShopItem(Arrays.asList(Lumberjack.values()));
         createShopItem(Arrays.asList(Fisherman.values()));
         createShopItem(Arrays.asList(Cooking.values()));
+        createShopItem(Arrays.asList(Botanic.values()));
     }
 
     private <T extends IShopItems> void createShopItem(List<T> list) {
