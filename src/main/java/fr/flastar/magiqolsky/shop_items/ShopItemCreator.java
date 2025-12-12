@@ -11,6 +11,7 @@ public class ShopItemCreator {
         shopItems = new HashMap<>();
 
         createShopItem(Arrays.asList(Hunter.values()));
+        createShopItem(Arrays.asList(Farmer.values()));
     }
 
     private <T extends IShopItems> void createShopItem(List<T> list) {
