@@ -5,16 +5,12 @@ import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.shopitems.model.ShopCategory;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ShopConfig {
 
@@ -36,23 +32,12 @@ public class ShopConfig {
 
     private void loadConfig() {
         try {
-            Path configDir = Path.of("config", "magiqolsky");
-            if (!Files.exists(configDir)) {
-                Files.createDirectories(configDir);
-            }
-
-            File configFile = configDir.resolve("shop_categories.json").toFile();
-
-            if (!configFile.exists()) {
-                try (FileWriter writer = new FileWriter(configFile)) {
-                    writer.write("{\"categories\":[]}");
-                }
-            }
-
-            try (FileReader reader = new FileReader(configFile)) {
+            try (InputStreamReader reader = new InputStreamReader(
+                    Objects.requireNonNull(MagiQoLSky.class.getClassLoader()
+                            .getResourceAsStream("assets/magiqol-sky/shop_categories.json"))
+            )) {
                 Type type = new TypeToken<Map<String, List<ShopCategory>>>() {}.getType();
                 Map<String, List<ShopCategory>> config = GSON.fromJson(reader, type);
-
                 if (config != null && config.containsKey("categories")) {
                     List<ShopCategory> categories = config.get("categories");
 
