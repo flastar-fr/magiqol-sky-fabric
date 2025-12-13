@@ -2,7 +2,6 @@ package fr.flastar.magiqolsky.container_strategies;
 
 import fr.flastar.magiqolsky.mixin.accessors.CraftingScreenHandlerAccessor;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.ScreenHandler;
