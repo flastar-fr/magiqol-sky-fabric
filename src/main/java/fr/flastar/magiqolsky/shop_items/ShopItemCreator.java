@@ -1,5 +1,7 @@
 package fr.flastar.magiqolsky.shop_items;
 
+import fr.flastar.magiqolsky.shop_items.shop_categories.*;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,7 @@ public class ShopItemCreator {
         createShopItem(Arrays.asList(DungeonObjects.values()));
     }
 
-    private <T extends IShopItems> void createShopItem(List<T> list) {
+    private <T extends IShopCategory> void createShopItem(List<T> list) {
         for (T item : list) {
             shopItems.put(item.getID(), item.getPrice());
         }

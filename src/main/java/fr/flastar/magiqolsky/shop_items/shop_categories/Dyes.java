@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Dyes implements IShopItems {
+public enum Dyes implements IShopCategory {
     WHITE_DYE("minecraft:white_dye", .05f),
     ORANGE_DYE("minecraft:orange_dye", .05f),
     MAGENTA_DYE("minecraft:magenta_dye", .05f),

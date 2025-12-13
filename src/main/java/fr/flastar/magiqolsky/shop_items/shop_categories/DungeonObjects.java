@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum DungeonObjects implements IShopItems {
+public enum DungeonObjects implements IShopCategory {
     PARASITE_WING("nexo:parasite_wing", 3250.f),
     POISON_THORN("nexo:poison_thorn", 15500.f),
     MUTANT_PLANT_PETAL("nexo:mutant_plant_petal", 37500.f),

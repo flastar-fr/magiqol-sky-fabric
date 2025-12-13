@@ -18,6 +18,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,35 +45,10 @@ public abstract class ChestValueMixin {
     private void updateChestValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
 
-        Inventory containerInventory;
-        if (handler instanceof GenericContainerScreenHandler chestHandler) {
-            containerInventory = chestHandler.getInventory();
-        }
-        else if (handler instanceof ShulkerBoxScreenHandler shulkerHandler) {
-            ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
-            containerInventory = shulkerHandlerAccessor.inventory();
-        } else {
-            this.amountText = null;
-            return;
-        }
+        Inventory containerInventory = determineContainerInventory(handler);
+        if (containerInventory == null) return;
 
-        float totalValue = 0;
-        HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
-
-        for (int i = 0; i < containerInventory.size(); i++) {
-            ItemStack stack = containerInventory.getStack(i);
-
-            String itemID = retrieveIDFromStack(stack);
-
-            if (!shopItems.containsKey(itemID)) {
-                continue;
-            }
-
-            int amountItems = stack.getCount();
-            float itemValue = shopItems.get(itemID);
-
-            totalValue += amountItems * itemValue;
-        }
+        float totalValue = getContainerTotalValue(containerInventory);
 
         String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, 2);
 
@@ -112,5 +88,42 @@ public abstract class ChestValueMixin {
         } else {
             return NbtExtractor.extractPluginIdentifier(stack);
         }
+    }
+
+    @Unique
+    private float getContainerTotalValue(Inventory containerInventory) {
+        float totalValue = 0;
+        HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
+
+        for (int i = 0; i < containerInventory.size(); i++) {
+            ItemStack stack = containerInventory.getStack(i);
+
+            String itemID = retrieveIDFromStack(stack);
+
+            if (!shopItems.containsKey(itemID)) {
+                continue;
+            }
+
+            int amountItems = stack.getCount();
+            float itemValue = shopItems.get(itemID);
+
+            totalValue += amountItems * itemValue;
+        }
+        return totalValue;
+    }
+
+    @Unique
+    private @Nullable Inventory determineContainerInventory(ScreenHandler handler) {
+        Inventory containerInventory;
+        if (handler instanceof GenericContainerScreenHandler chestHandler) {
+            containerInventory = chestHandler.getInventory();
+        } else if (handler instanceof ShulkerBoxScreenHandler shulkerHandler) {
+            ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
+            containerInventory = shulkerHandlerAccessor.inventory();
+        } else {
+            this.amountText = null;
+            return null;
+        }
+        return containerInventory;
     }
 }

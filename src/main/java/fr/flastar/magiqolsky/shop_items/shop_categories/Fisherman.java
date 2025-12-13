@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Fisherman implements IShopItems {
+public enum Fisherman implements IShopCategory {
     RAW_COD("minecraft:cod", 75.f),
     RAW_SALMON("minecraft:salmon", 75.f),
     TROPICAL_FISH("minecraft:tropical_fish", 75.f),

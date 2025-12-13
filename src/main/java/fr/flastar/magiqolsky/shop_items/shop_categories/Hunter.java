@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Hunter implements IShopItems {
+public enum Hunter implements IShopCategory {
     RAW_CHICKEN("minecraft:chicken", .5f),
     FEATHER("minecraft:feather", 20.f),
     RAW_PORKCHOP("minecraft:porkchop", 1.f),

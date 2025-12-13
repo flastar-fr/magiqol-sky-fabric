@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Farmer implements IShopItems {
+public enum Farmer implements IShopCategory {
     WHEAT("minecraft:wheat", 3.f),
     BEETROOT("minecraft:beetroot", 3.f),
     POTATO("minecraft:potato", .75f),

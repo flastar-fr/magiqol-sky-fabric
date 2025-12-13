@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Lumberjack implements IShopItems {
+public enum Lumberjack implements IShopCategory {
     OAK_LOG("minecraft:oak_log", 3.f),
     BIRCH_LOG("minecraft:birch_log", 3.f),
     SPRUCE_LOG("minecraft:spruce_log", 1.5f),

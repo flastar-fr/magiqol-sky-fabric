@@ -1,6 +1,6 @@
-package fr.flastar.magiqolsky.shop_items;
+package fr.flastar.magiqolsky.shop_items.shop_categories;
 
-public enum Miner implements IShopItems {
+public enum Miner implements IShopCategory {
     COBBLESTONE("minecraft:cobblestone", .2f),
     STONE("minecraft:stone", .2f),
     DIORITE("minecraft:diorite", .2f),
