@@ -5,12 +5,15 @@ import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.shopitems.model.ShopCategory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ShopConfig {
 
@@ -31,30 +34,36 @@ public class ShopConfig {
     }
 
     private void loadConfig() {
-        try {
-            try (InputStreamReader reader = new InputStreamReader(
-                    Objects.requireNonNull(MagiQoLSky.class.getClassLoader()
-                            .getResourceAsStream("assets/magiqol-sky/shop_categories.json"))
-            )) {
-                Type type = new TypeToken<Map<String, List<ShopCategory>>>() {}.getType();
-                Map<String, List<ShopCategory>> config = GSON.fromJson(reader, type);
-                if (config != null && config.containsKey("categories")) {
-                    List<ShopCategory> categories = config.get("categories");
+        String jsonUrl = "https://raw.githubusercontent.com/Lazerstricks/TestPublic/main/shop_categories.json";
 
-                    for (ShopCategory category : categories) {
-                        Map<String, Float> categoryItems = new HashMap<>();
+        try (InputStream inputStream = new URL(jsonUrl).openStream();
+             InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
 
-                        category.getItems().forEach(item ->
-                                categoryItems.put(item.getId(), item.getPrice())
-                        );
+            Type type = new TypeToken<Map<String, List<ShopCategory>>>() {}.getType();
+            Map<String, List<ShopCategory>> config = GSON.fromJson(reader, type);
 
-                        shopItems.put(category.getName().toLowerCase(), categoryItems);
-                    }
-                }
+            if (config == null || !config.containsKey("categories")) {
+                MagiQoLSky.LOGGER.error("Format de configuration invalide : clé 'categories' absente");
+                return;
             }
 
+            for (ShopCategory category : config.get("categories")) {
+                Map<String, Float> categoryItems = new HashMap<>();
+
+                category.getItems().forEach(item ->
+                        categoryItems.put(item.getId(), item.getPrice())
+                );
+
+                shopItems.put(category.getName().toLowerCase(), categoryItems);
+            }
+
+            MagiQoLSky.LOGGER.info("Configuration du shop chargée avec succès depuis " + jsonUrl);
+
         } catch (IOException e) {
-            MagiQoLSky.LOGGER.error("Failed to load shop configuration", e);
+            MagiQoLSky.LOGGER.error(
+                    "Échec du chargement de la configuration du shop depuis " + jsonUrl,
+                    e
+            );
         }
     }
 
