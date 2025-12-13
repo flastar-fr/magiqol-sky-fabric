@@ -1,17 +1,32 @@
 package fr.flastar.magiqolsky.container_strategies;
 
+import fr.flastar.magiqolsky.MagiQoLSky;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenericContainerStrategy implements InventoryExtractionStrategy {
     private static final int CHEST_SIZE = 9 * 3;
     private static final int DOUBLE_CHEST_SIZE = CHEST_SIZE * 2;
 
+    private final List<String> ACCEPTED_CONTAINER_KEYS = List.of(
+            "block.minecraft.chest",
+            "container.chestDouble",
+            "block.minecraft.barrel"
+    );
+
     @Override
-    public boolean supports(ScreenHandler handler) {
-        return handler instanceof GenericContainerScreenHandler;
+    public boolean supports(ScreenHandler handler, Text title) {
+        ArrayList<String> translatedNames = new ArrayList<>();
+        ACCEPTED_CONTAINER_KEYS.forEach(key -> translatedNames.add(I18n.translate(key)));
+
+        return handler instanceof GenericContainerScreenHandler && translatedNames.contains(title.getString());
     }
 
     @Override

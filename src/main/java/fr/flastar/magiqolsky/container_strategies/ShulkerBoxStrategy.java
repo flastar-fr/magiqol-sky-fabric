@@ -4,11 +4,12 @@ import fr.flastar.magiqolsky.mixin.accessors.ShulkerBoxScreenHandlerAccessor;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 public class ShulkerBoxStrategy implements InventoryExtractionStrategy {
     @Override
-    public boolean supports(ScreenHandler handler) {
+    public boolean supports(ScreenHandler handler, Text title) {
         return handler instanceof ShulkerBoxScreenHandler;
     }
 

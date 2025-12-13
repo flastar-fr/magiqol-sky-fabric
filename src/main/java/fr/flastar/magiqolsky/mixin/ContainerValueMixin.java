@@ -13,6 +13,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -58,6 +59,14 @@ public abstract class ContainerValueMixin {
 
     @Unique
     private Text amountText = null;
+
+    @Unique
+    private Text cachedTitle = null;
+
+    @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
+    private void cacheScreenTitle(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
+        this.cachedTitle = title;
+    }
 
     @Inject(method = "handledScreenTick", at = @At("HEAD"))
     private void updateContainerValue(CallbackInfo ci) {
@@ -145,7 +154,7 @@ public abstract class ContainerValueMixin {
         }
 
         for (InventoryExtractionStrategy strategy : strategies) {
-            if (strategy.supports(handler)) {
+            if (strategy.supports(handler, cachedTitle)) {
                 Inventory containerInventory = strategy.extract(handler);
 
                 if (containerInventory != null) {
