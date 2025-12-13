@@ -5,7 +5,7 @@ import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
-public class NbtExtractor {
+public class ItemIDExtractor {
     public static String extractPluginIdentifier(ItemStack itemStack) {
         NbtComponent customData = itemStack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
 

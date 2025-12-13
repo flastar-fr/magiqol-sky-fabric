@@ -4,7 +4,7 @@ import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.mixin.accessors.ShulkerBoxScreenHandlerAccessor;
 import fr.flastar.magiqolsky.utils.FloatToString;
-import fr.flastar.magiqolsky.utils.NbtExtractor;
+import fr.flastar.magiqolsky.utils.ItemIDExtractor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -100,7 +100,7 @@ public abstract class ContainerValueMixin {
 
             return itemIDIdentifier.toString();
         } else {
-            return NbtExtractor.extractPluginIdentifier(stack);
+            return ItemIDExtractor.extractPluginIdentifier(stack);
         }
     }
 
