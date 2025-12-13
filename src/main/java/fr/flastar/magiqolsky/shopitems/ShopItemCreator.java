@@ -16,16 +16,7 @@ public class ShopItemCreator {
 
     public void createShopsItems() {
         shopItems.clear();
-
-        Map<String, Map<String, Float>> allCategories = shopConfig.getAllShopItems();
-
-        for (Map<String, Float> categoryItems : allCategories.values()) {
-            shopItems.putAll(categoryItems);
-        }
-        shopConfig.getAllShopItems().forEach((cat, items) ->
-                MagiQoLSky.LOGGER.info("{} -> {} items", cat, items.size())
-        );
-
+        shopItems.putAll(shopConfig.getAllShopItems());
     }
 
     public HashMap<String, Float> getShopItems() {

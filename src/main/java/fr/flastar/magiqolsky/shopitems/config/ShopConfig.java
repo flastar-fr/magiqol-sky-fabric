@@ -3,7 +3,7 @@ package fr.flastar.magiqolsky.shopitems.config;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
-import fr.flastar.magiqolsky.shopitems.model.ShopCategory;
+import fr.flastar.magiqolsky.shopitems.model.ShopItem;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ public class ShopConfig {
     private static final Gson GSON = new Gson();
     private static ShopConfig instance;
 
-    private final Map<String, Map<String, Float>> shopItems = new HashMap<>();
+    private final Map<String, Float> shopItems = new HashMap<>();
 
     private ShopConfig() {
         loadConfig();
@@ -34,44 +34,39 @@ public class ShopConfig {
     }
 
     private void loadConfig() {
-        String jsonUrl = "https://raw.githubusercontent.com/Lazerstricks/TestPublic/main/shop_categories.json";
+        String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/main/items.json";
 
         try (InputStream inputStream = new URL(jsonUrl).openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
 
-            Type type = new TypeToken<Map<String, List<ShopCategory>>>() {}.getType();
-            Map<String, List<ShopCategory>> config = GSON.fromJson(reader, type);
+            Type type = new TypeToken<List<ShopItem>>() {}.getType();
+            List<ShopItem> items = GSON.fromJson(reader, type);
 
-            if (config == null || !config.containsKey("categories")) {
-                MagiQoLSky.LOGGER.error("Format de configuration invalide : clé 'categories' absente");
+            if (items == null || items.isEmpty()) {
+                MagiQoLSky.LOGGER.error("Aucun item trouvé dans la configuration du shop");
                 return;
             }
 
-            for (ShopCategory category : config.get("categories")) {
-                Map<String, Float> categoryItems = new HashMap<>();
-
-                category.getItems().forEach(item ->
-                        categoryItems.put(item.getId(), item.getPrice())
-                );
-
-                shopItems.put(category.getName().toLowerCase(), categoryItems);
+            for (ShopItem item : items) {
+                shopItems.put(item.getId(), item.getSell());
             }
 
-            MagiQoLSky.LOGGER.info("Configuration du shop chargée avec succès depuis " + jsonUrl);
+            MagiQoLSky.LOGGER.info("Configuration du shop chargée ({} items)", shopItems.size());
 
         } catch (IOException e) {
             MagiQoLSky.LOGGER.error(
-                    "Échec du chargement de la configuration du shop depuis " + jsonUrl,
+                    "Échec du chargement de la configuration du shop depuis {}",
+                    jsonUrl,
                     e
             );
         }
     }
 
-    public Map<String, Float> getCategoryItems(String categoryName) {
-        return shopItems.get(categoryName.toLowerCase());
+    public Float getSellPrice(String itemId) {
+        return shopItems.get(itemId);
     }
 
-    public Map<String, Map<String, Float>> getAllShopItems() {
+    public Map<String, Float> getAllShopItems() {
         return shopItems;
     }
 }
