@@ -30,17 +30,29 @@ jobs:
       - name: 🏷️ Déterminer la Version et le Fichier JAR
         id: set_vars
         run: |
-          sudo apt-get install jq -y
+          MOD_VERSION=$(grep 'mod_version=' gradle.properties | sed -E 's/mod_version=(.*)/\1/' | tr -d '\n')
           
-          MOD_FILE_PATH="src/main/resources/fabric.mod.json"
-          
-          MOD_VERSION=$(jq -r '.version' $MOD_FILE_PATH)
+          if [ -z "$MOD_VERSION" ]; then
+            echo "Erreur : La version du mod (mod_version) n'a pas pu être lue depuis gradle.properties."
+            exit 1
+          fi
           
           TAG_NAME="v$MOD_VERSION"
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
           
-          JAR_PATH=$(find build/libs/ -name "*.jar" | head -n 1)
+          echo "Version lue : $MOD_VERSION"
+          
+          JAR_BASE_NAME=$(grep 'archives_base_name=' gradle.properties | sed -E 's/archives_base_name=(.*)/\1/' | tr -d '\n')
+          
+          JAR_PATH=$(find build/libs/ -name "$JAR_BASE_NAME-$MOD_VERSION*.jar" | head -n 1)
+
+          if [ -z "$JAR_PATH" ]; then
+            echo "Erreur : Fichier JAR non trouvé (recherche de $JAR_BASE_NAME-$MOD_VERSION*.jar dans build/libs/)."
+            exit 1
+          fi
+
           echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
+          echo "Fichier JAR trouvé : $JAR_PATH"
 
       - name: 📌 Créer et Pousser le Tag
         run: |
