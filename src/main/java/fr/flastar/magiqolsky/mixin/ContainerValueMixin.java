@@ -1,11 +1,8 @@
 package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
+import fr.flastar.magiqolsky.container_strategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
-import fr.flastar.magiqolsky.container_strategies.GenericContainerStrategy;
-import fr.flastar.magiqolsky.container_strategies.InventoryExtractionStrategy;
-import fr.flastar.magiqolsky.container_strategies.PlayerInventoryStrategy;
-import fr.flastar.magiqolsky.container_strategies.ShulkerBoxStrategy;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import fr.flastar.magiqolsky.utils.ItemIDExtractor;
 import net.minecraft.client.font.TextRenderer;
@@ -51,7 +48,8 @@ public abstract class ContainerValueMixin {
     private final List<InventoryExtractionStrategy> strategies = List.of(
             new GenericContainerStrategy(),
             new ShulkerBoxStrategy(),
-            new PlayerInventoryStrategy()
+            new PlayerInventoryStrategy(),
+            new CraftingInventoryStrategy()
     );
 
     @Unique
