@@ -1,33 +1,25 @@
 package fr.flastar.magiqolsky.shopitems;
 
-import fr.flastar.magiqolsky.shopitems.shopcategories.*;
+import fr.flastar.magiqolsky.shopitems.config.ShopConfig;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 public class ShopItemCreator {
-    private HashMap<String, Float> shopItems = null;
+    private final HashMap<String, Float> shopItems = new HashMap<>();
+    private final ShopConfig shopConfig;
 
-    public void createShopsItems() {
-        shopItems = new HashMap<>();
-
-        createShopItem(Arrays.asList(Hunter.values()));
-        createShopItem(Arrays.asList(Farmer.values()));
-        createShopItem(Arrays.asList(Miner.values()));
-        createShopItem(Arrays.asList(Lumberjack.values()));
-        createShopItem(Arrays.asList(Fisherman.values()));
-        createShopItem(Arrays.asList(Cooking.values()));
-        createShopItem(Arrays.asList(Botanic.values()));
-        createShopItem(Arrays.asList(Blocks.values()));
-        createShopItem(Arrays.asList(Dyes.values()));
-        createShopItem(Arrays.asList(Miscellaneous.values()));
-        createShopItem(Arrays.asList(DungeonObjects.values()));
+    public ShopItemCreator() {
+        this.shopConfig = ShopConfig.getInstance();
     }
 
-    private <T extends IShopCategory> void createShopItem(List<T> list) {
-        for (T item : list) {
-            shopItems.put(item.getID(), item.getPrice());
+    public void createShopsItems() {
+        shopItems.clear();
+
+        Map<String, Map<String, Float>> allCategories = shopConfig.getAllShopItems();
+
+        for (Map<String, Float> categoryItems : allCategories.values()) {
+            shopItems.putAll(categoryItems);
         }
     }
 

@@ -14,6 +14,7 @@ public class MagiQoLSky implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("MagiQoL Sky is loading!");
+        LOGGER.info("Register {} shop items", shopItemCreator.getShopItems().size());
 		shopItemCreator.createShopsItems();
 	}
 }
