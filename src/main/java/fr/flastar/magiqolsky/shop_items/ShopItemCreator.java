@@ -20,6 +20,7 @@ public class ShopItemCreator {
         createShopItem(Arrays.asList(Blocks.values()));
         createShopItem(Arrays.asList(Dyes.values()));
         createShopItem(Arrays.asList(Miscellaneous.values()));
+        createShopItem(Arrays.asList(DungeonObjects.values()));
     }
 
     private <T extends IShopItems> void createShopItem(List<T> list) {
