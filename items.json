@@ -176,10 +176,6 @@
     "sell": 2.0
   },
   {
-    "id": "minecraft:budding_amethyst",
-    "sell": 0.0
-  },
-  {
     "id": "minecraft:amethyst_shard",
     "sell": 1.0
   },
@@ -240,7 +236,7 @@
     "sell": 4.0
   },
   {
-    "id": "nexo:bone",
+    "id": "minecraft:bone",
     "sell": 0.33
   },
   {
@@ -566,14 +562,6 @@
   {
     "id": "minecraft:cherry_log",
     "sell": 3.0
-  },
-  {
-    "id": "minecraft:crimson_stem",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:warped_stem",
-    "sell": 0.0
   },
   {
     "id": "minecraft:pale_oak_log",
@@ -1252,14 +1240,6 @@
     "sell": 82800.0
   },
   {
-    "id": "minecraft:seagrass",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:sea_pickle",
-    "sell": 0.0
-  },
-  {
     "id": "minecraft:lily_pad",
     "sell": 1.0
   },
@@ -1272,132 +1252,12 @@
     "sell": 1.0
   },
   {
-    "id": "minecraft:poppy",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:dandelion",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:oxeye_daisy",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:blue_orchid",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:azure_bluet",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:cornflower",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:allium",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:white_tulip",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:pink_tulip",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:orange_tulip",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:red_tulip",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:lily_of_the_valley",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:fern",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:large_fern",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:sunflower",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:rose_bush",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:peony",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:lilac",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:pink_petals",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:spore_blossom",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:grass_block",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:dirt",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:podzol",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:mycelium",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:gravel",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:sand",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:red_sand",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:mud",
-    "sell": 0.0
-  },
-  {
     "id": "minecraft:snow_block",
     "sell": 0.5
   },
   {
     "id": "minecraft:ice",
     "sell": 1.0
-  },
-  {
-    "id": "minecraft:packed_ice",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:blue_ice",
-    "sell": 0.0
   },
   {
     "id": "minecraft:prismarine",
@@ -1416,56 +1276,8 @@
     "sell": 1.6
   },
   {
-    "id": "minecraft:clay",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:calcite",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:netherrack",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:quartz_block",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:glowstone",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:soul_sand",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:purpur_block",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:end_stone",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:magma_block",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:terracotta",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:bricks",
-    "sell": 0.0
-  },
-  {
     "id": "minecraft:shroomlight",
     "sell": 2.0
-  },
-  {
-    "id": "minecraft:soul_soil",
-    "sell": 0.0
   },
   {
     "id": "minecraft:dripstone_block",
@@ -1928,212 +1740,12 @@
     "sell": 2.0
   },
   {
-    "id": "minecraft:water_bucket",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:lava_bucket",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:axolotl_bucket",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:tadpole_bucket",
-    "sell": 0.0
-  },
-  {
     "id": "minecraft:creeper_head",
     "sell": 50.0
   },
   {
     "id": "minecraft:wither_skeleton_skull",
     "sell": 100.0
-  },
-  {
-    "id": "minecraft:shulker_shell",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:light",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:blaze_rod",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:bee_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:ocelot_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:fox_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:wolf_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:horse_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:donkey_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:llama_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:panda_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:cow_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:mooshroom_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:pig_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:sheep_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:chicken_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:rabbit_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:polar_bear_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:parrot_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:villager_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:dolphin_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:squid_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:turtle_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:cod_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:salmon_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:tropical_fish_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:pufferfish_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:allay_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:goat_spawn_egg",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:worm_gold",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:lodestone",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:blacksmith_hammer_head",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:farmer_basket_broken",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:caoutchouc_golden",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:golden_cristal_shard",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:diamond_cristal_shard",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:jackhammer_base",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:tropical_poison",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:pressure_cooker_top",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:tiki_totem",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:crimson_fungus",
-    "sell": 0.0
-  },
-  {
-    "id": "minecraft:heart_of_the_sea",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:nautilus_tentacle",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:ameliorator_epic",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:ameliorator_legendary",
-    "sell": 0.0
-  },
-  {
-    "id": "nexo:ameliorator_mythic",
-    "sell": 0.0
   },
   {
     "id": "nexo:parasite_wing",
