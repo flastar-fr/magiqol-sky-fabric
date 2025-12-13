@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shopitems.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shopcategories;
 
 public enum Dyes implements IShopCategory {
     WHITE_DYE("minecraft:white_dye", .05f),

@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.shopitems;
 
-import fr.flastar.magiqolsky.shopitems.shop_categories.*;
+import fr.flastar.magiqolsky.shopitems.shopcategories.*;
 
 import java.util.Arrays;
 import java.util.HashMap;

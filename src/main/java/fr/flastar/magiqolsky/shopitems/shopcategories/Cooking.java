@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shopitems.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shopcategories;
 
 public enum Cooking implements IShopCategory {
     WATERMELON_ICE_CREAM("nexo:watermelon_ice_cream", .5f),

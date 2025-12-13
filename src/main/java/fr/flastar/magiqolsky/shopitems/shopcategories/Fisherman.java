@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shopitems.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shopcategories;
 
 public enum Fisherman implements IShopCategory {
     RAW_COD("minecraft:cod", 75.f),

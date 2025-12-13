@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shopitems.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shopcategories;
 
 public enum Farmer implements IShopCategory {
     WHEAT("minecraft:wheat", 3.f),
