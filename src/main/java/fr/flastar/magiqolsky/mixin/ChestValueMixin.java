@@ -2,6 +2,7 @@ package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
+import fr.flastar.magiqolsky.mixin.accessors.ShulkerBoxScreenHandlerAccessor;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import fr.flastar.magiqolsky.utils.NbtExtractor;
 import net.minecraft.client.font.TextRenderer;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,17 +44,23 @@ public abstract class ChestValueMixin {
     private void updateChestValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
 
-        if (!(handler instanceof GenericContainerScreenHandler chestHandler)) {
+        Inventory containerInventory;
+        if (handler instanceof GenericContainerScreenHandler chestHandler) {
+            containerInventory = chestHandler.getInventory();
+        }
+        else if (handler instanceof ShulkerBoxScreenHandler shulkerHandler) {
+            ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
+            containerInventory = shulkerHandlerAccessor.inventory();
+        } else {
             this.amountText = null;
             return;
         }
 
-        Inventory chestInventory = chestHandler.getInventory();
         float totalValue = 0;
         HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
 
-        for (int i = 0; i < chestInventory.size(); i++) {
-            ItemStack stack = chestInventory.getStack(i);
+        for (int i = 0; i < containerInventory.size(); i++) {
+            ItemStack stack = containerInventory.getStack(i);
 
             String itemID = retrieveIDFromStack(stack);
 

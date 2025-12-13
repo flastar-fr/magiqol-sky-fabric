@@ -3,6 +3,7 @@
   "package": "fr.flastar.magiqolsky.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "accessors.ShulkerBoxScreenHandlerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
