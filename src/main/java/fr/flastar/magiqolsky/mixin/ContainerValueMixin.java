@@ -14,6 +14,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
@@ -28,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashMap;
 
 @Mixin(HandledScreen.class)
-public abstract class ChestValueMixin {
+public abstract class ContainerValueMixin {
     @Unique
     private static final int TEXT_Y = 6;
 
@@ -39,10 +40,16 @@ public abstract class ChestValueMixin {
     private static final int TEXT_COLOR = 0x404040;
 
     @Unique
+    private static final int INVENTORY_TEXT_Y_OFFSET = 65;
+
+    @Unique
+    private boolean isInventory = false;
+
+    @Unique
     private Text amountText = null;
 
     @Inject(method = "handledScreenTick", at = @At("HEAD"))
-    private void updateChestValue(CallbackInfo ci) {
+    private void updateContainerValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
 
         Inventory containerInventory = determineContainerInventory(handler);
@@ -55,24 +62,31 @@ public abstract class ChestValueMixin {
         this.amountText = Text.of(stringifiedValue);
     }
 
-    @Inject(method = "drawForeground", at = @At(value = "HEAD"))
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+    @Inject(method = "render", at = @At(value = "TAIL"))
+    protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (this.amountText == null) {
             return;
         }
 
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        int screenX = ((HandledScreenAccessor) screen).backgroundWidth();
+        int x = ((HandledScreenAccessor) screen).x();
+        int y = ((HandledScreenAccessor) screen).y();
+        int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
 
         TextRenderer textRenderer = screen.getTextRenderer();
 
-        int textX = screenX - TEXT_X_OFFSET - textRenderer.getWidth(this.amountText);
+        int textX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(this.amountText);
+        int textY = y + TEXT_Y;
+
+        if (isInventory) {
+            textY += INVENTORY_TEXT_Y_OFFSET;
+        }
 
         context.drawText(
                 textRenderer,
                 this.amountText,
                 textX,
-                TEXT_Y,
+                textY,
                 TEXT_COLOR,
                 false
         );
@@ -115,14 +129,26 @@ public abstract class ChestValueMixin {
     @Unique
     private @Nullable Inventory determineContainerInventory(ScreenHandler handler) {
         Inventory containerInventory;
-        if (handler instanceof GenericContainerScreenHandler chestHandler) {
-            containerInventory = chestHandler.getInventory();
-        } else if (handler instanceof ShulkerBoxScreenHandler shulkerHandler) {
-            ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
-            containerInventory = shulkerHandlerAccessor.inventory();
-        } else {
-            this.amountText = null;
-            return null;
+
+        switch (handler) {
+            case GenericContainerScreenHandler chestHandler -> containerInventory = chestHandler.getInventory();
+            case ShulkerBoxScreenHandler shulkerHandler -> {
+                ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
+                containerInventory = shulkerHandlerAccessor.inventory();
+            }
+            case PlayerScreenHandler playerHandler -> {
+                if (playerHandler.slots.size() > PlayerScreenHandler.INVENTORY_START) {
+                    containerInventory = playerHandler.slots.get(PlayerScreenHandler.INVENTORY_START).inventory;
+                    isInventory = true;
+                } else {
+                    this.amountText = null;
+                    return null;
+                }
+            }
+            case null, default -> {
+                this.amountText = null;
+                return null;
+            }
         }
         return containerInventory;
     }
