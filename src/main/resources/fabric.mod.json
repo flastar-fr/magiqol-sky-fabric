@@ -5,7 +5,8 @@
 	"name": "MagicalQoL Sky",
 	"description": "Mod visant à développer des outils QoL pour le skyblock MagicalSky.",
 	"authors": [
-		"flastar"
+      "flastar",
+      "Lazerstricks"
 	],
 	"contact": {
 		"sources": "https://github.com/flastar-fr/magicalqol-sky-fabric"
