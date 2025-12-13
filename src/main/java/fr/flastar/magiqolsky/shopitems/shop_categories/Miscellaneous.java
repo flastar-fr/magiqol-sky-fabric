@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shop_items.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shop_categories;
 
 public enum Miscellaneous implements IShopCategory {
     CREEPER_HEAD("minecraft:creeper_head", 50.f),

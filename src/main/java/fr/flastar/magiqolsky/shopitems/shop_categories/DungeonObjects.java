@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shop_items.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shop_categories;
 
 public enum DungeonObjects implements IShopCategory {
     PARASITE_WING("nexo:parasite_wing", 3250.f),

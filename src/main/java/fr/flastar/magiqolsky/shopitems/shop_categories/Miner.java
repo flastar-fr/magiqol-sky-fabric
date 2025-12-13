@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shop_items.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shop_categories;
 
 public enum Miner implements IShopCategory {
     COBBLESTONE("minecraft:cobblestone", .2f),

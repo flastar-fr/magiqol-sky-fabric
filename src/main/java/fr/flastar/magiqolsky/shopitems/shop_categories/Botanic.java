@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shop_items.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shop_categories;
 
 public enum Botanic implements IShopCategory {
     LILY_PAD("minecraft:lily_pad", 1.f),

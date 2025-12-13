@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.container_strategies;
+package fr.flastar.magiqolsky.containerstrategies;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.PlayerScreenHandler;

@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.shop_items.shop_categories;
+package fr.flastar.magiqolsky.shopitems.shop_categories;
 
 public enum Blocks implements IShopCategory {
     SNOW_BLOCK("minecraft:snow_block", .5f),
