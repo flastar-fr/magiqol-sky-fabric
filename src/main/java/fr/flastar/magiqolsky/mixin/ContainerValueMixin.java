@@ -49,6 +49,9 @@ public abstract class ContainerValueMixin {
     private static final int DOUBLE_CHEST_INVENTORY_SIZE = CHEST_INVENTORY_SIZE * 2;
 
     @Unique
+    private static final int DESIRED_PRECISION = 2;
+
+    @Unique
     private boolean isInventory = false;
 
     @Unique
@@ -63,7 +66,7 @@ public abstract class ContainerValueMixin {
 
         float totalValue = getContainerTotalValue(containerInventory);
 
-        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, 2);
+        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
 
         this.amountText = Text.of(stringifiedValue);
     }
