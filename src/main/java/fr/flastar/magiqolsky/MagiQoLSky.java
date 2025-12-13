@@ -13,7 +13,7 @@ public class MagiQoLSky implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("MagiQoL Sky is loading!");
 		shopItemCreator.createShopsItems();
 	}
 }
