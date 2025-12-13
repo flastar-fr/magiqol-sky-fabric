@@ -1,6 +1,5 @@
 package fr.flastar.magiqolsky.container_strategies;
 
-import fr.flastar.magiqolsky.MagiQoLSky;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -24,6 +23,8 @@ public class GenericContainerStrategy implements InventoryExtractionStrategy {
     @Override
     public boolean supports(ScreenHandler handler, Text title) {
         ArrayList<String> translatedNames = new ArrayList<>();
+
+        // note: to garanty that a server GUI does not have a value calculated
         ACCEPTED_CONTAINER_KEYS.forEach(key -> translatedNames.add(I18n.translate(key)));
 
         return handler instanceof GenericContainerScreenHandler && translatedNames.contains(title.getString());
