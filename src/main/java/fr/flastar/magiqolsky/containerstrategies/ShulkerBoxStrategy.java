@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.container_strategies;
+package fr.flastar.magiqolsky.containerstrategies;
 
 import fr.flastar.magiqolsky.mixin.accessors.ShulkerBoxScreenHandlerAccessor;
 import net.minecraft.inventory.Inventory;

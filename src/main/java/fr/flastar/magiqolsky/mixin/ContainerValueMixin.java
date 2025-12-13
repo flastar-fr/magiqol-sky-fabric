@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
-import fr.flastar.magiqolsky.container_strategies.*;
+import fr.flastar.magiqolsky.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import fr.flastar.magiqolsky.utils.ItemIDExtractor;
