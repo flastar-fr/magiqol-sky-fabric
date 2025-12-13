@@ -23,7 +23,7 @@ jobs:
           cache: 'gradle'
 
       - name: 🏗️ Construire avec Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build
 
@@ -32,7 +32,9 @@ jobs:
         run: |
           sudo apt-get install jq -y
           
-          MOD_VERSION=$(jq -r '.version' fabric.mod.json)
+          MOD_FILE_PATH="src/main/resources/fabric.mod.json"
+          
+          MOD_VERSION=$(jq -r '.version' $MOD_FILE_PATH)
           
           TAG_NAME="v$MOD_VERSION"
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
