@@ -2,7 +2,10 @@ package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
-import fr.flastar.magiqolsky.mixin.accessors.ShulkerBoxScreenHandlerAccessor;
+import fr.flastar.magiqolsky.container_strategies.GenericContainerStrategy;
+import fr.flastar.magiqolsky.container_strategies.InventoryExtractionStrategy;
+import fr.flastar.magiqolsky.container_strategies.PlayerInventoryStrategy;
+import fr.flastar.magiqolsky.container_strategies.ShulkerBoxStrategy;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import fr.flastar.magiqolsky.utils.ItemIDExtractor;
 import net.minecraft.client.font.TextRenderer;
@@ -13,10 +16,7 @@ import net.minecraft.component.type.NbtComponent;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Mixin(HandledScreen.class)
 public abstract class ContainerValueMixin {
@@ -43,13 +44,14 @@ public abstract class ContainerValueMixin {
     private static final int INVENTORY_TEXT_Y_OFFSET = 65;
 
     @Unique
-    private static final int CHEST_INVENTORY_SIZE = 9 * 3;
-
-    @Unique
-    private static final int DOUBLE_CHEST_INVENTORY_SIZE = CHEST_INVENTORY_SIZE * 2;
-
-    @Unique
     private static final int DESIRED_PRECISION = 2;
+
+    @Unique
+    private final List<InventoryExtractionStrategy> strategies = List.of(
+            new GenericContainerStrategy(),
+            new ShulkerBoxStrategy(),
+            new PlayerInventoryStrategy()
+    );
 
     @Unique
     private boolean isInventory = false;
@@ -84,7 +86,7 @@ public abstract class ContainerValueMixin {
 
         TextRenderer textRenderer = screen.getTextRenderer();
 
-        int textX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(this.amountText);
+        int textX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
         int textY = y + TEXT_Y;
 
         if (isInventory) {
@@ -93,7 +95,7 @@ public abstract class ContainerValueMixin {
 
         context.drawText(
                 textRenderer,
-                this.amountText,
+                amountText,
                 textX,
                 textY,
                 TEXT_COLOR,
@@ -137,39 +139,25 @@ public abstract class ContainerValueMixin {
 
     @Unique
     private @Nullable Inventory determineContainerInventory(ScreenHandler handler) {
-        Inventory containerInventory;
+        if (handler == null) {
+            amountText = null;
+            return null;
+        }
 
-        switch (handler) {
-            case GenericContainerScreenHandler containerHandler -> {
-                Inventory inventory = containerHandler.getInventory();
-                MagiQoLSky.LOGGER.info(containerHandler.getType().toString());
-                MagiQoLSky.LOGGER.info(containerHandler.toString());
+        for (InventoryExtractionStrategy strategy : strategies) {
+            if (strategy.supports(handler)) {
+                Inventory containerInventory = strategy.extract(handler);
 
-                int size = inventory.size();
-                if (size != CHEST_INVENTORY_SIZE && size != DOUBLE_CHEST_INVENTORY_SIZE) {
-                    this.amountText = null;
-                    return null;
+                if (containerInventory != null) {
+                    isInventory = strategy.isInventory();
+                    return containerInventory;
                 }
-                containerInventory = containerHandler.getInventory();
-            }
-            case ShulkerBoxScreenHandler shulkerHandler -> {
-                ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
-                containerInventory = shulkerHandlerAccessor.inventory();
-            }
-            case PlayerScreenHandler playerHandler -> {
-                if (playerHandler.slots.size() > PlayerScreenHandler.INVENTORY_START) {
-                    containerInventory = playerHandler.slots.get(PlayerScreenHandler.INVENTORY_START).inventory;
-                    isInventory = true;
-                } else {
-                    this.amountText = null;
-                    return null;
-                }
-            }
-            case null, default -> {
-                this.amountText = null;
+                amountText = null;
                 return null;
             }
         }
-        return containerInventory;
+
+        amountText = null;
+        return null;
     }
 }
