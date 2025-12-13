@@ -43,6 +43,12 @@ public abstract class ContainerValueMixin {
     private static final int INVENTORY_TEXT_Y_OFFSET = 65;
 
     @Unique
+    private static final int CHEST_INVENTORY_SIZE = 9 * 3;
+
+    @Unique
+    private static final int DOUBLE_CHEST_INVENTORY_SIZE = CHEST_INVENTORY_SIZE * 2;
+
+    @Unique
     private boolean isInventory = false;
 
     @Unique
@@ -131,7 +137,18 @@ public abstract class ContainerValueMixin {
         Inventory containerInventory;
 
         switch (handler) {
-            case GenericContainerScreenHandler chestHandler -> containerInventory = chestHandler.getInventory();
+            case GenericContainerScreenHandler containerHandler -> {
+                Inventory inventory = containerHandler.getInventory();
+                MagiQoLSky.LOGGER.info(containerHandler.getType().toString());
+                MagiQoLSky.LOGGER.info(containerHandler.toString());
+
+                int size = inventory.size();
+                if (size != CHEST_INVENTORY_SIZE && size != DOUBLE_CHEST_INVENTORY_SIZE) {
+                    this.amountText = null;
+                    return null;
+                }
+                containerInventory = containerHandler.getInventory();
+            }
             case ShulkerBoxScreenHandler shulkerHandler -> {
                 ShulkerBoxScreenHandlerAccessor shulkerHandlerAccessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
                 containerInventory = shulkerHandlerAccessor.inventory();
