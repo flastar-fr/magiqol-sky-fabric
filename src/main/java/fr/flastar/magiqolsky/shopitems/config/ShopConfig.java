@@ -34,7 +34,7 @@ public class ShopConfig {
     }
 
     private void loadConfig() {
-        String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/main/items.json";
+        String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/items.json";
 
         try (InputStream inputStream = new URL(jsonUrl).openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
