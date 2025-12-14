@@ -1,4 +1,4 @@
-name: Déploiement Automatisé Fabric Mod
+name: Magiqol Sky Fabric Release
 
 on:
   push:
