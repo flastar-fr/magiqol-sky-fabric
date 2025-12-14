@@ -44,15 +44,29 @@ jobs:
           
           JAR_BASE_NAME=$(grep 'archives_base_name=' gradle.properties | sed -E 's/archives_base_name=(.*)/\1/' | tr -d '\n')
           
-          JAR_PATH=$(find build/libs/ -name "$JAR_BASE_NAME-$MOD_VERSION*.jar" | head -n 1)
+          JAR_PATH=$(find build/libs/ \
+            -name "$JAR_BASE_NAME-$MOD_VERSION*.jar" \
+            ! -name "*-sources.jar" \
+            ! -name "*-javadoc.jar" \
+            | head -n 1)
 
           if [ -z "$JAR_PATH" ]; then
-            echo "Error : JAR file not found (search of $JAR_BASE_NAME-$MOD_VERSION*.jar in build/libs/)."
+            echo "Error : JAR file not found (search of $JAR_BASE_NAME-$MOD_VERSION.jar in build/libs/)."
             exit 1
           fi
 
           echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
-          echo "JAR file found : $JAR_PATH"
+          echo "JAR mod file found : $JAR_PATH"
+          
+          JAR_PATH_SOURCES=$(find build/libs/ -name "$JAR_BASE_NAME-$MOD_VERSION-sources.jar" | head -n 1)
+
+          if [ -z "$JAR_PATH_SOURCES" ]; then
+            echo "Error : JAR source file not found (search of $JAR_BASE_NAME-$MOD_VERSION-sources.jar in build/libs/)."
+            exit 1
+          fi
+
+          echo "source_jar_path=$JAR_PATH_SOURCES" >> $GITHUB_OUTPUT
+          echo "JAR source file found : $JAR_PATH_SOURCES"
 
       - name: Create and push tag
         run: |
@@ -71,6 +85,8 @@ jobs:
             - Détails de la version ici.
           draft: false
           prerelease: false
-          files: ${{ steps.set_vars.outputs.jar_path }}
+          files: |
+            ${{ steps.set_vars.outputs.jar_path }}
+            ${{ steps.set_vars.outputs.source_jar_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
