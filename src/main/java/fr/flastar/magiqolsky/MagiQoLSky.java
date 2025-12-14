@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky;
 
-import fr.flastar.magiqolsky.shop_items.ShopItemCreator;
+import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ public class MagiQoLSky implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("MagiQoL Sky is loading!");
-		shopItemCreator.createShopsItems();
+        shopItemCreator.createShopsItems();
 	}
 }
