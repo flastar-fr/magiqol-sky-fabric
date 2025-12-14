@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -36,7 +38,7 @@ public class ShopConfig {
     private void loadConfig() {
         String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/items.json";
 
-        try (InputStream inputStream = new URL(jsonUrl).openStream();
+        try (InputStream inputStream = new URI(jsonUrl).toURL().openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
 
             Type type = new TypeToken<List<ShopItem>>() {}.getType();
@@ -59,6 +61,8 @@ public class ShopConfig {
                     jsonUrl,
                     e
             );
+        } catch (URISyntaxException e) {
+            MagiQoLSky.LOGGER.error("Erreur de syntaxe dans l'URL du shop", e);
         }
     }
 
