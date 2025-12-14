@@ -29,20 +29,12 @@ import java.util.List;
 
 @Mixin(HandledScreen.class)
 public abstract class ContainerValueMixin {
-    @Unique
-    private static final int TEXT_Y = 6;
 
-    @Unique
-    private static final int TEXT_X_OFFSET = 8;
-
-    @Unique
-    private static final int TEXT_COLOR = 0x404040;
-
-    @Unique
-    private static final int INVENTORY_TEXT_Y_OFFSET = 65;
-
-    @Unique
-    private static final int DESIRED_PRECISION = 2;
+    @Unique private static final int TEXT_Y = 6;
+    @Unique private static final int TEXT_X_OFFSET = 8;
+    @Unique private static final int TEXT_COLOR = 0x404040;
+    @Unique private static final int INVENTORY_TEXT_Y_OFFSET = 65;
+    @Unique private static final int DESIRED_PRECISION = 2;
 
     @Unique
     private final List<InventoryExtractionStrategy> strategies = List.of(
@@ -52,16 +44,14 @@ public abstract class ContainerValueMixin {
             new CraftingInventoryStrategy()
     );
 
-    @Unique
-    private boolean isInventory = false;
+    @Unique private boolean isInventory;
+    @Unique private Text amountText;
+    @Unique private Text cachedTitle;
 
-    @Unique
-    private Text amountText = null;
-
-    @Unique
-    private Text cachedTitle = null;
-
-    @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
+    @Inject(
+            method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V",
+            at = @At("RETURN")
+    )
     private void cacheScreenTitle(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
         this.cachedTitle = title;
     }
@@ -69,79 +59,61 @@ public abstract class ContainerValueMixin {
     @Inject(method = "handledScreenTick", at = @At("HEAD"))
     private void updateContainerValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
+        Inventory inventory = determineContainerInventory(handler);
+        if (inventory == null) return;
 
-        Inventory containerInventory = determineContainerInventory(handler);
-        if (containerInventory == null) return;
-
-        float totalValue = getContainerTotalValue(containerInventory);
-
-        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
-
-        this.amountText = Text.of(stringifiedValue);
+        float totalValue = getContainerTotalValue(inventory);
+        this.amountText = Text.of(
+                FloatToString.format(totalValue, DESIRED_PRECISION)
+        );
     }
 
-    @Inject(method = "render", at = @At(value = "TAIL"))
-    protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (this.amountText == null) {
-            return;
-        }
+    @Inject(method = "render", at = @At("TAIL"))
+    private void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (amountText == null) return;
 
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        int x = ((HandledScreenAccessor) screen).x();
-        int y = ((HandledScreenAccessor) screen).y();
-        int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
+        HandledScreenAccessor accessor = (HandledScreenAccessor) screen;
 
-        TextRenderer textRenderer = screen.getTextRenderer();
+        TextRenderer renderer = screen.getTextRenderer();
 
-        int textX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
-        int textY = y + TEXT_Y;
+        int x = accessor.x();
+        int y = accessor.y();
+        int width = accessor.backgroundWidth();
 
-        if (isInventory) {
-            textY += INVENTORY_TEXT_Y_OFFSET;
-        }
+        int textX = x + width - TEXT_X_OFFSET - renderer.getWidth(amountText);
+        int textY = y + TEXT_Y + (isInventory ? INVENTORY_TEXT_Y_OFFSET : 0);
 
-        context.drawText(
-                textRenderer,
-                amountText,
-                textX,
-                textY,
-                TEXT_COLOR,
-                false
-        );
+        context.drawText(renderer, amountText, textX, textY, TEXT_COLOR, false);
     }
 
     @Unique
     private String retrieveIDFromStack(ItemStack stack) {
-        NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
-        if (nbtComponent == null) {
-            Identifier itemIDIdentifier = Registries.ITEM.getId(stack.getItem());
+        NbtComponent customData = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
 
-            return itemIDIdentifier.toString();
-        } else {
-            return ItemIDExtractor.extractPluginIdentifier(stack);
+        if (customData == null) {
+            Identifier id = Registries.ITEM.getId(stack.getItem());
+            return id.toString();
         }
+
+        return ItemIDExtractor.extractPluginIdentifier(stack);
     }
 
     @Unique
-    private float getContainerTotalValue(Inventory containerInventory) {
-        float totalValue = 0;
+    private float getContainerTotalValue(Inventory inventory) {
+        float total = 0f;
         HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
 
-        for (int i = 0; i < containerInventory.size(); i++) {
-            ItemStack stack = containerInventory.getStack(i);
-
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack stack = inventory.getStack(i);
             String itemID = retrieveIDFromStack(stack);
 
-            if (!shopItems.containsKey(itemID)) {
-                continue;
-            }
+            Float value = shopItems.get(itemID);
+            if (value == null) continue;
 
-            int amountItems = stack.getCount();
-            float itemValue = shopItems.get(itemID);
-
-            totalValue += amountItems * itemValue;
+            total += stack.getCount() * value;
         }
-        return totalValue;
+        return total;
     }
 
     @Unique
@@ -152,16 +124,16 @@ public abstract class ContainerValueMixin {
         }
 
         for (InventoryExtractionStrategy strategy : strategies) {
-            if (strategy.supports(handler, cachedTitle)) {
-                Inventory containerInventory = strategy.extract(handler);
+            if (!strategy.supports(handler, cachedTitle)) continue;
 
-                if (containerInventory != null) {
-                    isInventory = strategy.isInventory();
-                    return containerInventory;
-                }
+            Inventory inventory = strategy.extract(handler);
+            if (inventory == null) {
                 amountText = null;
                 return null;
             }
+
+            isInventory = strategy.isInventory();
+            return inventory;
         }
 
         amountText = null;
