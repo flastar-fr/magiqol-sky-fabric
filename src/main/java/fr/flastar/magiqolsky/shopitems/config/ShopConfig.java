@@ -65,10 +65,6 @@ public class ShopConfig {
         }
     }
 
-    public Float getSellPrice(String itemId) {
-        return shopItems.get(itemId);
-    }
-
     public Map<String, Float> getAllShopItems() {
         return shopItems;
     }
