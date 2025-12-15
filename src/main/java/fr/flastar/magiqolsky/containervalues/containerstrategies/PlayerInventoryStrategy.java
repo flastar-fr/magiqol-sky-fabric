@@ -12,16 +12,27 @@ import org.spongepowered.asm.mixin.Unique;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.INVENTORY_TEXT_Y_OFFSET;
 
 public class PlayerInventoryStrategy implements InventoryManagementStrategy {
-    private Text amountText = Text.of("");
 
-    @Unique
-    private static final int INVENTORY_TEXT_Y_OFFSET = 65;
+    private Text amountText = Text.of("");
 
     @Override
     public boolean supports(ScreenHandler handler, Text title) {
         return handler instanceof PlayerScreenHandler;
+    }
+
+    @Override
+    public @Nullable Inventory extract(ScreenHandler handler) {
+        if (!(handler instanceof PlayerScreenHandler playerHandler)) {
+            return null;
+        }
+
+        if (playerHandler.slots.size() > PlayerScreenHandler.INVENTORY_START) {
+            return playerHandler.slots.get(PlayerScreenHandler.INVENTORY_START).inventory;
+        }
+        return null;
     }
 
     @Override
@@ -53,18 +64,5 @@ public class PlayerInventoryStrategy implements InventoryManagementStrategy {
     @Override
     public Text getAmountText() {
         return amountText;
-    }
-
-    @Override
-    @Nullable
-    public Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof PlayerScreenHandler playerHandler)) {
-            return null;
-        }
-
-        if (playerHandler.slots.size() > PlayerScreenHandler.INVENTORY_START) {
-            return playerHandler.slots.get(PlayerScreenHandler.INVENTORY_START).inventory;
-        }
-        return null;
     }
 }

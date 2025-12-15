@@ -17,8 +17,6 @@ import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.get
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
 
 public class GenericContainerStrategy implements InventoryManagementStrategy {
-    private static final int CHEST_SIZE = 9 * 3;
-    private static final int DOUBLE_CHEST_SIZE = CHEST_SIZE * 2;
 
     private Text amountText = Text.of("");
 
@@ -36,6 +34,15 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
         ACCEPTED_CONTAINER_KEYS.forEach(key -> translatedNames.add(I18n.translate(key)));
 
         return handler instanceof GenericContainerScreenHandler && translatedNames.contains(title.getString());
+    }
+
+    @Override
+    public @Nullable Inventory extract(ScreenHandler handler) {
+        if (!(handler instanceof GenericContainerScreenHandler containerHandler)) {
+            return null;
+        }
+
+        return containerHandler.getInventory();
     }
 
     @Override
@@ -65,22 +72,5 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     @Override
     public Text getAmountText() {
         return amountText;
-    }
-
-    @Override
-    @Nullable
-    public Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof GenericContainerScreenHandler containerHandler)) {
-            return null;
-        }
-
-        Inventory inventory = containerHandler.getInventory();
-        int size = inventory.size();
-
-        if (size != CHEST_SIZE && size != DOUBLE_CHEST_SIZE) {
-            return null;
-        }
-
-        return inventory;
     }
 }

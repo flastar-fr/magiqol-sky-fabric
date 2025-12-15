@@ -14,11 +14,22 @@ import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 
 public class ShulkerBoxStrategy implements InventoryManagementStrategy {
+
     private Text amountText = Text.of("");
 
     @Override
     public boolean supports(ScreenHandler handler, Text title) {
         return handler instanceof ShulkerBoxScreenHandler;
+    }
+
+    @Override
+    public @Nullable Inventory extract(ScreenHandler handler) {
+        if (!(handler instanceof ShulkerBoxScreenHandler shulkerHandler)) {
+            return null;
+        }
+
+        ShulkerBoxScreenHandlerAccessor accessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
+        return accessor.inventory();
     }
 
     @Override
@@ -43,17 +54,6 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
         String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
 
         amountText = Text.of(stringifiedValue);
-    }
-
-    @Override
-    @Nullable
-    public Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof ShulkerBoxScreenHandler shulkerHandler)) {
-            return null;
-        }
-
-        ShulkerBoxScreenHandlerAccessor accessor = (ShulkerBoxScreenHandlerAccessor) shulkerHandler;
-        return accessor.inventory();
     }
 
     public Text getAmountText() {

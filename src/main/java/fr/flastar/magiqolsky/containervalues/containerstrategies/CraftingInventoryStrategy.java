@@ -14,16 +14,19 @@ import org.spongepowered.asm.mixin.Unique;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.INVENTORY_TEXT_Y_OFFSET;
 
 public class CraftingInventoryStrategy implements InventoryManagementStrategy {
+
     private Text amountText = Text.of("");
 
-    @Unique
-    private static final int INVENTORY_TEXT_Y_OFFSET = 65;
+    @Override
+    public boolean supports(ScreenHandler handler, Text title) {
+        return handler instanceof CraftingScreenHandler;
+    }
 
     @Override
-    @Nullable
-    public Inventory extract(ScreenHandler handler) {
+    public @Nullable Inventory extract(ScreenHandler handler) {
         if (!(handler instanceof CraftingScreenHandler craftingHandler)) {
             return null;
         }
@@ -32,11 +35,6 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
         PlayerEntity player = accessor.invokeGetPlayer();
 
         return player.getInventory();
-    }
-
-    @Override
-    public boolean supports(ScreenHandler handler, Text title) {
-        return handler instanceof CraftingScreenHandler;
     }
 
     @Override
