@@ -1,5 +1,7 @@
 package fr.flastar.magiqolsky.containerstrategies;
 
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -10,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericContainerStrategy implements InventoryExtractionStrategy {
+public class GenericContainerStrategy implements InventoryManagementStrategy {
     private static final int CHEST_SIZE = 9 * 3;
     private static final int DOUBLE_CHEST_SIZE = CHEST_SIZE * 2;
 
@@ -31,8 +33,15 @@ public class GenericContainerStrategy implements InventoryExtractionStrategy {
     }
 
     @Override
-    public boolean isInventory() {
-        return false;
+    public void render(DrawContext context, TextRenderer textRenderer, Text text, int color, int topCornerX, int topCornerY) {
+        context.drawText(
+                textRenderer,
+                text,
+                topCornerX,
+                topCornerY,
+                color,
+                false
+        );
     }
 
     @Override

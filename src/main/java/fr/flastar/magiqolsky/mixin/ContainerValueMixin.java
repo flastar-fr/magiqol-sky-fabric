@@ -39,13 +39,10 @@ public abstract class ContainerValueMixin {
     private static final int TEXT_COLOR = 0x404040;
 
     @Unique
-    private static final int INVENTORY_TEXT_Y_OFFSET = 65;
-
-    @Unique
     private static final int DESIRED_PRECISION = 2;
 
     @Unique
-    private final List<InventoryExtractionStrategy> strategies = List.of(
+    private final List<InventoryManagementStrategy> strategies = List.of(
             new GenericContainerStrategy(),
             new ShulkerBoxStrategy(),
             new PlayerInventoryStrategy(),
@@ -53,7 +50,7 @@ public abstract class ContainerValueMixin {
     );
 
     @Unique
-    private boolean isInventory = false;
+    InventoryManagementStrategy currentStrategy = null;
 
     @Unique
     private Text amountText = null;
@@ -82,7 +79,7 @@ public abstract class ContainerValueMixin {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (this.amountText == null) {
+        if (this.amountText == null || this.currentStrategy == null) {
             return;
         }
 
@@ -93,21 +90,10 @@ public abstract class ContainerValueMixin {
 
         TextRenderer textRenderer = screen.getTextRenderer();
 
-        int textX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
-        int textY = y + TEXT_Y;
+        int topCornerX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
+        int topCornerY = y + TEXT_Y;
 
-        if (isInventory) {
-            textY += INVENTORY_TEXT_Y_OFFSET;
-        }
-
-        context.drawText(
-                textRenderer,
-                amountText,
-                textX,
-                textY,
-                TEXT_COLOR,
-                false
-        );
+        currentStrategy.render(context, textRenderer, amountText, TEXT_COLOR, topCornerX, topCornerY);
     }
 
     @Unique
@@ -151,12 +137,12 @@ public abstract class ContainerValueMixin {
             return null;
         }
 
-        for (InventoryExtractionStrategy strategy : strategies) {
+        for (InventoryManagementStrategy strategy : strategies) {
             if (strategy.supports(handler, cachedTitle)) {
                 Inventory containerInventory = strategy.extract(handler);
 
                 if (containerInventory != null) {
-                    isInventory = strategy.isInventory();
+                    currentStrategy = strategy;
                     return containerInventory;
                 }
                 amountText = null;
