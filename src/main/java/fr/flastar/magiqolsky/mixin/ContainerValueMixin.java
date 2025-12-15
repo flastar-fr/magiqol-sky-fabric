@@ -17,17 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+
 @Mixin(HandledScreen.class)
 public abstract class ContainerValueMixin {
-    @Unique
-    private static final int TEXT_Y = 6;
-
-    @Unique
-    private static final int TEXT_X_OFFSET = 8;
-
-    @Unique
-    private static final int TEXT_COLOR = 0x404040;
-
     @Unique
     private final List<InventoryManagementStrategy> strategies = List.of(
             new GenericContainerStrategy(),
