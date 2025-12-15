@@ -1,30 +1,20 @@
 package fr.flastar.magiqolsky.mixin;
 
-import fr.flastar.magiqolsky.MagiQoLSky;
-import fr.flastar.magiqolsky.containerstrategies.*;
+import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
-import fr.flastar.magiqolsky.utils.FloatToString;
-import fr.flastar.magiqolsky.utils.ItemIDExtractor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Mixin(HandledScreen.class)
@@ -39,9 +29,6 @@ public abstract class ContainerValueMixin {
     private static final int TEXT_COLOR = 0x404040;
 
     @Unique
-    private static final int DESIRED_PRECISION = 2;
-
-    @Unique
     private final List<InventoryManagementStrategy> strategies = List.of(
             new GenericContainerStrategy(),
             new ShulkerBoxStrategy(),
@@ -51,9 +38,6 @@ public abstract class ContainerValueMixin {
 
     @Unique
     InventoryManagementStrategy currentStrategy = null;
-
-    @Unique
-    private Text amountText = null;
 
     @Unique
     private Text cachedTitle = null;
@@ -67,19 +51,18 @@ public abstract class ContainerValueMixin {
     private void updateContainerValue(CallbackInfo ci) {
         ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
 
-        Inventory containerInventory = determineContainerInventory(handler);
-        if (containerInventory == null) return;
+        if (currentStrategy == null) {
+            determineContainerInventory(handler);
+        }
 
-        float totalValue = getContainerTotalValue(containerInventory);
-
-        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
-
-        this.amountText = Text.of(stringifiedValue);
+        if (currentStrategy != null) {
+            currentStrategy.update(handler);
+        }
     }
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (this.amountText == null || this.currentStrategy == null) {
+        if (currentStrategy == null) {
             return;
         }
 
@@ -89,52 +72,18 @@ public abstract class ContainerValueMixin {
         int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
 
         TextRenderer textRenderer = screen.getTextRenderer();
+        Text amountText = currentStrategy.getAmountText();
 
         int topCornerX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
         int topCornerY = y + TEXT_Y;
 
-        currentStrategy.render(context, textRenderer, amountText, TEXT_COLOR, topCornerX, topCornerY);
+        currentStrategy.render(context, textRenderer, TEXT_COLOR, topCornerX, topCornerY);
     }
 
     @Unique
-    private String retrieveIDFromStack(ItemStack stack) {
-        NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
-        if (nbtComponent == null) {
-            Identifier itemIDIdentifier = Registries.ITEM.getId(stack.getItem());
-
-            return itemIDIdentifier.toString();
-        } else {
-            return ItemIDExtractor.extractPluginIdentifier(stack);
-        }
-    }
-
-    @Unique
-    private float getContainerTotalValue(Inventory containerInventory) {
-        float totalValue = 0;
-        HashMap<String, Float> shopItems = MagiQoLSky.shopItemCreator.getShopItems();
-
-        for (int i = 0; i < containerInventory.size(); i++) {
-            ItemStack stack = containerInventory.getStack(i);
-
-            String itemID = retrieveIDFromStack(stack);
-
-            if (!shopItems.containsKey(itemID)) {
-                continue;
-            }
-
-            int amountItems = stack.getCount();
-            float itemValue = shopItems.get(itemID);
-
-            totalValue += amountItems * itemValue;
-        }
-        return totalValue;
-    }
-
-    @Unique
-    private @Nullable Inventory determineContainerInventory(ScreenHandler handler) {
+    private void determineContainerInventory(ScreenHandler handler) {
         if (handler == null) {
-            amountText = null;
-            return null;
+            return;
         }
 
         for (InventoryManagementStrategy strategy : strategies) {
@@ -143,14 +92,10 @@ public abstract class ContainerValueMixin {
 
                 if (containerInventory != null) {
                     currentStrategy = strategy;
-                    return containerInventory;
+                    return;
                 }
-                amountText = null;
-                return null;
+                return;
             }
         }
-
-        amountText = null;
-        return null;
     }
 }
