@@ -78,6 +78,8 @@ jobs:
           echo "New version : $NEW_VERSION"
           
           sed -i "/^MOD_VERSION=/c\\$NEW_LINE" gradle.properties
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit version change
         uses: stefanzweifel/git-auto-commit-action@v7
