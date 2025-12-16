@@ -1,6 +1,7 @@
 package fr.flastar.magiqolsky.utils;
 
 import net.minecraft.client.MinecraftClient;
+
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 

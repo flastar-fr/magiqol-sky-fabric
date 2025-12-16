@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Code checkout
@@ -44,15 +46,44 @@ jobs:
           
           JAR_BASE_NAME=$(grep 'archives_base_name=' gradle.properties | sed -E 's/archives_base_name=(.*)/\1/' | tr -d '\n')
           
-          JAR_PATH=$(find build/libs/ -name "$JAR_BASE_NAME-$MOD_VERSION*.jar" | head -n 1)
+          JAR_PATH=$(find build/libs/ \
+            -name "$JAR_BASE_NAME-$MOD_VERSION*.jar" \
+            ! -name "*-sources.jar" \
+            ! -name "*-javadoc.jar" \
+            | head -n 1)
 
           if [ -z "$JAR_PATH" ]; then
-            echo "Error : JAR file not found (search of $JAR_BASE_NAME-$MOD_VERSION*.jar in build/libs/)."
+            echo "Error : JAR file not found (search of $JAR_BASE_NAME-$MOD_VERSION.jar in build/libs/)."
             exit 1
           fi
 
           echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
-          echo "JAR file found : $JAR_PATH"
+          echo "JAR mod file found : $JAR_PATH"
+          
+          JAR_PATH_SOURCES=$(find build/libs/ -name "$JAR_BASE_NAME-$MOD_VERSION-sources.jar" | head -n 1)
+
+          if [ -z "$JAR_PATH_SOURCES" ]; then
+            echo "Error : JAR source file not found (search of $JAR_BASE_NAME-$MOD_VERSION-sources.jar in build/libs/)."
+            exit 1
+          fi
+
+          echo "source_jar_path=$JAR_PATH_SOURCES" >> $GITHUB_OUTPUT
+          echo "JAR source file found : $JAR_PATH_SOURCES"
+          
+          MINOR=$(echo $MOD_VERSION | awk -F'.' '{print $3}')
+          INC_MINOR=$((MINOR + 1))
+          NEW_VERSION=$(echo &MINOR | sed "s/\.[0-9]*$/.&INC_MINOR/")
+          NEW_LINE="MOD_VERSION=$NEW_VERSION"
+          
+          echo "New version : $NEW_VERSION"
+          
+          sed -i "/^MOD_VERSION=/c\\$NEW_LINE" gradle.properties
+
+      - name: Commit version change
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chore(version): Bump to next version v${{ steps.versioning.outputs.new_version }}"
+          commit_author: flastar-fr <140191575+flastar-fr@users.noreply.github.com>
 
       - name: Create and push tag
         run: |
@@ -71,6 +102,8 @@ jobs:
             - Détails de la version ici.
           draft: false
           prerelease: false
-          files: ${{ steps.set_vars.outputs.jar_path }}
+          files: |
+            ${{ steps.set_vars.outputs.jar_path }}
+            ${{ steps.set_vars.outputs.source_jar_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

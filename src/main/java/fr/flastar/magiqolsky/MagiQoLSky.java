@@ -2,7 +2,6 @@ package fr.flastar.magiqolsky;
 
 import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
