@@ -22,7 +22,8 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     private final List<String> ACCEPTED_CONTAINER_KEYS = List.of(
             "block.minecraft.chest",
             "container.chestDouble",
-            "block.minecraft.barrel"
+            "block.minecraft.barrel",
+            "block.minecraft.ender_chest"
     );
 
     private StrategyContext strategyContext;
