@@ -67,7 +67,8 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
 
         containerTextAmount = Text.of(stringifiedValue);
 
-        float inventoryTotalValue = getContainerTotalValue(containerInventory);
+        if (strategyContext.playerInventory() == null) return;
+        float inventoryTotalValue = getContainerTotalValue(strategyContext.playerInventory());
 
         String stringifiedInventoryValue = FloatToString.convertDecimalFloatToString(inventoryTotalValue, DESIRED_PRECISION);
 

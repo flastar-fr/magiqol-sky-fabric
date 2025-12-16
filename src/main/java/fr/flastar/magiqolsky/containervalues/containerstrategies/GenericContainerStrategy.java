@@ -83,7 +83,8 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
 
         containerTextAmount = Text.of(stringifiedContainerValue);
 
-        float inventoryTotalValue = getContainerTotalValue(containerInventory);
+        if (strategyContext.playerInventory() == null) return;
+        float inventoryTotalValue = getContainerTotalValue(strategyContext.playerInventory());
 
         String stringifiedInventoryValue = FloatToString.convertDecimalFloatToString(inventoryTotalValue, DESIRED_PRECISION);
 
