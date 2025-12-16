@@ -2,7 +2,7 @@ package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
 import fr.flastar.magiqolsky.mixin.accessors.CraftingScreenHandlerAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
-import fr.flastar.magiqolsky.utils.FloatToString;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,9 +11,8 @@ import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.INVENTORY_TEXT_Y_OFFSET;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.containervalues.containerstrategies.StrategyUtils.retrieveContainerAmountText;
 
 public class CraftingInventoryStrategy implements InventoryManagementStrategy {
 
@@ -37,12 +36,14 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void render(DrawContext context, TextRenderer textRenderer, int color, Coordinates topCornerCoordinates) {
+    public void render(DrawContext context, int color, Coordinates topCornerCoordinates) {
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+
         context.drawText(
                 textRenderer,
                 amountText,
-                topCornerCoordinates.x(),
-                topCornerCoordinates.y() + INVENTORY_TEXT_Y_OFFSET,
+                topCornerCoordinates.x() - TEXT_X_OFFSET - textRenderer.getWidth(amountText),
+                topCornerCoordinates.y() + INVENTORY_TEXT_Y_OFFSET + TEXT_Y,
                 color,
                 false
         );
@@ -52,12 +53,7 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
     public void update(StrategyContext strategyContext) {
         Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
-
-        float totalValue = getContainerTotalValue(containerInventory);
-
-        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
-
-        amountText = Text.of(stringifiedValue);
+        amountText = retrieveContainerAmountText(containerInventory);
     }
 
     @Override

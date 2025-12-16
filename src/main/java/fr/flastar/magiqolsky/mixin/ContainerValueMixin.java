@@ -3,7 +3,6 @@ package fr.flastar.magiqolsky.mixin;
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -66,12 +65,9 @@ public abstract class ContainerValueMixin {
         Coordinates screenCoordinates = new Coordinates(x, y);
         int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
 
-        TextRenderer textRenderer = screen.getTextRenderer();
+        Coordinates topCornerCoordinates = new Coordinates(x + backgroundWidth, screenCoordinates.y());
 
-        int topCornerX = x + backgroundWidth;
-        Coordinates topCornerCoordinates = new Coordinates(topCornerX, screenCoordinates.y());
-
-        currentStrategy.render(context, textRenderer, TEXT_COLOR, topCornerCoordinates);
+        currentStrategy.render(context, TEXT_COLOR, topCornerCoordinates);
     }
 
     @Unique

@@ -1,8 +1,6 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
 import fr.flastar.magiqolsky.utils.Coordinates;
-import fr.flastar.magiqolsky.utils.FloatToString;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.inventory.Inventory;
@@ -13,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.containervalues.containerstrategies.StrategyUtils.render2ContainersValues;
+import static fr.flastar.magiqolsky.containervalues.containerstrategies.StrategyUtils.retrieveContainerAmountText;
 
 public class GenericContainerStrategy implements InventoryManagementStrategy {
 
@@ -50,50 +48,18 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void render(DrawContext context, TextRenderer textRenderer, int color, Coordinates topCornerCoordinates) {
-        Coordinates containerTextCoordinate = new Coordinates(topCornerCoordinates.x() - TEXT_X_OFFSET - textRenderer.getWidth(containerTextAmount),
-                topCornerCoordinates.y() + TEXT_Y);
-
-        context.drawText(
-                textRenderer,
-                containerTextAmount,
-                containerTextCoordinate.x(),
-                containerTextCoordinate.y(),
-                color,
-                false
-        );
-
-        Coordinates inventoryTextCoordinate = new Coordinates(
-                containerTextCoordinate.x() + textRenderer.getWidth(containerTextAmount) - textRenderer.getWidth(inventoryTextAmount),
-                INVENTORY_TEXT_Y_OFFSET + containerTextCoordinate.y() + TEXT_Y / 2);
-
-        context.drawText(
-                textRenderer,
-                inventoryTextAmount,
-                inventoryTextCoordinate.x(),
-                inventoryTextCoordinate.y(),
-                color,
-                false
-        );
+    public void render(DrawContext context, int color, Coordinates topCornerCoordinates) {
+        render2ContainersValues(context, topCornerCoordinates, containerTextAmount, inventoryTextAmount, color);
     }
 
     @Override
     public void update(StrategyContext strategyContext) {
         Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
-
-        float containerTotalValue = getContainerTotalValue(containerInventory);
-
-        String stringifiedContainerValue = FloatToString.convertDecimalFloatToString(containerTotalValue, DESIRED_PRECISION);
-
-        containerTextAmount = Text.of(stringifiedContainerValue);
+        containerTextAmount = retrieveContainerAmountText(containerInventory);
 
         if (strategyContext.playerInventory() == null) return;
-        float inventoryTotalValue = getContainerTotalValue(strategyContext.playerInventory());
-
-        String stringifiedInventoryValue = FloatToString.convertDecimalFloatToString(inventoryTotalValue, DESIRED_PRECISION);
-
-        inventoryTextAmount = Text.of(stringifiedInventoryValue);
+        inventoryTextAmount = retrieveContainerAmountText(strategyContext.playerInventory());
     }
 
     @Override

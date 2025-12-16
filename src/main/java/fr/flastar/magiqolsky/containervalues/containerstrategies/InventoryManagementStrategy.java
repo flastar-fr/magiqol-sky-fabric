@@ -1,7 +1,6 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
 import fr.flastar.magiqolsky.utils.Coordinates;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.text.Text;
@@ -13,7 +12,7 @@ public interface InventoryManagementStrategy {
 
     boolean supports(StrategyContext context);
 
-    void render(DrawContext context, TextRenderer textRenderer, int color, Coordinates topCornerCoordinates);
+    void render(DrawContext context, int color, Coordinates topCornerCoordinates);
 
     void update(StrategyContext strategyContext);
 
