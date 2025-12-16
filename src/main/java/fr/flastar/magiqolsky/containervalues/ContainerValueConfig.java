@@ -10,4 +10,6 @@ public class ContainerValueConfig {
     public static final int TEXT_X_OFFSET = 8;
 
     public static final int TEXT_COLOR = 0x404040;
+
+    public static final int INVENTORY_CONTAINER_OFFSET_FROM_BOTTOM = 94;
 }

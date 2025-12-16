@@ -16,6 +16,8 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
     private Text containerTextAmount = Text.of("");
     private Text inventoryTextAmount = Text.of("");
 
+    private StrategyContext strategyContext;
+
     @Override
     public boolean supports(StrategyContext strategyContext) {
         return strategyContext.handler() instanceof ShulkerBoxScreenHandler;
@@ -33,11 +35,12 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
 
     @Override
     public void render(DrawContext context, int color, Coordinates topCornerCoordinates) {
-        render2ContainersValues(context, topCornerCoordinates, containerTextAmount, inventoryTextAmount, color);
+        render2ContainersValues(context, topCornerCoordinates, containerTextAmount, inventoryTextAmount, color, strategyContext.backgroundHeight());
     }
 
     @Override
     public void update(StrategyContext strategyContext) {
+        this.strategyContext = strategyContext;
         Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
         containerTextAmount = retrieveContainerAmountText(containerInventory);

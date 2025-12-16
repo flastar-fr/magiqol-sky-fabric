@@ -1,5 +1,6 @@
 package fr.flastar.magiqolsky.mixin;
 
+import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
@@ -37,7 +38,8 @@ public abstract class ContainerValueMixin {
 
     @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
     private void cacheStrategyContext(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
-        this.strategyContext = new StrategyContext(handler, title, inventory);
+        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
+        this.strategyContext = new StrategyContext(handler, title, inventory, ((HandledScreenAccessor) screen).backgroundHeight());
     }
 
     @Inject(method = "handledScreenTick", at = @At("HEAD"))
@@ -64,6 +66,7 @@ public abstract class ContainerValueMixin {
         int y = ((HandledScreenAccessor) screen).y();
         Coordinates screenCoordinates = new Coordinates(x, y);
         int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
+        strategyContext.updateBackgroundHeight(((HandledScreenAccessor) screen).backgroundHeight());
 
         Coordinates topCornerCoordinates = new Coordinates(x + backgroundWidth, screenCoordinates.y());
 

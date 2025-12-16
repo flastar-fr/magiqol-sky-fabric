@@ -13,7 +13,8 @@ import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.TEXT_Y;
 
 public class StrategyUtils {
-    public static void render2ContainersValues(DrawContext context, Coordinates topCornerCoordinates, Text containerTextAmount, Text inventoryTextAmount, int color) {
+
+    public static void render2ContainersValues(DrawContext context, Coordinates topCornerCoordinates, Text containerTextAmount, Text inventoryTextAmount, int color, int backgroundHeight) {
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
         Coordinates containerTextCoordinate = new Coordinates(topCornerCoordinates.x() - TEXT_X_OFFSET - textRenderer.getWidth(containerTextAmount),
@@ -30,7 +31,7 @@ public class StrategyUtils {
 
         Coordinates inventoryTextCoordinate = new Coordinates(
                 containerTextCoordinate.x() + textRenderer.getWidth(containerTextAmount) - textRenderer.getWidth(inventoryTextAmount),
-                containerTextCoordinate.y() + INVENTORY_TEXT_Y_OFFSET + TEXT_Y/2);
+                topCornerCoordinates.y() + backgroundHeight - INVENTORY_CONTAINER_OFFSET_FROM_BOTTOM);
 
         context.drawText(
                 textRenderer,

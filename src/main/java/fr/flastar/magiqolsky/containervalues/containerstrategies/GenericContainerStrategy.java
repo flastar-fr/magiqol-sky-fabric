@@ -25,6 +25,8 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
             "block.minecraft.barrel"
     );
 
+    private StrategyContext strategyContext;
+
     @Override
     public boolean supports(StrategyContext strategyContext) {
         ArrayList<String> translatedNames = new ArrayList<>();
@@ -49,11 +51,12 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
 
     @Override
     public void render(DrawContext context, int color, Coordinates topCornerCoordinates) {
-        render2ContainersValues(context, topCornerCoordinates, containerTextAmount, inventoryTextAmount, color);
+        render2ContainersValues(context, topCornerCoordinates, containerTextAmount, inventoryTextAmount, color, strategyContext.backgroundHeight());
     }
 
     @Override
     public void update(StrategyContext strategyContext) {
+        this.strategyContext = strategyContext;
         Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
         containerTextAmount = retrieveContainerAmountText(containerInventory);
