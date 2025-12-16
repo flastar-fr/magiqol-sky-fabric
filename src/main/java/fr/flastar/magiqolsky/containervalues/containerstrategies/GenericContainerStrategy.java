@@ -6,7 +6,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,18 +26,21 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     );
 
     @Override
-    public boolean supports(ScreenHandler handler, Text title) {
+    public boolean supports(StrategyContext strategyContext) {
         ArrayList<String> translatedNames = new ArrayList<>();
 
         // note: to garanty that a server GUI does not have a value calculated
         ACCEPTED_CONTAINER_KEYS.forEach(key -> translatedNames.add(I18n.translate(key)));
 
-        return handler instanceof GenericContainerScreenHandler && translatedNames.contains(title.getString());
+        boolean isGenericContainer = strategyContext.handler() instanceof GenericContainerScreenHandler;
+        boolean isAcceptedContainer = translatedNames.contains(strategyContext.title().getString());
+
+        return isGenericContainer && isAcceptedContainer;
     }
 
     @Override
-    public @Nullable Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof GenericContainerScreenHandler containerHandler)) {
+    public @Nullable Inventory extract(StrategyContext strategyContext) {
+        if (!(strategyContext.handler() instanceof GenericContainerScreenHandler containerHandler)) {
             return null;
         }
 
@@ -58,8 +60,8 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void update(ScreenHandler handler) {
-        Inventory containerInventory = extract(handler);
+    public void update(StrategyContext strategyContext) {
+        Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
 
         float totalValue = getContainerTotalValue(containerInventory);

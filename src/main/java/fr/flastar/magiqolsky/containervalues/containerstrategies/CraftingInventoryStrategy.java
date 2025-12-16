@@ -7,10 +7,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.CraftingScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Unique;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
@@ -21,13 +19,13 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
     private Text amountText = Text.of("");
 
     @Override
-    public boolean supports(ScreenHandler handler, Text title) {
-        return handler instanceof CraftingScreenHandler;
+    public boolean supports(StrategyContext strategyContext) {
+        return strategyContext.handler() instanceof CraftingScreenHandler;
     }
 
     @Override
-    public @Nullable Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof CraftingScreenHandler craftingHandler)) {
+    public @Nullable Inventory extract(StrategyContext strategyContext) {
+        if (!(strategyContext.handler() instanceof CraftingScreenHandler craftingHandler)) {
             return null;
         }
 
@@ -52,8 +50,8 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void update(ScreenHandler handler) {
-        Inventory containerInventory = extract(handler);
+    public void update(StrategyContext strategyContext) {
+        Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
 
         float totalValue = getContainerTotalValue(containerInventory);

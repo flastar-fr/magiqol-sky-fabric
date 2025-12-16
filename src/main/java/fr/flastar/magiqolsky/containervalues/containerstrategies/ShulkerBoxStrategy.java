@@ -5,26 +5,25 @@ import fr.flastar.magiqolsky.utils.FloatToString;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
 
 public class ShulkerBoxStrategy implements InventoryManagementStrategy {
 
     private Text amountText = Text.of("");
 
     @Override
-    public boolean supports(ScreenHandler handler, Text title) {
-        return handler instanceof ShulkerBoxScreenHandler;
+    public boolean supports(StrategyContext strategyContext) {
+        return strategyContext.handler() instanceof ShulkerBoxScreenHandler;
     }
 
     @Override
-    public @Nullable Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof ShulkerBoxScreenHandler shulkerHandler)) {
+    public @Nullable Inventory extract(StrategyContext strategyContext) {
+        if (!(strategyContext.handler() instanceof ShulkerBoxScreenHandler shulkerHandler)) {
             return null;
         }
 
@@ -45,8 +44,8 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void update(ScreenHandler handler) {
-        Inventory containerInventory = extract(handler);
+    public void update(StrategyContext strategyContext) {
+        Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
 
         float totalValue = getContainerTotalValue(containerInventory);

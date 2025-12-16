@@ -5,10 +5,8 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Unique;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
@@ -19,13 +17,13 @@ public class PlayerInventoryStrategy implements InventoryManagementStrategy {
     private Text amountText = Text.of("");
 
     @Override
-    public boolean supports(ScreenHandler handler, Text title) {
-        return handler instanceof PlayerScreenHandler;
+    public boolean supports(StrategyContext strategyContext) {
+        return strategyContext.handler() instanceof PlayerScreenHandler;
     }
 
     @Override
-    public @Nullable Inventory extract(ScreenHandler handler) {
-        if (!(handler instanceof PlayerScreenHandler playerHandler)) {
+    public @Nullable Inventory extract(StrategyContext strategyContext) {
+        if (!(strategyContext.handler() instanceof PlayerScreenHandler playerHandler)) {
             return null;
         }
 
@@ -50,8 +48,8 @@ public class PlayerInventoryStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void update(ScreenHandler handler) {
-        Inventory containerInventory = extract(handler);
+    public void update(StrategyContext strategyContext) {
+        Inventory containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
 
         float totalValue = getContainerTotalValue(containerInventory);

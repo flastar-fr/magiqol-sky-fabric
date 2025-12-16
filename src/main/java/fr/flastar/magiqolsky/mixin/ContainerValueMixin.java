@@ -35,9 +35,13 @@ public abstract class ContainerValueMixin {
     @Unique
     private Text cachedTitle = null;
 
+    @Unique
+    private StrategyContext strategyContext;
+
     @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
-    private void cacheScreenTitle(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
+    private void cacheStrategyContext(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
         this.cachedTitle = title;
+        this.strategyContext = new StrategyContext(handler, title, inventory);
     }
 
     @Inject(method = "handledScreenTick", at = @At("HEAD"))
@@ -49,7 +53,7 @@ public abstract class ContainerValueMixin {
         }
 
         if (currentStrategy != null) {
-            currentStrategy.update(handler);
+            currentStrategy.update(strategyContext);
         }
     }
 
@@ -80,8 +84,8 @@ public abstract class ContainerValueMixin {
         }
 
         for (InventoryManagementStrategy strategy : strategies) {
-            if (strategy.supports(handler, cachedTitle)) {
-                Inventory containerInventory = strategy.extract(handler);
+            if (strategy.supports(strategyContext)) {
+                Inventory containerInventory = strategy.extract(strategyContext);
 
                 if (containerInventory != null) {
                     currentStrategy = strategy;
