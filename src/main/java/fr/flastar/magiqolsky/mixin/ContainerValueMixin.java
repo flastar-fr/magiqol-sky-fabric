@@ -2,6 +2,7 @@ package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
+import fr.flastar.magiqolsky.utils.Coordinates;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -33,14 +34,10 @@ public abstract class ContainerValueMixin {
     InventoryManagementStrategy currentStrategy = null;
 
     @Unique
-    private Text cachedTitle = null;
-
-    @Unique
     private StrategyContext strategyContext;
 
     @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
     private void cacheStrategyContext(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
-        this.cachedTitle = title;
         this.strategyContext = new StrategyContext(handler, title, inventory);
     }
 
@@ -66,15 +63,15 @@ public abstract class ContainerValueMixin {
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
         int x = ((HandledScreenAccessor) screen).x();
         int y = ((HandledScreenAccessor) screen).y();
+        Coordinates screenCoordinates = new Coordinates(x, y);
         int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
 
         TextRenderer textRenderer = screen.getTextRenderer();
-        Text amountText = currentStrategy.getContainerAmountText();
 
-        int topCornerX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
-        int topCornerY = y + TEXT_Y;
+        int topCornerX = x + backgroundWidth;
+        Coordinates topCornerCoordinates = new Coordinates(topCornerX, screenCoordinates.y());
 
-        currentStrategy.render(context, textRenderer, TEXT_COLOR, topCornerX, topCornerY);
+        currentStrategy.render(context, textRenderer, TEXT_COLOR, topCornerCoordinates);
     }
 
     @Unique

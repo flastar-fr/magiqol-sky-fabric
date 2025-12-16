@@ -1,5 +1,6 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
+import fr.flastar.magiqolsky.utils.Coordinates;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -49,24 +50,28 @@ public class GenericContainerStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void render(DrawContext context, TextRenderer textRenderer, int color, int topCornerX, int topCornerY) {
+    public void render(DrawContext context, TextRenderer textRenderer, int color, Coordinates topCornerCoordinates) {
+        Coordinates containerTextCoordinate = new Coordinates(topCornerCoordinates.x() - TEXT_X_OFFSET - textRenderer.getWidth(containerTextAmount),
+                topCornerCoordinates.y() + TEXT_Y);
+
         context.drawText(
                 textRenderer,
                 containerTextAmount,
-                topCornerX,
-                topCornerY,
+                containerTextCoordinate.x(),
+                containerTextCoordinate.y(),
                 color,
                 false
         );
 
-        int inventoryX = topCornerX + textRenderer.getWidth(containerTextAmount) - textRenderer.getWidth(inventoryTextAmount);
-        int inventoryY = INVENTORY_TEXT_Y_OFFSET + topCornerY + TEXT_Y / 2;
-        
+        Coordinates inventoryTextCoordinate = new Coordinates(
+                containerTextCoordinate.x() + textRenderer.getWidth(containerTextAmount) - textRenderer.getWidth(inventoryTextAmount),
+                INVENTORY_TEXT_Y_OFFSET + containerTextCoordinate.y() + TEXT_Y / 2);
+
         context.drawText(
                 textRenderer,
                 inventoryTextAmount,
-                inventoryX,
-                inventoryY,
+                inventoryTextCoordinate.x(),
+                inventoryTextCoordinate.y(),
                 color,
                 false
         );

@@ -1,6 +1,7 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
 import fr.flastar.magiqolsky.mixin.accessors.CraftingScreenHandlerAccessor;
+import fr.flastar.magiqolsky.utils.Coordinates;
 import fr.flastar.magiqolsky.utils.FloatToString;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -36,14 +37,12 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public void render(DrawContext context, TextRenderer textRenderer, int color, int topCornerX, int topCornerY) {
-        topCornerY += INVENTORY_TEXT_Y_OFFSET;
-
+    public void render(DrawContext context, TextRenderer textRenderer, int color, Coordinates topCornerCoordinates) {
         context.drawText(
                 textRenderer,
                 amountText,
-                topCornerX,
-                topCornerY,
+                topCornerCoordinates.x(),
+                topCornerCoordinates.y() + INVENTORY_TEXT_Y_OFFSET,
                 color,
                 false
         );
