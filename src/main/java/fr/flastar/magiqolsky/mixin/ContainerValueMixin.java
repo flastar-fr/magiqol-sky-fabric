@@ -1,6 +1,5 @@
 package fr.flastar.magiqolsky.mixin;
 
-import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
@@ -18,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.TEXT_COLOR;
 
 @Mixin(HandledScreen.class)
 public abstract class ContainerValueMixin {

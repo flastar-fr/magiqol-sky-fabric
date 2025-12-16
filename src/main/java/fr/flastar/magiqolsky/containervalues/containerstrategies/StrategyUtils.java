@@ -10,7 +10,6 @@ import net.minecraft.text.Text;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.TEXT_Y;
 
 public class StrategyUtils {
 
