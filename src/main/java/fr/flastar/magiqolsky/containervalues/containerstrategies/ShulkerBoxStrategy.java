@@ -10,11 +10,12 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.DESIRED_PRECISION;
+import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
 
 public class ShulkerBoxStrategy implements InventoryManagementStrategy {
 
-    private Text amountText = Text.of("");
+    private Text containerTextAmount = Text.of("");
+    private Text inventoryTextAmount = Text.of("");
 
     @Override
     public boolean supports(StrategyContext strategyContext) {
@@ -35,9 +36,21 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
     public void render(DrawContext context, TextRenderer textRenderer, int color, int topCornerX, int topCornerY) {
         context.drawText(
                 textRenderer,
-                amountText,
+                containerTextAmount,
                 topCornerX,
                 topCornerY,
+                color,
+                false
+        );
+
+        int inventoryX = topCornerX + textRenderer.getWidth(containerTextAmount) - textRenderer.getWidth(inventoryTextAmount);
+        int inventoryY = INVENTORY_TEXT_Y_OFFSET + topCornerY + TEXT_Y / 2;
+
+        context.drawText(
+                textRenderer,
+                inventoryTextAmount,
+                inventoryX,
+                inventoryY,
                 color,
                 false
         );
@@ -52,10 +65,16 @@ public class ShulkerBoxStrategy implements InventoryManagementStrategy {
 
         String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
 
-        amountText = Text.of(stringifiedValue);
+        containerTextAmount = Text.of(stringifiedValue);
+
+        float inventoryTotalValue = getContainerTotalValue(containerInventory);
+
+        String stringifiedInventoryValue = FloatToString.convertDecimalFloatToString(inventoryTotalValue, DESIRED_PRECISION);
+
+        inventoryTextAmount = Text.of(stringifiedInventoryValue);
     }
 
-    public Text getAmountText() {
-        return amountText;
+    public Text getContainerAmountText() {
+        return containerTextAmount;
     }
 }

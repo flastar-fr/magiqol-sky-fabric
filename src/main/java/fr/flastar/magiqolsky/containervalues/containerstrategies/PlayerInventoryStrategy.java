@@ -60,7 +60,7 @@ public class PlayerInventoryStrategy implements InventoryManagementStrategy {
     }
 
     @Override
-    public Text getAmountText() {
+    public Text getContainerAmountText() {
         return amountText;
     }
 }

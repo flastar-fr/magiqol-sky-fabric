@@ -69,7 +69,7 @@ public abstract class ContainerValueMixin {
         int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
 
         TextRenderer textRenderer = screen.getTextRenderer();
-        Text amountText = currentStrategy.getAmountText();
+        Text amountText = currentStrategy.getContainerAmountText();
 
         int topCornerX = x + backgroundWidth - TEXT_X_OFFSET - textRenderer.getWidth(amountText);
         int topCornerY = y + TEXT_Y;

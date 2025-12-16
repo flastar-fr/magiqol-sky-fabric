@@ -16,5 +16,5 @@ public interface InventoryManagementStrategy {
 
     void update(StrategyContext strategyContext);
 
-    Text getAmountText();
+    Text getContainerAmountText();
 }
