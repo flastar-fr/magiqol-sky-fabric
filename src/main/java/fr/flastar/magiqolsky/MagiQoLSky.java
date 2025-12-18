@@ -1,12 +1,9 @@
 package fr.flastar.magiqolsky;
 
-import fr.flastar.magiqolsky.screens.data.MobCounterConfig;
 import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static fr.flastar.magiqolsky.widgets.MobsCounterButton.registerMobsCounterButton;
 
 public class MagiQoLSky implements ModInitializer {
 	public static final String MOD_ID = "magiqol-sky";
@@ -16,8 +13,5 @@ public class MagiQoLSky implements ModInitializer {
 	@Override
 	public void onInitialize() {
         shopItemCreator.createShopsItems();
-		MobCounterConfig.load();
-
-		registerMobsCounterButton();
 	}
 }

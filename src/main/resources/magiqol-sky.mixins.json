@@ -3,7 +3,6 @@
   "package": "fr.flastar.magiqolsky.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "CountMobsKilledMixin",
     "accessors.CraftingScreenHandlerAccessor",
     "accessors.ShulkerBoxScreenHandlerAccessor"
   ],
@@ -14,7 +13,6 @@
     "requireAnnotations": true
   },
   "client": [
-    "ClientAttackMixin",
     "ContainerValueMixin",
     "accessors.HandledScreenAccessor"
   ]
