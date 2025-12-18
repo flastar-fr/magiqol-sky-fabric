@@ -1,5 +1,6 @@
 package fr.flastar.magiqolsky;
 
+import fr.flastar.magiqolsky.screens.data.MobCounterConfig;
 import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ public class MagiQoLSky implements ModInitializer {
 	@Override
 	public void onInitialize() {
         shopItemCreator.createShopsItems();
+		MobCounterConfig.load();
 
 		registerMobsCounterButton();
 	}
