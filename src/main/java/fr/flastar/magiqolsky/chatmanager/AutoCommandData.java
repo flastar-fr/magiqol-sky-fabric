@@ -2,9 +2,11 @@ package fr.flastar.magiqolsky.chatmanager;
 
 public class AutoCommandData {
     private boolean isAutoFlyingEnabled;
+    private boolean isBetterBienvenueEnabled;
 
     public AutoCommandData() {
-        this.isAutoFlyingEnabled = true;
+        this.isAutoFlyingEnabled = false;
+        this.isBetterBienvenueEnabled = true;
     }
 
     public boolean isAutoFlyingEnabled() {
@@ -13,5 +15,13 @@ public class AutoCommandData {
 
     public void changeIsAutoFlyingEnabled(boolean newValue) {
         isAutoFlyingEnabled = newValue;
+    }
+
+    public boolean isBetterBienvenueEnabled() {
+        return isBetterBienvenueEnabled;
+    }
+
+    public void changeIsBetterBienvenueEnabled(boolean newValue) {
+        isBetterBienvenueEnabled = newValue;
     }
 }

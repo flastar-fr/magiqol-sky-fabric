@@ -7,6 +7,9 @@ import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
 public class AutoCommandConfigurationScreen extends Screen {
+    private static final String AUTO_FLY_TEXT = "Activer l'Auto-Fly (sur l'île uniquement)";
+    private static final String BETTER_BIENVENUE_TEXT = "Activer le better Bienvenue (envoi d'un message de Bienvenue en plus du /b)";
+
     private final Screen parent;
 
     public AutoCommandConfigurationScreen(Screen parent) {
@@ -16,10 +19,13 @@ public class AutoCommandConfigurationScreen extends Screen {
 
     @Override
     protected void init() {
-        TextWidget autoCommandsConfig = new TextWidget(this.width / 2 - 300, 15, 300, 15, Text.literal("Configuration des auto commandes"), this.textRenderer);
+        TextWidget autoCommandsConfig = new TextWidget(this.width / 2 - 300, 15, 300, 15,
+                Text.literal("Configuration des auto commandes"),
+                this.textRenderer
+        );
 
-        CheckboxWidget autoFlyCheckbox = CheckboxWidget.builder(Text.literal("Activer l'Auto-Fly (sur l'île uniquement)"), this.textRenderer)
-                .pos(this.width / 2, 30)
+        CheckboxWidget autoFlyCheckbox = CheckboxWidget.builder(Text.literal(AUTO_FLY_TEXT), this.textRenderer)
+                .pos(this.width / 2 - 200, 30)
                 .checked(AutoCommandConfig.getConfig().isAutoFlyingEnabled())
                 .callback((checkbox, checked) -> {
                     AutoCommandConfig.getConfig().changeIsAutoFlyingEnabled(checked);
@@ -27,9 +33,19 @@ public class AutoCommandConfigurationScreen extends Screen {
                 })
                 .build();
 
-        this.addDrawableChild(autoCommandsConfig);
+        CheckboxWidget betterBienvenueCheckbox = CheckboxWidget.builder(Text.literal(BETTER_BIENVENUE_TEXT), this.textRenderer)
+                .pos(this.width / 2 - 200, 45)
+                .checked(AutoCommandConfig.getConfig().isBetterBienvenueEnabled())
+                .callback((checkbox, checked) -> {
+                    AutoCommandConfig.getConfig().changeIsBetterBienvenueEnabled(checked);
+                    AutoCommandConfig.save();
+                })
+                .build();
 
-        this.addDrawableChild(autoFlyCheckbox);
+        addDrawableChild(autoCommandsConfig);
+
+        addDrawableChild(autoFlyCheckbox);
+        addDrawableChild(betterBienvenueCheckbox);
     }
 
     @Override

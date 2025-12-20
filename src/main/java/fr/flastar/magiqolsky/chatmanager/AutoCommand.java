@@ -22,6 +22,7 @@ public class AutoCommand {
         registerAutoFlyCommand();
 
         registerAutoCommandConfigurationButton();
+        registerBetterBienvenueCommand();
     }
 
     public static void registerAutoFlyCommand() {
@@ -41,6 +42,19 @@ public class AutoCommand {
                 scheduler.schedule(() -> client.execute(() -> client.player.networkHandler.sendCommand(FLY_COMMAND)), TIMEOUT_DELAY, TimeUnit.MILLISECONDS);
             }
             pendingFly = false;
+        });
+    }
+
+    public static void registerBetterBienvenueCommand() {
+        ClientSendMessageEvents.COMMAND.register((command) -> {
+            if (!AutoCommandConfig.getConfig().isBetterBienvenueEnabled()) return;
+
+            if (Arrays.stream(BIENVENUE_COMMANDS).anyMatch(command::equalsIgnoreCase)) {
+                MinecraftClient client = MinecraftClient.getInstance();
+                if (client.player != null) {
+                    client.player.networkHandler.sendChatMessage(BIENVENUE_MESSAGE);
+                }
+            }
         });
     }
 }
