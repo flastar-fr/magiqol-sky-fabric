@@ -5,6 +5,8 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static fr.flastar.magiqolsky.chatmanager.AutoCommand.registerAutoCommands;
+
 public class MagiQoLSky implements ModInitializer {
 	public static final String MOD_ID = "magiqol-sky";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -13,5 +15,7 @@ public class MagiQoLSky implements ModInitializer {
 	@Override
 	public void onInitialize() {
         shopItemCreator.createShopsItems();
+
+		registerAutoCommands();
 	}
 }
