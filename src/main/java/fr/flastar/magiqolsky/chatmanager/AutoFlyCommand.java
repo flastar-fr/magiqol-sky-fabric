@@ -12,7 +12,7 @@ import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.*;
 
 public class AutoFlyCommand implements RegisterableCommand {
     private boolean pendingFly;
-    private ScheduledExecutorService scheduler;
+    private final ScheduledExecutorService scheduler;
 
     public AutoFlyCommand(ScheduledExecutorService scheduler) {
         this.pendingFly = false;
