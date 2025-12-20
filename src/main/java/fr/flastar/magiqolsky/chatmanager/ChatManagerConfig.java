@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ChatManagerConfig {
     public static final String[] ISLAND_COMMANDS = {"is", "island", "is go"};

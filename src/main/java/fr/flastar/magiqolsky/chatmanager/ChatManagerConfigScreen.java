@@ -42,10 +42,17 @@ public class ChatManagerConfigScreen extends Screen {
                 })
                 .build();
 
+        TextWidget textReplacerConfig = new TextWidget(this.width / 2 - 300, 15, 300, 15,
+                Text.literal("Configuration des textes de remplacement"),
+                this.textRenderer
+        );
+
         addDrawableChild(autoCommandsConfig);
 
         addDrawableChild(autoFlyCheckbox);
         addDrawableChild(betterBienvenueCheckbox);
+
+        addDrawableChild(textReplacerConfig);
     }
 
     @Override
