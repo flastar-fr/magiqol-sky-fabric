@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fr.flastar.magiqolsky.chatmanager.AutoCommand.registerAutoCommands;
+import static fr.flastar.magiqolsky.chatmanager.ChatManager.registerAutoCommands;
 
 public class MagiQoLSky implements ModInitializer {
 	public static final String MOD_ID = "magiqol-sky";

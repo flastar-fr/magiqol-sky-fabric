@@ -9,15 +9,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static fr.flastar.magiqolsky.chatmanager.AutoCommandConfig.*;
-import static fr.flastar.magiqolsky.chatmanager.AutoCommandConfigurationButton.registerAutoCommandConfigurationButton;
+import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.*;
+import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfigButton.registerAutoCommandConfigurationButton;
 
-public class AutoCommand {
+public class ChatManager {
     private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private static boolean pendingFly = false;
 
     public static void registerAutoCommands() {
-        AutoCommandConfig.load();
+        ChatManagerConfig.load();
 
         registerAutoFlyCommand();
 
@@ -33,7 +33,7 @@ public class AutoCommand {
         });
 
         ClientEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (!AutoCommandConfig.getConfig().isAutoFlyingEnabled()) {
+            if (!ChatManagerConfig.getConfig().isAutoFlyingEnabled()) {
                 pendingFly = false;
                 return;
             }
@@ -47,7 +47,7 @@ public class AutoCommand {
 
     public static void registerBetterBienvenueCommand() {
         ClientSendMessageEvents.COMMAND.register((command) -> {
-            if (!AutoCommandConfig.getConfig().isBetterBienvenueEnabled()) return;
+            if (!ChatManagerConfig.getConfig().isBetterBienvenueEnabled()) return;
 
             if (Arrays.stream(BIENVENUE_COMMANDS).anyMatch(command::equalsIgnoreCase)) {
                 MinecraftClient client = MinecraftClient.getInstance();

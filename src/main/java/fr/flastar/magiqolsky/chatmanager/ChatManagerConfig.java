@@ -7,7 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.*;
 
-public class AutoCommandConfig {
+public class ChatManagerConfig {
     public static final String[] ISLAND_COMMANDS = {"is", "island", "is go"};
     public static final String[] BIENVENUE_COMMANDS = {"b", "bienvenue"};
     public static final String FLY_COMMAND = "fly";
@@ -19,9 +19,9 @@ public class AutoCommandConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("magiqolsky_autocommand_config.json").toFile();
 
-    private static AutoCommandData currentConfig;
+    private static ChatManagerData currentConfig;
 
-    public static AutoCommandData getConfig() {
+    public static ChatManagerData getConfig() {
         if (currentConfig == null) {
             load();
         }
@@ -30,20 +30,20 @@ public class AutoCommandConfig {
 
     public synchronized static void load() {
         if (!CONFIG_FILE.exists()) {
-            currentConfig = new AutoCommandData();
+            currentConfig = new ChatManagerData();
             save();
             return;
         }
 
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
-            currentConfig = GSON.fromJson(reader, AutoCommandData.class);
+            currentConfig = GSON.fromJson(reader, ChatManagerData.class);
         } catch (IOException e) {
             MagiQoLSky.LOGGER.error(
                     "Échec du chargement des données du compteur de mobs depuis {}",
                     CONFIG_FILE,
                     e
             );
-            currentConfig = new AutoCommandData();
+            currentConfig = new ChatManagerData();
         }
     }
 

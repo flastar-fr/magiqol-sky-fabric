@@ -6,14 +6,14 @@ import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
-public class AutoCommandConfigurationScreen extends Screen {
+public class ChatManagerConfigScreen extends Screen {
     private static final String AUTO_FLY_TEXT = "Activer l'Auto-Fly (sur l'île uniquement)";
     private static final String BETTER_BIENVENUE_TEXT = "Activer le better Bienvenue (envoi d'un message de Bienvenue en plus du /b)";
 
     private final Screen parent;
 
-    public AutoCommandConfigurationScreen(Screen parent) {
-        super(Text.of("Configuration de l'auto command"));
+    public ChatManagerConfigScreen(Screen parent) {
+        super(Text.of("Configuration des paramètres de chat"));
         this.parent = parent;
     }
 
@@ -26,19 +26,19 @@ public class AutoCommandConfigurationScreen extends Screen {
 
         CheckboxWidget autoFlyCheckbox = CheckboxWidget.builder(Text.literal(AUTO_FLY_TEXT), this.textRenderer)
                 .pos(this.width / 2 - 200, 30)
-                .checked(AutoCommandConfig.getConfig().isAutoFlyingEnabled())
+                .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
                 .callback((checkbox, checked) -> {
-                    AutoCommandConfig.getConfig().changeIsAutoFlyingEnabled(checked);
-                    AutoCommandConfig.save();
+                    ChatManagerConfig.getConfig().changeIsAutoFlyingEnabled(checked);
+                    ChatManagerConfig.save();
                 })
                 .build();
 
         CheckboxWidget betterBienvenueCheckbox = CheckboxWidget.builder(Text.literal(BETTER_BIENVENUE_TEXT), this.textRenderer)
                 .pos(this.width / 2 - 200, 45)
-                .checked(AutoCommandConfig.getConfig().isBetterBienvenueEnabled())
+                .checked(ChatManagerConfig.getConfig().isBetterBienvenueEnabled())
                 .callback((checkbox, checked) -> {
-                    AutoCommandConfig.getConfig().changeIsBetterBienvenueEnabled(checked);
-                    AutoCommandConfig.save();
+                    ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked);
+                    ChatManagerConfig.save();
                 })
                 .build();
 

@@ -1,10 +1,10 @@
 package fr.flastar.magiqolsky.chatmanager;
 
-public class AutoCommandData {
+public class ChatManagerData {
     private boolean isAutoFlyingEnabled;
     private boolean isBetterBienvenueEnabled;
 
-    public AutoCommandData() {
+    public ChatManagerData() {
         this.isAutoFlyingEnabled = false;
         this.isBetterBienvenueEnabled = true;
     }

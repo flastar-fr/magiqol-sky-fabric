@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 import static fr.flastar.magiqolsky.MagiQoLSky.MOD_ID;
 
-public class AutoCommandConfigurationButton extends ButtonWidget {
+public class ChatManagerConfigButton extends ButtonWidget {
     private static final Identifier MESSAGE_TEXTURE = Identifier.of(MOD_ID, "textures/gui/message_config_icon.png");
 
     private static final int BUTTON_SIZE = 26;
@@ -23,7 +23,7 @@ public class AutoCommandConfigurationButton extends ButtonWidget {
     private static final int BUTTON_X_COORDINATE = 10;
     private static final int BUTTON_OFFSET = 30;
 
-    public AutoCommandConfigurationButton(int x, int y, PressAction onPress) {
+    public ChatManagerConfigButton(int x, int y, PressAction onPress) {
         super(x, y, BUTTON_SIZE, BUTTON_SIZE, Text.empty(), onPress, DEFAULT_NARRATION_SUPPLIER);
     }
 
@@ -47,8 +47,8 @@ public class AutoCommandConfigurationButton extends ButtonWidget {
             if (screen instanceof InventoryScreen || screen instanceof CreativeInventoryScreen) {
                 int y = scaledHeight - BUTTON_OFFSET;
 
-                AutoCommandConfigurationButton myButton = new AutoCommandConfigurationButton(BUTTON_X_COORDINATE, y, button -> MinecraftClient.getInstance().setScreen(
-                        new AutoCommandConfigurationScreen(screen)
+                ChatManagerConfigButton myButton = new ChatManagerConfigButton(BUTTON_X_COORDINATE, y, button -> MinecraftClient.getInstance().setScreen(
+                        new ChatManagerConfigScreen(screen)
                 ));
 
                 Screens.getButtons(screen).add(myButton);
