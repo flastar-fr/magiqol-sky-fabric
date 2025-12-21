@@ -46,7 +46,7 @@ public class ChatManagerConfigScreen extends Screen {
         addDrawableChild(CheckboxWidget.builder(Text.literal("Textes de remplacement"), textRenderer)
                 .pos(center - 100, currentY)
                 .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsTextReplacementEnabled(checked))
                 .tooltip(Tooltip.of(Text.literal("Activer les textes de remplacement")))
                 .build());
         currentY += 40;
