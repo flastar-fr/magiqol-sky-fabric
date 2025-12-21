@@ -8,6 +8,7 @@ import java.util.Map;
 public class ChatManagerData {
     private boolean isAutoFlyingEnabled;
     private boolean isBetterBienvenueEnabled;
+    private boolean isTextReplacementEnabled;
     private final List<TextReplacerEntry> textReplacers;
 
     private final transient Map<String, String> textReplacersCache = new HashMap<>();
@@ -15,6 +16,7 @@ public class ChatManagerData {
     public ChatManagerData() {
         this.isAutoFlyingEnabled = false;
         this.isBetterBienvenueEnabled = true;
+        this.isTextReplacementEnabled = true;
         this.textReplacers = new ArrayList<>();
     }
 
@@ -32,6 +34,14 @@ public class ChatManagerData {
 
     public void changeIsBetterBienvenueEnabled(boolean newValue) {
         isBetterBienvenueEnabled = newValue;
+    }
+
+    public boolean isTextReplacementEnabled() {
+        return isTextReplacementEnabled;
+    }
+
+    public void changeIsTextReplacementEnabled(boolean newValue) {
+        isTextReplacementEnabled = newValue;
     }
 
     public List<TextReplacerEntry> textReplacers() {

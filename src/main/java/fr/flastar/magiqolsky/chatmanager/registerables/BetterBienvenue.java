@@ -1,5 +1,6 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.registerables;
 
+import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
 
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.BIENVENUE_COMMANDS;
 import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.BIENVENUE_MESSAGE;
 
-public class BetterBienvenue implements RegisterableCommand {
+public class BetterBienvenue implements Registerable {
     @Override
     public void register() {
         ClientSendMessageEvents.COMMAND.register((command) -> {

@@ -1,5 +1,7 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.gui;
 
+import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.TextReplacerEntry;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;

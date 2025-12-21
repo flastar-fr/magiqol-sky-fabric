@@ -1,5 +1,6 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.registerables;
 
+import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
@@ -10,11 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.*;
 
-public class AutoFlyCommand implements RegisterableCommand {
+public class AutoFly implements Registerable {
     private boolean pendingFly;
     private final ScheduledExecutorService scheduler;
 
-    public AutoFlyCommand(ScheduledExecutorService scheduler) {
+    public AutoFly(ScheduledExecutorService scheduler) {
         this.pendingFly = false;
         this.scheduler = scheduler;
     }
