@@ -26,8 +26,24 @@ public class ChatManagerConfigScreen extends Screen {
         int currentY = 20;
         int center = this.width / 2;
 
+        currentY = generateConfigCheckboxes(center, currentY);
+        currentY += 40;
+
+        addDrawableChild(new TextWidget(center - 100, currentY, 400, 20, Text.literal("Remplacements de texte"), textRenderer)).alignLeft();
+
+        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> {
+            ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
+            this.clearAndInit();
+        }).dimensions(center + 50, currentY, 60, 20).build());
+
+        currentY += 30;
+
+        generateReplacementFields(center, currentY);
+    }
+
+    private int generateConfigCheckboxes(int center, int currentY) {
         addDrawableChild(new TextWidget(center - 100, currentY, 400, 20, Text.literal("Auto Commandes"), textRenderer)).alignLeft();
-        currentY += 25;
+        currentY += 30;
 
         addDrawableChild(CheckboxWidget.builder(Text.literal("Auto-Fly"), textRenderer)
                 .pos(center - 100, currentY)
@@ -49,19 +65,11 @@ public class ChatManagerConfigScreen extends Screen {
                 .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsTextReplacementEnabled(checked))
                 .tooltip(Tooltip.of(Text.literal("Activer les textes de remplacement")))
                 .build());
-        currentY += 40;
+        return currentY;
+    }
 
-        addDrawableChild(new TextWidget(center - 100, currentY, 400, 20, Text.literal("Remplacements de texte"), textRenderer)).alignLeft();
-
-        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> {
-            ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
-            this.clearAndInit();
-        }).dimensions(center + 50, currentY, 60, 20).build());
-
-        currentY += 30;
-
+    private void generateReplacementFields(int center, int currentY) {
         List<TextReplacerEntry> entries = ChatManagerConfig.getConfig().textReplacers();
-
         for (int i = 0; i < entries.size(); i++) {
             TextReplacerEntry entry = entries.get(i);
             final int index = i;
@@ -84,8 +92,6 @@ public class ChatManagerConfigScreen extends Screen {
             }).dimensions(center + 150, currentY, 20, 20).build());
 
             currentY += 25;
-
-            if (currentY > this.height - 40) break;
         }
     }
 
