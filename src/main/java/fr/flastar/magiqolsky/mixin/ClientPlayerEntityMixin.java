@@ -1,9 +1,7 @@
 package fr.flastar.magiqolsky.mixin;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
 import fr.flastar.magiqolsky.chatmanager.registerables.AutoNightVision;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.effect.StatusEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

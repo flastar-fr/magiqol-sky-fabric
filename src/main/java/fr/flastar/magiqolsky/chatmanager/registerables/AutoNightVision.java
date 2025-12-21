@@ -34,8 +34,6 @@ public class AutoNightVision implements Registerable {
             ticksUntilRetry = -1;
         });
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            triggerRespawnDelay();
-        });
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> triggerRespawnDelay());
     }
 }
