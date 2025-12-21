@@ -1,9 +1,6 @@
 package fr.flastar.magiqolsky.chatmanager;
 
-import fr.flastar.magiqolsky.chatmanager.registerables.AutoFly;
-import fr.flastar.magiqolsky.chatmanager.registerables.BetterBienvenue;
-import fr.flastar.magiqolsky.chatmanager.registerables.Registerable;
-import fr.flastar.magiqolsky.chatmanager.registerables.TextReplacer;
+import fr.flastar.magiqolsky.chatmanager.registerables.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -21,6 +18,7 @@ public class ChatManager {
         registerables.add(new AutoFly(scheduler));
         registerables.add(new BetterBienvenue());
         registerables.add(new TextReplacer());
+        registerables.add(new AutoNightVision());
 
         for (Registerable command : registerables) {
             command.register();

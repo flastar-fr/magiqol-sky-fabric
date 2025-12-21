@@ -14,6 +14,7 @@ public class ChatManagerConfig {
     public static final String[] ISLAND_COMMANDS = {"is", "island", "is go"};
     public static final String[] BIENVENUE_COMMANDS = {"b", "bienvenue"};
     public static final String FLY_COMMAND = "fly";
+    public static final String NV_COMMAND = "nv";
 
     public static final String BIENVENUE_MESSAGE = "Bienvenue !";
 
