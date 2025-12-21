@@ -40,6 +40,9 @@ public class ChatManagerConfig {
 
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             currentConfig = GSON.fromJson(reader, ChatManagerData.class);
+            if (currentConfig != null) {
+                currentConfig.rebuildCache();
+            }
         } catch (IOException e) {
             MagiQoLSky.LOGGER.error(
                     "Échec du chargement des données du compteur de mobs depuis {}",
@@ -51,6 +54,7 @@ public class ChatManagerConfig {
     }
 
     public static void save() {
+        currentConfig.makeSavable();
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(currentConfig, writer);
         } catch (IOException e) {

@@ -10,13 +10,8 @@ import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ChatManagerConfigScreen extends Screen {
-    private static final String AUTO_FLY_TEXT = "Activer l'Auto-Fly (sur l'île uniquement)";
-    private static final String BETTER_BIENVENUE_TEXT = "Activer le better Bienvenue (envoi d'un message de Bienvenue en plus du /b)";
-
     private final Screen parent;
 
     public ChatManagerConfigScreen(Screen parent) {
@@ -26,48 +21,75 @@ public class ChatManagerConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        TextWidget autoCommandsConfigTitle = new TextWidget(this.width / 2 - 300, 15, 300, 15,
-                Text.literal("Configuration des auto commandes"),
-                this.textRenderer
-        );
-        autoCommandsConfigTitle.alignLeft();
+        int currentY = 20;
+        int center = this.width / 2;
 
-        CheckboxWidget autoFlyCheckbox = CheckboxWidget.builder(Text.literal(AUTO_FLY_TEXT), this.textRenderer)
-                .pos(this.width / 2 - 200, 30)
+        addDrawableChild(new TextWidget(center - 100, currentY, 400, 20, Text.literal("Auto Commandes"), textRenderer)).alignLeft();
+        currentY += 25;
+
+        addDrawableChild(CheckboxWidget.builder(Text.literal("Auto-Fly"), textRenderer)
+                .pos(center - 100, currentY)
                 .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
-                .callback((checkbox, checked) -> ChatManagerConfig.getConfig().changeIsAutoFlyingEnabled(checked))
-                .build();
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsAutoFlyingEnabled(checked))
+                .tooltip(Tooltip.of(Text.literal("Activer l'Auto-Fly (sur l'île uniquement)")))
+                .build());
+        currentY += 30;
+        addDrawableChild(CheckboxWidget.builder(Text.literal("Better Bienvenue"), textRenderer)
+                .pos(center - 100, currentY)
+                .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
+                .tooltip(Tooltip.of(Text.literal("Activer le better Bienvenue (envoi d'un message de Bienvenue en plus du /b)")))
+                .build());
+        currentY += 30;
+        addDrawableChild(CheckboxWidget.builder(Text.literal("Textes de remplacement"), textRenderer)
+                .pos(center - 100, currentY)
+                .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
+                .tooltip(Tooltip.of(Text.literal("Activer les textes de remplacement")))
+                .build());
+        currentY += 40;
 
-        CheckboxWidget betterBienvenueCheckbox = CheckboxWidget.builder(Text.literal(BETTER_BIENVENUE_TEXT), this.textRenderer)
-                .pos(this.width / 2 - 200, 45)
-                .checked(ChatManagerConfig.getConfig().isBetterBienvenueEnabled())
-                .callback((checkbox, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
-                .build();
+        addDrawableChild(new TextWidget(center - 100, currentY, 400, 20, Text.literal("Remplacements de texte"), textRenderer)).alignLeft();
 
-        TextWidget textReplacerConfigTitle = new TextWidget(this.width / 2 - 300, 80, 300, 15,
-                Text.literal("Configuration des textes de remplacement"),
-                this.textRenderer
-        );
-        textReplacerConfigTitle.alignLeft();
+        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> {
+            ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
+            this.clearAndInit();
+        }).dimensions(center + 50, currentY, 60, 20).build());
 
-        ButtonWidget textReplacerAdder = ButtonWidget.builder(Text.literal("+"), button -> ChatManagerConfig.getConfig().addNewTextReplacer("", ""))
-                .dimensions(width / 2, 80, 200, 15)
-                .tooltip(Tooltip.of(Text.literal("Ajouter de nouvelles cases pour les remplacements de textes")))
-                .build();
+        currentY += 30;
 
-        addDrawableChild(autoCommandsConfigTitle);
+        List<TextReplacerEntry> entries = ChatManagerConfig.getConfig().textReplacers();
 
-        addDrawableChild(autoFlyCheckbox);
-        addDrawableChild(betterBienvenueCheckbox);
+        for (int i = 0; i < entries.size(); i++) {
+            TextReplacerEntry entry = entries.get(i);
+            final int index = i;
 
-        addDrawableChild(textReplacerConfigTitle);
-        addDrawableChild(textReplacerAdder);
+            TextFieldWidget keyField = new TextFieldWidget(textRenderer, center - 160, currentY, 140, 20, Text.literal(""));
+            keyField.setText(entry.key);
+            keyField.setChangedListener(newText -> entry.key = newText);
+            keyField.setPlaceholder(Text.literal("Mot à détecter"));
+            addDrawableChild(keyField);
 
-        drawTextReplacers();
+            TextFieldWidget valField = new TextFieldWidget(textRenderer, center + 5, currentY, 140, 20, Text.literal(""));
+            valField.setText(entry.value);
+            valField.setChangedListener(newText -> entry.value = newText);
+            valField.setPlaceholder(Text.literal("Mot de remplacement"));
+            addDrawableChild(valField);
+
+            addDrawableChild(ButtonWidget.builder(Text.literal("§cX"), button -> {
+                entries.remove(index);
+                this.clearAndInit();
+            }).dimensions(center + 150, currentY, 20, 20).build());
+
+            currentY += 25;
+
+            if (currentY > this.height - 40) break;
+        }
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
     }
 
@@ -77,41 +99,5 @@ public class ChatManagerConfigScreen extends Screen {
         if (client != null) {
             client.setScreen(parent);
         }
-    }
-
-    private void drawTextReplacers() {
-        Map<String, List<String>> drawableTextReplacers = retrieveDrawableTextReplacers();
-
-        int currentY = 95;
-        for (Map.Entry<String, List<String>> entry : drawableTextReplacers.entrySet()) {
-            TextFieldWidget textToReplaceWith = new TextFieldWidget(this.textRenderer, this.width/2 - 200, currentY, 100, 20, Text.literal(entry.getKey()));
-            currentY += 15;
-            addDrawableChild(textToReplaceWith);
-            for (String textToSpot : entry.getValue()) {
-                TextFieldWidget textToSpotText = new TextFieldWidget(this.textRenderer, this.width/2, currentY, 100, 20, Text.literal(textToSpot));
-                addDrawableChild(textToSpotText);
-                currentY += 21;
-            }
-            ButtonWidget addTextToSpot = ButtonWidget.builder(Text.literal("+"), button -> ChatManagerConfig.getConfig().addNewTextReplacer("", ""))
-                    .dimensions(width/2, currentY, 100, 20)
-                    .tooltip(Tooltip.of(Text.literal("Ajouter de nouveaux textes à rajouter")))
-                    .build();
-            addDrawableChild(addTextToSpot);
-            currentY += 21;
-        }
-    }
-
-    private Map<String, List<String>> retrieveDrawableTextReplacers() {
-        Map<String, String> textReplacers = ChatManagerConfig.getConfig().textReplacers();
-
-        return transformTextReplacersToDrawable(textReplacers);
-    }
-
-    private Map<String, List<String>> transformTextReplacersToDrawable(Map<String, String> textReplacers) {
-        return textReplacers.entrySet().stream()
-                .collect(Collectors.groupingBy(
-                        Map.Entry::getValue,
-                        Collectors.mapping(Map.Entry::getKey, Collectors.toList())
-                ));
     }
 }

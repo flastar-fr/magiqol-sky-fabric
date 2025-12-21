@@ -1,17 +1,21 @@
 package fr.flastar.magiqolsky.chatmanager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChatManagerData {
     private boolean isAutoFlyingEnabled;
     private boolean isBetterBienvenueEnabled;
-    private final Map<String, String> textReplacers;
+    private final List<TextReplacerEntry> textReplacers;
+
+    private final transient Map<String, String> textReplacersCache = new HashMap<>();
 
     public ChatManagerData() {
         this.isAutoFlyingEnabled = false;
         this.isBetterBienvenueEnabled = true;
-        this.textReplacers = new HashMap<>();
+        this.textReplacers = new ArrayList<>();
     }
 
     public boolean isAutoFlyingEnabled() {
@@ -30,11 +34,30 @@ public class ChatManagerData {
         isBetterBienvenueEnabled = newValue;
     }
 
-    public Map<String, String> textReplacers() {
+    public List<TextReplacerEntry> textReplacers() {
         return textReplacers;
     }
 
-    public void addNewTextReplacer(String keyToSeek, String valueToReplaceWith) {
-        this.textReplacers.put(keyToSeek, valueToReplaceWith);
+    public void rebuildCache() {
+        textReplacersCache.clear();
+        for (TextReplacerEntry entry : textReplacers) {
+            if (entry.key != null && !entry.key.trim().isEmpty()) {
+                textReplacersCache.put(entry.key, entry.value);
+            }
+        }
+    }
+
+    public String applyReplacements(String message) {
+        if (textReplacersCache.isEmpty()) rebuildCache();
+
+        for (Map.Entry<String, String> entry : textReplacersCache.entrySet()) {
+            message = message.replace(entry.getKey(), entry.getValue());
+        }
+        return message;
+    }
+
+    public void makeSavable() {
+        textReplacers.removeIf(e -> e.key == null || e.key.trim().isEmpty() || e.value.trim().isEmpty());
+        rebuildCache();
     }
 }
