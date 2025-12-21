@@ -26,10 +26,11 @@ public class ChatManagerConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        TextWidget autoCommandsConfig = new TextWidget(this.width / 2 - 300, 15, 300, 15,
+        TextWidget autoCommandsConfigTitle = new TextWidget(this.width / 2 - 300, 15, 300, 15,
                 Text.literal("Configuration des auto commandes"),
                 this.textRenderer
         );
+        autoCommandsConfigTitle.alignLeft();
 
         CheckboxWidget autoFlyCheckbox = CheckboxWidget.builder(Text.literal(AUTO_FLY_TEXT), this.textRenderer)
                 .pos(this.width / 2 - 200, 30)
@@ -43,22 +44,23 @@ public class ChatManagerConfigScreen extends Screen {
                 .callback((checkbox, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
                 .build();
 
-        TextWidget textReplacerConfig = new TextWidget(this.width / 2 - 300, 80, 300, 15,
+        TextWidget textReplacerConfigTitle = new TextWidget(this.width / 2 - 300, 80, 300, 15,
                 Text.literal("Configuration des textes de remplacement"),
                 this.textRenderer
         );
+        textReplacerConfigTitle.alignLeft();
 
         ButtonWidget textReplacerAdder = ButtonWidget.builder(Text.literal("+"), button -> ChatManagerConfig.getConfig().addNewTextReplacer("", ""))
                 .dimensions(width / 2, 80, 200, 15)
                 .tooltip(Tooltip.of(Text.literal("Ajouter de nouvelles cases pour les remplacements de textes")))
                 .build();
 
-        addDrawableChild(autoCommandsConfig);
+        addDrawableChild(autoCommandsConfigTitle);
 
         addDrawableChild(autoFlyCheckbox);
         addDrawableChild(betterBienvenueCheckbox);
 
-        addDrawableChild(textReplacerConfig);
+        addDrawableChild(textReplacerConfigTitle);
         addDrawableChild(textReplacerAdder);
 
         drawTextReplacers();
@@ -88,14 +90,14 @@ public class ChatManagerConfigScreen extends Screen {
             for (String textToSpot : entry.getValue()) {
                 TextFieldWidget textToSpotText = new TextFieldWidget(this.textRenderer, this.width/2, currentY, 100, 20, Text.literal(textToSpot));
                 addDrawableChild(textToSpotText);
-                currentY += 20;
+                currentY += 21;
             }
             ButtonWidget addTextToSpot = ButtonWidget.builder(Text.literal("+"), button -> ChatManagerConfig.getConfig().addNewTextReplacer("", ""))
                     .dimensions(width/2, currentY, 100, 20)
                     .tooltip(Tooltip.of(Text.literal("Ajouter de nouveaux textes à rajouter")))
                     .build();
             addDrawableChild(addTextToSpot);
-            currentY += 20;
+            currentY += 21;
         }
     }
 
