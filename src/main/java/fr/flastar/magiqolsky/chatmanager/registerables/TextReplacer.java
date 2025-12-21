@@ -5,9 +5,16 @@ import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
 
 public class TextReplacer implements Registerable {
+    private boolean hasBeenChanged = false;
+
     @Override
     public void register() {
         ClientSendMessageEvents.ALLOW_CHAT.register((message) -> {
+            if (hasBeenChanged) {
+                hasBeenChanged = false;
+                return true;
+            }
+
             if (!ChatManagerConfig.getConfig().isTextReplacementEnabled()) {
                 return true;
             }
@@ -22,6 +29,7 @@ public class TextReplacer implements Registerable {
             if (client.player == null) {
                 return true;
             }
+            hasBeenChanged = true;
             client.player.networkHandler.sendChatMessage(newMessage);
 
             return false;

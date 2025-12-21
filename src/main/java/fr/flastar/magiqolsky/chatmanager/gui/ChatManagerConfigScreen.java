@@ -50,13 +50,15 @@ public class ChatManagerConfigScreen extends Screen {
         Text txt1 = Text.literal("Auto-Fly");
         Text txt2 = Text.literal("Better Bienvenue");
         Text txt3 = Text.literal("Remplacement");
+        Text txt4 = Text.literal("Auto vision nocturne");
 
         int w1 = 24 + textRenderer.getWidth(txt1);
         int w2 = 24 + textRenderer.getWidth(txt2);
         int w3 = 24 + textRenderer.getWidth(txt3);
+        int w4 = 24 + textRenderer.getWidth(txt4);
 
         int spacing = 20;
-        int totalWidth = w1 + w2 + w3 + (spacing * 2);
+        int totalWidth = w1 + w2 + w3 + w4 + (spacing * 3);
         int startX = center - (totalWidth / 2);
 
         addDrawableChild(CheckboxWidget.builder(txt1, textRenderer)
@@ -76,6 +78,12 @@ public class ChatManagerConfigScreen extends Screen {
                 .checked(ChatManagerConfig.getConfig().isTextReplacementEnabled())
                 .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsTextReplacementEnabled(checked))
                 .tooltip(Tooltip.of(Text.literal("Activer les textes de remplacement")))
+                .build());
+        addDrawableChild(CheckboxWidget.builder(txt4, textRenderer)
+                .pos(startX + w1 + w2 + w3 + (spacing * 3), currentY)
+                .checked(ChatManagerConfig.getConfig().isAutoNightVisionEnabled())
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsAutoNightVisionEnabled(checked))
+                .tooltip(Tooltip.of(Text.literal("Activer night vision à la mort")))
                 .build());
     }
 
