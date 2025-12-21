@@ -32,7 +32,7 @@ public class ChatManagerConfigScreen extends Screen {
 
         currentY += 30;
 
-        addDrawableChild(new TextWidget(center - 200, currentY, 200, 20, Text.literal("Paramètres Généraux"), textRenderer));
+        addDrawableChild(new TextWidget(center - 200, currentY, 200, 20, Text.literal("Texte de remplacement"), textRenderer));
 
         addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> {
             ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
