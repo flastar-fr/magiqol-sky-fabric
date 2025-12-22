@@ -1,60 +1,234 @@
-{
-  ":happy:": ":heureux:",
-  ":sad:": ":triste:",
-  ":very_happy:": ":tres_heureux:",
-  ":wink:": ":clindoeil:",
-  ":cry:": ":pleure:",
-  ":heart:": ":coeur:",
-  ":upside_down:": ":retourne:",
-  ":no_mouth:": ":muet:",
-  ":purple_heart:": ":coeur_violet:",
-  "laughing:": ":rire:",
-  ":eyes:": ":yeux:",
-  ":angry:": ":colere:",
-  ":orange_heart:": ":coeur_orange:",
-  ":vomiting:": ":vomis:",
-  ":glasses:": ":lunettes:",
-  ":heart_eyes:": ":yeux_coeur:",
-  ":smirk:": ":malicieux:",
-  ":green_heart:": ":coeur_vert:",
-  ":hot:": ":chaud:",
-  ":evil:": ":demon:",
-  ":sun_glasses:": ":lunettes_soleil:",
-  ":tongue:": ":langue:",
-  ":golden_heart:": ":coeur_or:",
-  ":check:": ":v:",
-  ":cross:": ":x:",
-  ":interrogation:": ":question:",
-  ":thumbsup:": ":pouce_haut:",
-  ":thumbsdown:": ":pouce_bas:",
-  ":warning:": ":danger:",
-  ":golden_check:": ":v_or:",
-  ":golden_cross:": ":x_or:",
-  ":pig:": ":cochon:",
-  ":skull:": ":crane:",
-  ":unicorn:": ":licorne:",
-  ":grey_gift:": ":cadeau_gris:",
-  ":blue_gift:": ":cadeau_bleu:",
-  ":purple_gift:": ":cadeau_violet:",
-  ":blue_ball:": ":boule_bleue:",
-  ":green_ball:": ":boule_verte:",
-  ":red_ball:": ":boule_rouge:",
-  ":spruce:": ":sapin:",
-  ":sock:": ":chaussette:",
-  ":christmas_hat:": ":bonnet_noel:",
-  ":teddy_bear:": ":ours_peluche:",
-  ":candy_cane:": ":sucredorge:",
-  ":christmas_tree:": ":sapin_noel:",
-  ":mrs_claus:": ":pere_noel:",
-  ":golden_candy_cane:": ":sucredorge_dore:",
-  ":golden_mrs_claus:": ":pere_noel_dore:",
-  ":elf:": ":lutin:",
-  ":hot_chocolate:": ":chocolat_chaud:",
-  ":christmas_wreath:": ":couronne_noel:",
-  ":gingerbread:": ":biscuit:",
-  ":golden_ball:": ":boule_doree:",
-  ":star:": ":etoile:",
-  ":frozen:": ":gele:",
-  ":white_bear:": ":ours_blanc:",
-  ":reindeer:": ":renne:"
-}
+[
+  {
+    "key": ":happy:",
+    "value": ":heureux:"
+  },
+  {
+    "key": ":sad:",
+    "value": ":triste:"
+  },
+  {
+    "key": ":very_happy:",
+    "value": ":tres_heureux:"
+  },
+  {
+    "key": ":wink:",
+    "value": ":clindoeil:"
+  },
+  {
+    "key": ":cry:",
+    "value": ":pleure:"
+  },
+  {
+    "key": ":heart:",
+    "value": ":coeur:"
+  },
+  {
+    "key": ":upside_down:",
+    "value": ":retourne:"
+  },
+  {
+    "key": ":no_mouth:",
+    "value": ":muet:"
+  },
+  {
+    "key": ":purple_heart:",
+    "value": ":coeur_violet:"
+  },
+  {
+    "key": "laughing:",
+    "value": ":rire:"
+  },
+  {
+    "key": ":eyes:",
+    "value": ":yeux:"
+  },
+  {
+    "key": ":angry:",
+    "value": ":colere:"
+  },
+  {
+    "key": ":orange_heart:",
+    "value": ":coeur_orange:"
+  },
+  {
+    "key": ":vomiting:",
+    "value": ":vomis:"
+  },
+  {
+    "key": ":glasses:",
+    "value": ":lunettes:"
+  },
+  {
+    "key": ":heart_eyes:",
+    "value": ":yeux_coeur:"
+  },
+  {
+    "key": ":smirk:",
+    "value": ":malicieux:"
+  },
+  {
+    "key": ":green_heart:",
+    "value": ":coeur_vert:"
+  },
+  {
+    "key": ":hot:",
+    "value": ":chaud:"
+  },
+  {
+    "key": ":evil:",
+    "value": ":demon:"
+  },
+  {
+    "key": ":sun_glasses:",
+    "value": ":lunettes_soleil:"
+  },
+  {
+    "key": ":tongue:",
+    "value": ":langue:"
+  },
+  {
+    "key": ":golden_heart:",
+    "value": ":coeur_or:"
+  },
+  {
+    "key": ":check:",
+    "value": ":v:"
+  },
+  {
+    "key": ":cross:",
+    "value": ":x:"
+  },
+  {
+    "key": ":interrogation:",
+    "value": ":question:"
+  },
+  {
+    "key": ":thumbsup:",
+    "value": ":pouce_haut:"
+  },
+  {
+    "key": ":thumbsdown:",
+    "value": ":pouce_bas:"
+  },
+  {
+    "key": ":warning:",
+    "value": ":danger:"
+  },
+  {
+    "key": ":golden_check:",
+    "value": ":v_or:"
+  },
+  {
+    "key": ":golden_cross:",
+    "value": ":x_or:"
+  },
+  {
+    "key": ":pig:",
+    "value": ":cochon:"
+  },
+  {
+    "key": ":skull:",
+    "value": ":crane:"
+  },
+  {
+    "key": ":unicorn:",
+    "value": ":licorne:"
+  },
+  {
+    "key": ":grey_gift:",
+    "value": ":cadeau_gris:"
+  },
+  {
+    "key": ":blue_gift:",
+    "value": ":cadeau_bleu:"
+  },
+  {
+    "key": ":purple_gift:",
+    "value": ":cadeau_violet:"
+  },
+  {
+    "key": ":blue_ball:",
+    "value": ":boule_bleue:"
+  },
+  {
+    "key": ":green_ball:",
+    "value": ":boule_verte:"
+  },
+  {
+    "key": ":red_ball:",
+    "value": ":boule_rouge:"
+  },
+  {
+    "key": ":spruce:",
+    "value": ":sapin:"
+  },
+  {
+    "key": ":sock:",
+    "value": ":chaussette:"
+  },
+  {
+    "key": ":christmas_hat:",
+    "value": ":bonnet_noel:"
+  },
+  {
+    "key": ":teddy_bear:",
+    "value": ":ours_peluche:"
+  },
+  {
+    "key": ":candy_cane:",
+    "value": ":sucredorge:"
+  },
+  {
+    "key": ":christmas_tree:",
+    "value": ":sapin_noel:"
+  },
+  {
+    "key": ":mrs_claus:",
+    "value": ":pere_noel:"
+  },
+  {
+    "key": ":golden_candy_cane:",
+    "value": ":sucredorge_dore:"
+  },
+  {
+    "key": ":golden_mrs_claus:",
+    "value": ":pere_noel_dore:"
+  },
+  {
+    "key": ":elf:",
+    "value": ":lutin:"
+  },
+  {
+    "key": ":hot_chocolate:",
+    "value": ":chocolat_chaud:"
+  },
+  {
+    "key": ":christmas_wreath:",
+    "value": ":couronne_noel:"
+  },
+  {
+    "key": ":gingerbread:",
+    "value": ":biscuit:"
+  },
+  {
+    "key": ":golden_ball:",
+    "value": ":boule_doree:"
+  },
+  {
+    "key": ":star:",
+    "value": ":etoile:"
+  },
+  {
+    "key": ":frozen:",
+    "value": ":gele:"
+  },
+  {
+    "key": ":white_bear:",
+    "value": ":ours_blanc:"
+  },
+  {
+    "key": ":reindeer:",
+    "value": ":renne:"
+  }
+]
