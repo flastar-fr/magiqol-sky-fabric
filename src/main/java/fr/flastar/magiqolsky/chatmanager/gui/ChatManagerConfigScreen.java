@@ -23,6 +23,7 @@ public class ChatManagerConfigScreen extends Screen {
 
     @Override
     protected void init() {
+        messageHourFormat = ChatManagerConfig.getConfig().messageHourFormat();
         int center = this.width / 2;
 
         int currentY = 10;
@@ -118,7 +119,8 @@ public class ChatManagerConfigScreen extends Screen {
 
     @Override
     public void close() {
-        ChatManagerConfig.getConfig().changeMessageHourFormat(messageHourFormat);
+        if (messageHourFormat != null)
+            ChatManagerConfig.getConfig().changeMessageHourFormat(messageHourFormat);
         ChatManagerConfig.save();
         if (this.client != null) {
             this.client.setScreen(parent);
