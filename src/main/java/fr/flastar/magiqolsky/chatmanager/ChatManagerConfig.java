@@ -18,7 +18,7 @@ public class ChatManagerConfig {
 
     public static final String BIENVENUE_MESSAGE = "Bienvenue !";
 
-    public static final int TIMEOUT_DELAY = 500;
+    public static final int TIMEOUT_DELAY = 750;
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("magiqolsky_autocommand_config.json").toFile();
