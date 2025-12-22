@@ -1,9 +1,15 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
+import com.mojang.brigadier.CommandDispatcher;
 import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.effect.StatusEffects;
+
+import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
 public class AutoNightVision implements Registerable {
     private final static int TICK_PER_SECOND = 20;
@@ -20,7 +26,8 @@ public class AutoNightVision implements Registerable {
             if (client.player == null ||
                     ticksUntilRetry < 0 ||
                     !ChatManagerConfig.getConfig().isAutoNightVisionEnabled() ||
-                    client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) return;
+                    client.player.hasStatusEffect(StatusEffects.NIGHT_VISION) ||
+                    !isCommandAvailable(ChatManagerConfig.NV_COMMAND)) return;
 
             if (ticksUntilRetry > 0) {
                 ticksUntilRetry--;
