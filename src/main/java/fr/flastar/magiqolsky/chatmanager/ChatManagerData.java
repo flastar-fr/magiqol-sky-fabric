@@ -15,13 +15,17 @@ public class ChatManagerData {
 
     private final transient Map<String, String> textReplacersCache = new HashMap<>();
 
-    public ChatManagerData() {
+    public ChatManagerData(List<TextReplacerEntry> textReplacers) {
         this.isAutoFlyingEnabled = false;
         this.isBetterBienvenueEnabled = true;
         this.isTextReplacementEnabled = true;
         this.isAutoNightVisionEnabled = false;
         this.isMessageHourEnabled = true;
-        this.textReplacers = new ArrayList<>();
+        this.textReplacers = textReplacers;
+    }
+
+    public ChatManagerData() {
+        this(new ArrayList<>());
     }
 
     public boolean isAutoFlyingEnabled() {
