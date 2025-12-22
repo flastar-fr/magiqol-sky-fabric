@@ -12,6 +12,6 @@ public class ClientPlayerEntityMixin {
 
     @Inject(method = "requestRespawn", at = @At("TAIL"))
     private void onRespawn(CallbackInfo ci) {
-        AutoNightVision.triggerRespawnDelay();
+        AutoNightVision.triggerRespawn();
     }
 }

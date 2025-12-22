@@ -1,42 +1,48 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
 import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
 
 import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
 public class AutoNightVision implements Registerable {
-    private final static int TICK_PER_SECOND = 20;
+    private static boolean pendingNightVision = false;
 
-    private static int ticksUntilRetry = -1;
-
-    public static void triggerRespawnDelay() {
-        ticksUntilRetry = TICK_PER_SECOND;
+    public static void triggerRespawn() {
+        pendingNightVision = true;
     }
 
     @Override
     public void register() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.player == null ||
-                    ticksUntilRetry < 0 ||
-                    !ChatManagerConfig.getConfig().isAutoNightVisionEnabled() ||
-                    client.player.hasStatusEffect(StatusEffects.NIGHT_VISION) ||
-                    !isCommandAvailable(ChatManagerConfig.NV_COMMAND)) return;
+        ClientEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+            if (entity instanceof ClientPlayerEntity player && player.isMainPlayer()) {
+                triggerRespawn();
+            }
+        });
 
-            if (ticksUntilRetry > 0) {
-                ticksUntilRetry--;
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> triggerRespawn());
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (!pendingNightVision || client.player == null) return;
+
+            if (!isCommandAvailable(ChatManagerConfig.NV_COMMAND)) {
+                return;
+            }
+
+            if (!ChatManagerConfig.getConfig().isAutoNightVisionEnabled() ||
+                    client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
+                pendingNightVision = false;
                 return;
             }
 
             if (client.player.networkHandler != null) {
                 client.player.networkHandler.sendCommand(ChatManagerConfig.NV_COMMAND);
+                pendingNightVision = false;
             }
-
-            ticksUntilRetry = -1;
         });
-
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> triggerRespawnDelay());
     }
 }
