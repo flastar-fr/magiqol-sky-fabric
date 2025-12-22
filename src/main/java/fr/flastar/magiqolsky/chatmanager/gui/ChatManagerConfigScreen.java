@@ -51,14 +51,16 @@ public class ChatManagerConfigScreen extends Screen {
         Text txt2 = Text.literal("Better Bienvenue");
         Text txt3 = Text.literal("Remplacement");
         Text txt4 = Text.literal("Auto vision nocturne");
+        Text txt5 = Text.literal("Heure des messages");
 
         int w1 = 24 + textRenderer.getWidth(txt1);
         int w2 = 24 + textRenderer.getWidth(txt2);
         int w3 = 24 + textRenderer.getWidth(txt3);
         int w4 = 24 + textRenderer.getWidth(txt4);
+        int w5 = 24 + textRenderer.getWidth(txt5);
 
         int spacing = 20;
-        int totalWidth = w1 + w2 + w3 + w4 + (spacing * 3);
+        int totalWidth = w1 + w2 + w3 + w4 + w5 + (spacing * 4);
         int startX = center - (totalWidth / 2);
 
         addDrawableChild(CheckboxWidget.builder(txt1, textRenderer)
@@ -84,6 +86,12 @@ public class ChatManagerConfigScreen extends Screen {
                 .checked(ChatManagerConfig.getConfig().isAutoNightVisionEnabled())
                 .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsAutoNightVisionEnabled(checked))
                 .tooltip(Tooltip.of(Text.literal("Activer night vision à la mort")))
+                .build());
+        addDrawableChild(CheckboxWidget.builder(txt5, textRenderer)
+                .pos(startX + w1 + w2 + w3 + w4 + (spacing * 4), currentY)
+                .checked(ChatManagerConfig.getConfig().isMessageHourEnabled())
+                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsMessageHourEnabled(checked))
+                .tooltip(Tooltip.of(Text.literal("Activer l'heure des messages")))
                 .build());
     }
 

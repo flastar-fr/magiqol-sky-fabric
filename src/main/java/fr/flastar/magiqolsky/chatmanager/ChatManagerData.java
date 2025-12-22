@@ -10,6 +10,7 @@ public class ChatManagerData {
     private boolean isBetterBienvenueEnabled;
     private boolean isTextReplacementEnabled;
     private boolean isAutoNightVisionEnabled;
+    private boolean isMessageHourEnabled;
     private final List<TextReplacerEntry> textReplacers;
 
     private final transient Map<String, String> textReplacersCache = new HashMap<>();
@@ -19,6 +20,7 @@ public class ChatManagerData {
         this.isBetterBienvenueEnabled = true;
         this.isTextReplacementEnabled = true;
         this.isAutoNightVisionEnabled = false;
+        this.isMessageHourEnabled = true;
         this.textReplacers = new ArrayList<>();
     }
 
@@ -52,6 +54,14 @@ public class ChatManagerData {
 
     public void changeIsAutoNightVisionEnabled(boolean newValue) {
         isAutoNightVisionEnabled = newValue;
+    }
+
+    public boolean isMessageHourEnabled() {
+        return isMessageHourEnabled;
+    }
+
+    public void changeIsMessageHourEnabled(boolean newValue) {
+        isMessageHourEnabled = newValue;
     }
 
     public List<TextReplacerEntry> textReplacers() {

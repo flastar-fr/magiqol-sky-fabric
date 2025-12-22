@@ -13,6 +13,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "ChatHudMixin",
     "ClientPlayerEntityMixin",
     "ContainerValueMixin",
     "accessors.HandledScreenAccessor"
