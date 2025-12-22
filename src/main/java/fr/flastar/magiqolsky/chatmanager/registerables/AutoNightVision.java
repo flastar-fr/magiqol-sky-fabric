@@ -1,12 +1,8 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
-import com.mojang.brigadier.CommandDispatcher;
 import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.command.CommandSource;
 import net.minecraft.entity.effect.StatusEffects;
 
 import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
