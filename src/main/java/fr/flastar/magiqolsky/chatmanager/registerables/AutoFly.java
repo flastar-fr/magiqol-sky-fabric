@@ -1,9 +1,8 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
 import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.minecraft.client.MinecraftClient;
 
 import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,16 +27,23 @@ public class AutoFly implements Registerable {
             }
         });
 
-        ClientEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (!pendingFly || client.player == null) return;
+
             if (!ChatManagerConfig.getConfig().isAutoFlyingEnabled()) {
                 pendingFly = false;
                 return;
             }
-            MinecraftClient client = MinecraftClient.getInstance();
-            if (pendingFly && entity == client.player && client.player != null && !client.player.getAbilities().flying) {
-                scheduler.schedule(() -> client.execute(() -> client.player.networkHandler.sendCommand(FLY_COMMAND)), TIMEOUT_DELAY, TimeUnit.MILLISECONDS);
+
+            if (client.player.isAlive() && !client.player.getAbilities().flying) {
+                scheduler.schedule(() -> client.execute(() -> {
+                    if (client.player != null && client.player.networkHandler != null) {
+                        client.player.networkHandler.sendCommand(FLY_COMMAND);
+                    }
+                }), TIMEOUT_DELAY, TimeUnit.MILLISECONDS);
+
+                pendingFly = false;
             }
-            pendingFly = false;
         });
     }
 }
