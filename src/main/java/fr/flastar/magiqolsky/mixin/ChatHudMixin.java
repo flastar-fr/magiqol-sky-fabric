@@ -19,13 +19,14 @@ public class ChatHudMixin {
         argsOnly = true
     )
     private Text addHourToMessage(Text message) {
+        String hourFormat = ChatManagerConfig.getConfig().messageHourFormat();
         if (!ChatManagerConfig.getConfig().isMessageHourEnabled()) {
             return message;
         }
 
-        String timestamp = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String timestamp = LocalTime.now().format(DateTimeFormatter.ofPattern(hourFormat));
 
-        Text timeText = Text.literal("[" + timestamp + "] ")
+        Text timeText = Text.literal(timestamp + " ")
                             .formatted(net.minecraft.util.Formatting.GRAY);
 
         return Text.empty().append(timeText).append(message);

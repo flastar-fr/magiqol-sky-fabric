@@ -9,6 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.*;
+import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
 public class AutoFly implements Registerable {
     private boolean pendingFly;
@@ -29,9 +30,13 @@ public class AutoFly implements Registerable {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (!pendingFly || client.player == null) return;
+            pendingFly = false;
+
+            if (!isCommandAvailable(FLY_COMMAND)) {
+                return;
+            }
 
             if (!ChatManagerConfig.getConfig().isAutoFlyingEnabled()) {
-                pendingFly = false;
                 return;
             }
 
@@ -42,7 +47,6 @@ public class AutoFly implements Registerable {
                     }
                 }), TIMEOUT_DELAY, TimeUnit.MILLISECONDS);
 
-                pendingFly = false;
             }
         });
     }

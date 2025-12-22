@@ -11,17 +11,26 @@ public class ChatManagerData {
     private boolean isTextReplacementEnabled;
     private boolean isAutoNightVisionEnabled;
     private boolean isMessageHourEnabled;
+
+    private String messageHourFormat;
+
     private final List<TextReplacerEntry> textReplacers;
 
     private final transient Map<String, String> textReplacersCache = new HashMap<>();
 
-    public ChatManagerData() {
+    public ChatManagerData(List<TextReplacerEntry> textReplacers) {
         this.isAutoFlyingEnabled = false;
         this.isBetterBienvenueEnabled = true;
         this.isTextReplacementEnabled = true;
         this.isAutoNightVisionEnabled = false;
         this.isMessageHourEnabled = true;
-        this.textReplacers = new ArrayList<>();
+        this.messageHourFormat = "'['HH:mm:ss']'";
+
+        this.textReplacers = textReplacers;
+    }
+
+    public ChatManagerData() {
+        this(new ArrayList<>());
     }
 
     public boolean isAutoFlyingEnabled() {
@@ -62,6 +71,14 @@ public class ChatManagerData {
 
     public void changeIsMessageHourEnabled(boolean newValue) {
         isMessageHourEnabled = newValue;
+    }
+
+    public String messageHourFormat() {
+        return messageHourFormat;
+    }
+
+    public void changeMessageHourFormat(String newValue) {
+        messageHourFormat = newValue;
     }
 
     public List<TextReplacerEntry> textReplacers() {

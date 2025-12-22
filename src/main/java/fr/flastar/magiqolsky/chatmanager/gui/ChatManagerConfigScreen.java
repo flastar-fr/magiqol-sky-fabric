@@ -7,12 +7,14 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CheckboxWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
 public class ChatManagerConfigScreen extends Screen {
     private final Screen parent;
     private ReplacementListWidget list;
+    private String messageHourFormat;
 
     public ChatManagerConfigScreen(Screen parent) {
         super(Text.literal("Configuration Chat"));
@@ -30,6 +32,15 @@ public class ChatManagerConfigScreen extends Screen {
 
         drawCheckboxesConfig(center, currentY);
 
+        if (ChatManagerConfig.getConfig().isMessageHourEnabled()) {
+            currentY += 30;
+            TextFieldWidget hourFormatTextField = new TextFieldWidget(textRenderer, center - 70, currentY, 140, 20, Text.empty());
+            hourFormatTextField.setText(ChatManagerConfig.getConfig().messageHourFormat());
+            hourFormatTextField.setTooltip(Tooltip.of(Text.literal("Vous permet de choisir le format de l'heure des messages (voir https://docs.oracle.com/en/java/javase/21/docs/api//java.base/java/time/format/DateTimeFormatter.html#patterns pour plus de détails)")));
+            hourFormatTextField.setChangedListener(s -> messageHourFormat = s);
+            addDrawableChild(hourFormatTextField);
+        }
+
         currentY += 30;
 
         addDrawableChild(new TextWidget(center - 200, currentY, 200, 20, Text.literal("Texte de remplacement"), textRenderer));
@@ -39,7 +50,8 @@ public class ChatManagerConfigScreen extends Screen {
             list.refreshEntries();
         }).dimensions(center - 13, currentY, 140, 20).build());
 
-        list = new ReplacementListWidget(client, this.width, this.height - 135, 95, 25);
+        int yReplacementList = ChatManagerConfig.getConfig().isMessageHourEnabled() ? this.height - 165 : this.height - 135;
+        list = new ReplacementListWidget(client, this.width, yReplacementList, currentY + 30, 25);
         addSelectableChild(list);
 
         addDrawableChild(ButtonWidget.builder(Text.literal("Retour et Sauvegarder"), button -> close())
@@ -90,7 +102,10 @@ public class ChatManagerConfigScreen extends Screen {
         addDrawableChild(CheckboxWidget.builder(txt5, textRenderer)
                 .pos(startX + w1 + w2 + w3 + w4 + (spacing * 4), currentY)
                 .checked(ChatManagerConfig.getConfig().isMessageHourEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsMessageHourEnabled(checked))
+                .callback((cb, checked) -> {
+                    ChatManagerConfig.getConfig().changeIsMessageHourEnabled(checked);
+                    clearAndInit();
+                })
                 .tooltip(Tooltip.of(Text.literal("Activer l'heure des messages")))
                 .build());
     }
@@ -103,6 +118,7 @@ public class ChatManagerConfigScreen extends Screen {
 
     @Override
     public void close() {
+        ChatManagerConfig.getConfig().changeMessageHourFormat(messageHourFormat);
         ChatManagerConfig.save();
         if (this.client != null) {
             this.client.setScreen(parent);
