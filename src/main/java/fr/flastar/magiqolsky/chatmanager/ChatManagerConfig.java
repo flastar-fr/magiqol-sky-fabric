@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Language; // Ajouté
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -38,6 +39,8 @@ public class ChatManagerConfig {
     }
 
     public synchronized static void load() {
+        Language lang = Language.getInstance();
+
         if (!CONFIG_FILE.exists()) {
             List<TextReplacerEntry> textReplacers = loadDefaultEmoji();
             currentConfig = new ChatManagerData(textReplacers);
@@ -51,49 +54,43 @@ public class ChatManagerConfig {
                 currentConfig.rebuildCache();
             }
         } catch (IOException e) {
-            MagiQoLSky.LOGGER.error(
-                    "Échec du chargement des données du compteur de mobs depuis {}",
-                    CONFIG_FILE,
-                    e
-            );
+            String errorMsg = String.format(lang.get("log.magiqol-sky.chat.load_error"), CONFIG_FILE.getName());
+            MagiQoLSky.LOGGER.error(errorMsg, e);
             currentConfig = new ChatManagerData();
         }
     }
 
     private synchronized static List<TextReplacerEntry> loadDefaultEmoji() {
+        Language lang = Language.getInstance();
+
         try (InputStream inputStream = new URI(JSON_DEFAULT_PATH).toURL().openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
 
             Type type = new TypeToken<List<TextReplacerEntry>>() {}.getType();
             List<TextReplacerEntry> emoji = GSON.fromJson(reader, type);
 
-            MagiQoLSky.LOGGER.info("Configuration par défaut des emoji chargée");
+            MagiQoLSky.LOGGER.info(lang.get("log.magiqol-sky.chat.emoji_loaded"));
 
             return emoji;
 
         } catch (IOException e) {
-            MagiQoLSky.LOGGER.error(
-                    "Échec du chargement de la configuration par défaut avec des emoji depuis {}",
-                    JSON_DEFAULT_PATH,
-                    e
-            );
+            String errorMsg = String.format(lang.get("log.magiqol-sky.chat.emoji_error"), JSON_DEFAULT_PATH);
+            MagiQoLSky.LOGGER.error(errorMsg, e);
         } catch (URISyntaxException e) {
-            MagiQoLSky.LOGGER.error("Erreur de syntaxe dans l'URL des emoji par défaut", e);
+            MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.chat.url_error"), e);
         }
 
         return new ArrayList<>();
     }
 
     public static void save() {
+        Language lang = Language.getInstance();
         currentConfig.makeSavable();
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(currentConfig, writer);
         } catch (IOException e) {
-            MagiQoLSky.LOGGER.error(
-                    "Échec de la sauvegarde des données du compteur de mobs depuis {}",
-                    CONFIG_FILE,
-                    e
-            );
+            String errorMsg = String.format(lang.get("log.magiqol-sky.chat.save_error"), CONFIG_FILE.getName());
+            MagiQoLSky.LOGGER.error(errorMsg, e);
         }
     }
 }

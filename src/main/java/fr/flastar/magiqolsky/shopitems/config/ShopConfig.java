@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.shopitems.model.ShopItem;
+import net.minecraft.util.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ public class ShopConfig {
 
     private void loadConfig() {
         String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/items.json";
+        Language lang = Language.getInstance();
 
         try (InputStream inputStream = new URI(jsonUrl).toURL().openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
@@ -44,7 +46,7 @@ public class ShopConfig {
             List<ShopItem> items = GSON.fromJson(reader, type);
 
             if (items == null || items.isEmpty()) {
-                MagiQoLSky.LOGGER.error("Aucun item trouvé dans la configuration du shop");
+                MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.shop.no_items"));
                 return;
             }
 
@@ -52,16 +54,14 @@ public class ShopConfig {
                 shopItems.put(item.getId(), item.getSell());
             }
 
-            MagiQoLSky.LOGGER.info("Configuration du shop chargée ({} items)", shopItems.size());
+            String loadedMsg = String.format(lang.get("log.magiqol-sky.shop.loaded"), shopItems.size());
+            MagiQoLSky.LOGGER.info(loadedMsg);
 
         } catch (IOException e) {
-            MagiQoLSky.LOGGER.error(
-                    "Échec du chargement de la configuration du shop depuis {}",
-                    jsonUrl,
-                    e
-            );
+            String errorMsg = String.format(lang.get("log.magiqol-sky.shop.error"), jsonUrl);
+            MagiQoLSky.LOGGER.error(errorMsg, e);
         } catch (URISyntaxException e) {
-            MagiQoLSky.LOGGER.error("Erreur de syntaxe dans l'URL du shop", e);
+            MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.shop.url_error"), e);
         }
     }
 
