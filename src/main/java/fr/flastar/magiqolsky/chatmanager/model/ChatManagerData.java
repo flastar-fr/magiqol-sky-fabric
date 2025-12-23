@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

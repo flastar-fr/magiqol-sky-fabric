@@ -1,5 +1,6 @@
 package fr.flastar.magiqolsky.chatmanager;
 
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import fr.flastar.magiqolsky.chatmanager.registerables.*;
 
 import java.util.ArrayList;

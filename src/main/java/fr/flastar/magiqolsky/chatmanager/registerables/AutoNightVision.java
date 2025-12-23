@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;

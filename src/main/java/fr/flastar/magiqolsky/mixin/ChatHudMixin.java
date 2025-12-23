@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.mixin;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

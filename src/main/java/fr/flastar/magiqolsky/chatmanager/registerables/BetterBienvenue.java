@@ -1,13 +1,13 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.Arrays;
 
-import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.BIENVENUE_COMMANDS;
-import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.BIENVENUE_MESSAGE;
+import static fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig.BIENVENUE_COMMANDS;
+import static fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig.BIENVENUE_MESSAGE;
 
 public class BetterBienvenue implements Registerable {
     @Override

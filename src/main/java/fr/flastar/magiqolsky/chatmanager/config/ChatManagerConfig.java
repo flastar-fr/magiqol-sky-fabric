@@ -1,9 +1,11 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
+import fr.flastar.magiqolsky.chatmanager.model.ChatManagerData;
+import fr.flastar.magiqolsky.chatmanager.model.TextReplacerEntry;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.*;

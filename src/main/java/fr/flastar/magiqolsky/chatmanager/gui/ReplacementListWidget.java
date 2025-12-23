@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky.chatmanager.gui;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
-import fr.flastar.magiqolsky.chatmanager.TextReplacerEntry;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.model.TextReplacerEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;

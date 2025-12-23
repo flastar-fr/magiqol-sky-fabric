@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
 

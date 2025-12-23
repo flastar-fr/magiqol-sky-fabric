@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
-import fr.flastar.magiqolsky.chatmanager.ChatManagerConfig;
+import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static fr.flastar.magiqolsky.chatmanager.ChatManagerConfig.*;
+import static fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig.*;
 import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
 public class AutoFly implements Registerable {

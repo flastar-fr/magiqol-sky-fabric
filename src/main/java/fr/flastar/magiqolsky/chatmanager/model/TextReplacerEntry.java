@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.chatmanager;
+package fr.flastar.magiqolsky.chatmanager.model;
 
 public class TextReplacerEntry {
     public String key;
