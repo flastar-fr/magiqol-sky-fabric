@@ -35,11 +35,6 @@ public class ChatManagerConfigScreen extends Screen {
 
         if (ChatManagerConfig.getConfig().isMessageHourEnabled()) {
             currentY += 30;
-            TextFieldWidget hourFormatTextField = new TextFieldWidget(textRenderer, center - 70, currentY, 140, 20, Text.empty());
-            hourFormatTextField.setText(ChatManagerConfig.getConfig().messageHourFormat());
-            hourFormatTextField.setTooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourformat")));
-            hourFormatTextField.setChangedListener(s -> messageHourFormat = s);
-            addDrawableChild(hourFormatTextField);
         }
 
         currentY += 30;
@@ -112,6 +107,15 @@ public class ChatManagerConfigScreen extends Screen {
                 })
                 .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourmessages")))
                 .build());
+
+        if (ChatManagerConfig.getConfig().isMessageHourEnabled()) {
+            currentY += 30;
+            TextFieldWidget hourFormatTextField = new TextFieldWidget(textRenderer, startX + w1 + w2 + w3 + w4 + (spacing * 4), currentY, 140, 20, Text.empty());
+            hourFormatTextField.setText(ChatManagerConfig.getConfig().messageHourFormat());
+            hourFormatTextField.setTooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourformat")));
+            hourFormatTextField.setChangedListener(s -> messageHourFormat = s);
+            addDrawableChild(hourFormatTextField);
+        }
     }
 
     @Override
