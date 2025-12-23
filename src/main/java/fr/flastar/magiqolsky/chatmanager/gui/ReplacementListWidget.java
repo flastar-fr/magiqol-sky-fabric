@@ -69,10 +69,10 @@ public class ReplacementListWidget extends ElementListWidget<ReplacementListWidg
         public void render(DrawContext context, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
             keyField.setX(x);
             keyField.setY(y);
-            keyField.setPlaceholder(Text.literal("Mot à détecter"));
+            keyField.setPlaceholder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtodetect"));
             valField.setX(x + 145);
             valField.setY(y);
-            valField.setPlaceholder(Text.literal("Mot de remplacement"));
+            valField.setPlaceholder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtoreplacewith"));
             deleteBtn.setX(x + 290);
             deleteBtn.setY(y);
 
