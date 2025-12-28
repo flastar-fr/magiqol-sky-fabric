@@ -2,33 +2,42 @@ package fr.flastar.magiqolsky.utils;
 
 import net.minecraft.client.MinecraftClient;
 
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 public class FloatToString {
+    public static String convertDecimalFloatToString(float f, int precision) {
+        Locale clientLocale = getClientLocale();
+        String formatString = "%." + precision + "f";
 
-    public static String format(float value, int precision) {
-        Locale locale = getClientLocale();
+        String formattedString = String.format(clientLocale, formatString, f);
+        char decimalSeparator = new DecimalFormatSymbols(clientLocale).getDecimalSeparator();
 
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
-        DecimalFormat format = new DecimalFormat(buildPattern(precision), symbols);
-
-        format.setGroupingUsed(false);
-        return format.format(value);
+        return removeDecimals(formattedString, decimalSeparator);
     }
 
-    private static String buildPattern(int precision) {
-        return precision <= 0
-                ? "0"
-                : "0." + "#".repeat(precision);
+    public static String removeDecimals(String number, char decimalSeparator) {
+        String decimalSeparatorSequence = Character.toString(decimalSeparator);
+
+        boolean containsDecimal = number.contains(decimalSeparatorSequence);
+        boolean endWith0OrDot = number.endsWith("0") || number.endsWith(decimalSeparatorSequence);
+
+        while (endWith0OrDot && number.length() > 1 && containsDecimal) {
+            number = number.substring(0, number.length() - 1);
+            containsDecimal = number.contains(decimalSeparatorSequence);
+            endWith0OrDot = number.endsWith("0") || number.endsWith(decimalSeparatorSequence);
+        }
+
+        return number;
     }
 
-    private static Locale getClientLocale() {
-        String lang = MinecraftClient.getInstance()
-                .getLanguageManager()
-                .getLanguage();
+    public static Locale getClientLocale() {
+        MinecraftClient client = MinecraftClient.getInstance();
 
-        return Locale.forLanguageTag(lang.replace('_', '-'));
+        String localeCode = client.getLanguageManager().getLanguage();
+
+        String languageTag = localeCode.replace('_', '-');
+
+        return Locale.forLanguageTag(languageTag);
     }
 }

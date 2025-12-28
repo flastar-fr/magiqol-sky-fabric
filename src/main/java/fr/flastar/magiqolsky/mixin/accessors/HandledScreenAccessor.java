@@ -1,7 +1,6 @@
 package fr.flastar.magiqolsky.mixin.accessors;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -15,4 +14,7 @@ public interface HandledScreenAccessor {
 
     @Accessor("backgroundWidth")
     int backgroundWidth();
+
+    @Accessor("backgroundHeight")
+    int backgroundHeight();
 }
