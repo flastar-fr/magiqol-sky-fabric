@@ -25,5 +25,16 @@
   "log.magiqol-sky.chat.emoji_loaded": "Default emoji configuration loaded",
   "log.magiqol-sky.chat.emoji_error": "Failed to load default emoji configuration from %s",
   "log.magiqol-sky.chat.url_error": "Syntax error in the default emoji URL",
-  "log.magiqol-sky.chat.save_error": "Failed to save Chat Manager configuration to %s"
+  "log.magiqol-sky.chat.save_error": "Failed to save Chat Manager configuration to %s",
+  "log.magiqol-sky.containervalue.load_error": "Failed to load container value configuration from %s",
+  "log.magiqol-sky.containervalue.save_error": "Failed to save container value configuration to %s",
+  "gui.magiqol-sky.containervaluescreen.title.main": "Container Value Configuration",
+  "gui.magiqol-sky.containervaluescreen.title.settings": "Settings",
+  "gui.magiqol-sky.containervaluescreen.text.containervalue": "Container Value",
+  "gui.magiqol-sky.containervaluescreen.tooltip.containervalue": "Enable Container Value",
+  "gui.magiqol-sky.containervaluescreen.text.save": "Back & Save",
+  "gui.magiqol-sky.containervaluescreen.text.decimalseparator": "Decimal Separator",
+  "gui.magiqol-sky.containervaluescreen.text.groupingseparator": "Grouping Separator",
+  "gui.magiqol-sky.containervaluescreen.tooltip.decimalseparator": "Decimal separator for the container value",
+  "gui.magiqol-sky.containervaluescreen.tooltip.groupingseparator": "Grouping separator for the container value (leave empty to disable grouping)"
 }

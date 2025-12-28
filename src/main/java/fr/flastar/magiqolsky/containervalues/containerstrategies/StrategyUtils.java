@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
+import fr.flastar.magiqolsky.containervalues.ContainerValueConfig;
 import fr.flastar.magiqolsky.utils.Coordinates;
-import fr.flastar.magiqolsky.utils.FloatToString;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -10,6 +10,7 @@ import net.minecraft.text.Text;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
 import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.utils.FloatToString.convertDecimalFloatToString;
 
 public class StrategyUtils {
 
@@ -45,7 +46,11 @@ public class StrategyUtils {
     public static Text retrieveContainerAmountText(Inventory container) {
         float totalValue = getContainerTotalValue(container);
 
-        String stringifiedValue = FloatToString.convertDecimalFloatToString(totalValue, DESIRED_PRECISION);
+        char decimalSeparator = ContainerValueConfig.getConfig().decimalSeparator();
+        char groupingSeparator = ContainerValueConfig.getConfig().groupingSeparator();
+        boolean enableGrouping = ContainerValueConfig.getConfig().enableGrouping();
+
+        String stringifiedValue = convertDecimalFloatToString(totalValue, DESIRED_PRECISION, decimalSeparator, groupingSeparator, enableGrouping);
 
         return Text.of(stringifiedValue);
     }

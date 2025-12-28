@@ -1,24 +1,17 @@
 package fr.flastar.magiqolsky.chatmanager.registerables;
 
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Arrays;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig.*;
 import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
 public class AutoFly implements Registerable {
-    private boolean pendingFly;
-    private final ScheduledExecutorService scheduler;
-
-    public AutoFly(ScheduledExecutorService scheduler) {
-        this.pendingFly = false;
-        this.scheduler = scheduler;
-    }
+    private boolean pendingFly = false;
 
     @Override
     public void register() {
@@ -28,26 +21,29 @@ public class AutoFly implements Registerable {
             }
         });
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (!pendingFly || client.player == null) return;
-            pendingFly = false;
+        ClientChunkEvents.CHUNK_LOAD.register((world, chunk) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
 
-            if (!isCommandAvailable(FLY_COMMAND)) {
-                return;
-            }
+            if (pendingFly && client.player != null) {
 
-            if (!ChatManagerConfig.getConfig().isAutoFlyingEnabled()) {
-                return;
-            }
+                if (chunk.getPos().equals(client.player.getChunkPos())) {
 
-            if (client.player.isAlive() && !client.player.getAbilities().flying) {
-                scheduler.schedule(() -> client.execute(() -> {
-                    if (client.player != null && client.player.networkHandler != null) {
-                        client.player.networkHandler.sendCommand(FLY_COMMAND);
-                    }
-                }), TIMEOUT_DELAY, TimeUnit.MILLISECONDS);
-
+                    client.execute(() -> executeFlyCommand(client));
+                }
             }
         });
+    }
+
+    private void executeFlyCommand(MinecraftClient client) {
+        if (pendingFly && client.player != null &&
+                ChatManagerConfig.getConfig().isAutoFlyingEnabled() &&
+                isCommandAvailable(FLY_COMMAND)) {
+
+            if (!client.player.getAbilities().flying) {
+                client.player.networkHandler.sendCommand(FLY_COMMAND);
+            }
+
+            pendingFly = false;
+        }
     }
 }

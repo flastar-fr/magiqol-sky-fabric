@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.chatmanager.gui;
+package fr.flastar.magiqolsky.utils;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
