@@ -2,6 +2,7 @@ package fr.flastar.magiqolsky;
 
 import fr.flastar.magiqolsky.containervalues.ContainerValueConfig;
 import fr.flastar.magiqolsky.cooldowndisplay.CooldownDisplayHud;
+import fr.flastar.magiqolsky.customfoods.CustomFoodCreator;
 import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -15,9 +16,12 @@ public class MagiQoLSky implements ModInitializer {
 	public static final String MOD_ID = "magiqol-sky";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ShopItemCreator shopItemCreator = new ShopItemCreator();
+	public static final CustomFoodCreator customFoodCreator = new CustomFoodCreator();
 
 	@Override
 	public void onInitialize() {
+		customFoodCreator.createCustomFoods();
+		System.out.println(customFoodCreator.getShopItems());
 		CooldownDisplayHud.register();
 
 		shopItemCreator.createShopsItems();

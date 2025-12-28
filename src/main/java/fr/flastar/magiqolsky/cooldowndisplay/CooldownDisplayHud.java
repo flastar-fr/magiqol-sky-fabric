@@ -14,7 +14,7 @@ public class CooldownDisplayHud {
     private static final int WIDTH_HOTBAR = 182;
     private static final float TICK_PER_SECOND = 20.f;
 
-    public static int foodCooldownTick = 400;
+    public static int foodCooldownTick = 0;
     public static ItemStack lastStackUsed = ItemStack.EMPTY;
 
     public static void register() {
@@ -48,5 +48,10 @@ public class CooldownDisplayHud {
         if (foodCooldownTick > 0) {
             foodCooldownTick--;
         }
+    }
+
+    public static void setCooldown(int cooldown, ItemStack stack) {
+        foodCooldownTick = (int) (cooldown * TICK_PER_SECOND);
+        lastStackUsed = stack;
     }
 }

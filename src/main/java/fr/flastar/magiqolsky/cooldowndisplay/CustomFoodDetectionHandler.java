@@ -1,8 +1,12 @@
 package fr.flastar.magiqolsky.cooldowndisplay;
 
+import fr.flastar.magiqolsky.MagiQoLSky;
+import fr.flastar.magiqolsky.customfoods.model.CustomFood;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
+
+import java.util.Map;
 
 import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
 
@@ -24,8 +28,17 @@ public class CustomFoodDetectionHandler {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
         ItemStack stack = client.player.getActiveItem();
-        String itemID = retrieveIDFromStack(stack); // TODO : here for later use when json with cooldowns is available
-        CooldownDisplayHud.foodCooldownTick = 400;
-        CooldownDisplayHud.lastStackUsed = stack;
+        String foodID = retrieveIDFromStack(stack);
+        foodID = foodID.replace("nexo:", "");
+        int foodCooldown = determineCustomFoodCooldownFromID(foodID);
+        CooldownDisplayHud.setCooldown(foodCooldown, stack);
+    }
+
+    private static int determineCustomFoodCooldownFromID(String itemID) {
+        Map<String, CustomFood> customFoods = MagiQoLSky.customFoodCreator.getShopItems();
+        if (!customFoods.containsKey(itemID)) return 0;
+        CustomFood food = customFoods.get(itemID);
+
+        return food.cooldown();
     }
 }
