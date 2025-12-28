@@ -11,7 +11,7 @@
 	"contact": {
 		"sources": "https://github.com/flastar-fr/magicalqol-sky-fabric"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/magiqol-sky/icon.png",
 	"environment": "*",
 	"entrypoints": {
