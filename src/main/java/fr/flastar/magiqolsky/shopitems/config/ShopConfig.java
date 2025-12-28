@@ -54,7 +54,7 @@ public class ShopConfig {
                 shopItems.put(item.getId(), item.getSell());
             }
 
-            String loadedMsg = String.format(lang.get("log.magiqol-sky.shop.loaded"), shopItems.size());
+            String loadedMsg = String.format("Shop items loaded : %s", shopItems.size());
             MagiQoLSky.LOGGER.info(loadedMsg);
 
         } catch (IOException e) {

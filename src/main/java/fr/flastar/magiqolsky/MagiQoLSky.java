@@ -21,7 +21,6 @@ public class MagiQoLSky implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		customFoodCreator.createCustomFoods();
-		System.out.println(customFoodCreator.getShopItems());
 		CooldownDisplayHud.register();
 
 		shopItemCreator.createShopsItems();
