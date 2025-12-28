@@ -24,7 +24,7 @@ public class CustomFoodDetectionHandler {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
         ItemStack stack = client.player.getActiveItem();
-        String itemID = retrieveIDFromStack(stack);
+        String itemID = retrieveIDFromStack(stack); // TODO : here for later use when json with cooldowns is available
         CooldownDisplayHud.foodCooldownTick = 400;
         CooldownDisplayHud.lastStackUsed = stack;
     }
