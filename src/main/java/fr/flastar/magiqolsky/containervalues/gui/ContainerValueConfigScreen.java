@@ -38,6 +38,7 @@ public class ContainerValueConfigScreen extends Screen {
 
         currentY += 25;
 
+        int cbWidth = 20 + textRenderer.getWidth(Text.translatable("gui.magiqol-sky.containervaluescreen.text.containervalue")) + 4;
         CheckboxWidget cbContainerValue = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.containervaluescreen.text.containervalue"), textRenderer)
                 .checked(ContainerValueConfig.getConfig().isContainerValueEnabled())
                 .callback((cb, checked) -> {
@@ -45,7 +46,7 @@ public class ContainerValueConfigScreen extends Screen {
                     clearAndInit();
                 })
                 .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.containervaluescreen.tooltip.containervalue")))
-                .pos(center, currentY)
+                .pos(center - (cbWidth / 2), currentY)
                 .build();
         addDrawableChild(cbContainerValue);
 
@@ -61,7 +62,7 @@ public class ContainerValueConfigScreen extends Screen {
 
     private void drawContainerValueConfig(int center, int currentY) {
         TextFieldWidget decimalSeparatorTextField = prepareSeparatorTextField(
-                center - TEXT_FIELD_WIDTH/2 - FIELDS_OFFSETS,
+                center - TEXT_FIELD_WIDTH - FIELDS_OFFSETS,
                 currentY,
                 Text.literal(ContainerValueConfig.getConfig().decimalSeparator() + ""),
                 Text.translatable("gui.magiqol-sky.containervaluescreen.text.decimalseparator"),
@@ -69,12 +70,12 @@ public class ContainerValueConfigScreen extends Screen {
         );
         decimalSeparatorTextField.setChangedListener(s -> decimalSeparator = s);
         addDrawableChild(decimalSeparatorTextField);
-        String groupingSeparatorValue = "";
-        if (ContainerValueConfig.getConfig().enableGrouping()) {
-            groupingSeparatorValue = ContainerValueConfig.getConfig().groupingSeparator() + "";
-        }
+
+        String groupingSeparatorValue = ContainerValueConfig.getConfig().enableGrouping() ?
+                ContainerValueConfig.getConfig().groupingSeparator() + "" : "";
+
         TextFieldWidget groupingSeparatorTextField = prepareSeparatorTextField(
-                center + TEXT_FIELD_WIDTH/2 + FIELDS_OFFSETS,
+                center + FIELDS_OFFSETS,
                 currentY,
                 Text.literal(groupingSeparatorValue),
                 Text.translatable("gui.magiqol-sky.containervaluescreen.text.groupingseparator"),
