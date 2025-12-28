@@ -27,7 +27,7 @@ public class ChatManagerConfig {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("magiqolsky_autocommand_config.json").toFile();
-    private static final String JSON_DEFAULT_PATH = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/default_emoji.json";
+    private static final String JSON_DEFAULT_PATH = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/database/default_emoji.json";
 
     private static ChatManagerData currentConfig;
 

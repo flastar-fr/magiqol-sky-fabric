@@ -1,0 +1,172 @@
+[
+  {
+    "id": "vanilla_milkshake",
+    "amount": 8,
+    "cooldown": 15
+  },
+  {
+    "id": "chocolate_donut",
+    "amount": 9,
+    "cooldown": 14
+  },
+  {
+    "id": "melon_sorbet",
+    "amount": 10,
+    "cooldown": 15
+  },
+  {
+    "id": "banana_smoothie",
+    "amount": 11,
+    "cooldown": 16
+  },
+  {
+    "id": "strawberry_donut",
+    "amount": 11,
+    "cooldown": 16
+  },
+  {
+    "id": "chocolate_ice_cream",
+    "amount": 11,
+    "cooldown": 18
+  },
+  {
+    "id": "chocolate_marble_cake",
+    "amount": 12,
+    "cooldown": 17
+  },
+  {
+    "id": "chocolate_pineapple",
+    "amount": 12,
+    "cooldown": 18
+  },
+  {
+    "id": "watermelon_ice_cream",
+    "amount": 12,
+    "cooldown": 20
+  },
+  {
+    "id": "watermelon_skewer",
+    "amount": 13,
+    "cooldown": 22
+  },
+  {
+    "id": "vanilla_ice_cream",
+    "amount": 14,
+    "cooldown": 24
+  },
+  {
+    "id": "honey_ribs",
+    "amount": 30,
+    "cooldown": 17
+  },
+  {
+    "id": "vanilla_cream",
+    "amount": 32,
+    "cooldown": 15
+  },
+  {
+    "id": "chocolate_strawberry",
+    "amount": 35,
+    "cooldown": 15
+  },
+  {
+    "id": "pineapple_chicken",
+    "amount": 35,
+    "cooldown": 15
+  },
+  {
+    "id": "tiramisu",
+    "amount": 36,
+    "cooldown": 14
+  },
+  {
+    "id": "hawaiian_pizza",
+    "amount": 36,
+    "cooldown": 17
+  },
+  {
+    "id": "banana_ice_cream",
+    "amount": 37,
+    "cooldown": 22
+  },
+  {
+    "id": "strawberry_ice_cream",
+    "amount": 40,
+    "cooldown": 25
+  },
+  {
+    "id": "coconut_juice",
+    "amount": 100,
+    "cooldown": 20
+  },
+  {
+    "id": "gingerbread",
+    "amount": 110,
+    "cooldown": 14
+  },
+  {
+    "id": "banana_bread",
+    "amount": 115,
+    "cooldown": 15
+  },
+  {
+    "id": "strawberry_cake",
+    "amount": 130,
+    "cooldown": 17
+  },
+  {
+    "id": "coconut_ice_cream",
+    "amount": 275,
+    "cooldown": 15
+  },
+  {
+    "id": "banana_split",
+    "amount": 305,
+    "cooldown": 14
+  },
+  {
+    "id": "coconut_cake",
+    "amount": 310,
+    "cooldown": 16
+  },
+  {
+    "id": "chocolate_marble_cake_gold",
+    "amount": 550,
+    "cooldown": 15
+  },
+  {
+    "id": "watermelon_skewer_gold",
+    "amount": 570,
+    "cooldown": 18
+  },
+  {
+    "id": "vanilla_cream_gold",
+    "amount": 700,
+    "cooldown": 11
+  },
+  {
+    "id": "gingerbread_gold",
+    "amount": 720,
+    "cooldown": 9
+  },
+  {
+    "id": "hawaiian_pizza_gold",
+    "amount": 740,
+    "cooldown": 7
+  },
+  {
+    "id": "coconut_cake_gold",
+    "amount": 750,
+    "cooldown": 9
+  },
+  {
+    "id": "strawberry_cake_gold",
+    "amount": 750,
+    "cooldown": 10
+  },
+  {
+    "id": "banana_bread_gold",
+    "amount": 850,
+    "cooldown": 15
+  }
+]
