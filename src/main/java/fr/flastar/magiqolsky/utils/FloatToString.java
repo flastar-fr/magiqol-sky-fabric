@@ -1,43 +1,31 @@
 package fr.flastar.magiqolsky.utils;
 
-import net.minecraft.client.MinecraftClient;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+
+import static fr.flastar.magiqolsky.utils.ClientLocaleUtils.getClientLocale;
 
 public class FloatToString {
-    public static String convertDecimalFloatToString(float f, int precision) {
-        Locale clientLocale = getClientLocale();
-        String formatString = "%." + precision + "f";
+    public static String convertDecimalFloatToString(float f, int precision, char decimalSeparator, char groupingSeparator, boolean useGrouping) {
+        if (Float.isNaN(f) || Float.isInfinite(f)) return String.valueOf(f);
 
-        String formattedString = String.format(clientLocale, formatString, f);
-        char decimalSeparator = new DecimalFormatSymbols(clientLocale).getDecimalSeparator();
+        BigDecimal bd = BigDecimal.valueOf(f)
+                .setScale(precision, RoundingMode.HALF_EVEN)
+                .stripTrailingZeros();
 
-        return removeDecimals(formattedString, decimalSeparator);
-    }
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(getClientLocale());
+        symbols.setDecimalSeparator(decimalSeparator);
+        symbols.setGroupingSeparator(groupingSeparator);
 
-    public static String removeDecimals(String number, char decimalSeparator) {
-        String decimalSeparatorSequence = Character.toString(decimalSeparator);
+        DecimalFormat df = new DecimalFormat();
+        df.setDecimalFormatSymbols(symbols);
+        df.setGroupingUsed(useGrouping);
+        df.setGroupingSize(3);
+        df.setMaximumFractionDigits(precision);
+        df.setMinimumFractionDigits(0);
 
-        boolean containsDecimal = number.contains(decimalSeparatorSequence);
-        boolean endWith0OrDot = number.endsWith("0") || number.endsWith(decimalSeparatorSequence);
-
-        while (endWith0OrDot && number.length() > 1 && containsDecimal) {
-            number = number.substring(0, number.length() - 1);
-            containsDecimal = number.contains(decimalSeparatorSequence);
-            endWith0OrDot = number.endsWith("0") || number.endsWith(decimalSeparatorSequence);
-        }
-
-        return number;
-    }
-
-    public static Locale getClientLocale() {
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        String localeCode = client.getLanguageManager().getLanguage();
-
-        String languageTag = localeCode.replace('_', '-');
-
-        return Locale.forLanguageTag(languageTag);
+        return df.format(bd);
     }
 }

@@ -9,6 +9,7 @@
   "gui.magiqol-sky.chatmanagerscreen.text.textreplacement": "Remplacement",
   "gui.magiqol-sky.chatmanagerscreen.text.autonightvision": "Auto vision nocturne",
   "gui.magiqol-sky.chatmanagerscreen.text.hourmessages": "Heure des messages",
+  "gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacementbutton": "Ajoute de nouveaux champs de remplacement de textes",
   "gui.magiqol-sky.chatmanagerscreen.tooltip.autofly": "Activer l'Auto-Fly (sur l'île uniquement)",
   "gui.magiqol-sky.chatmanagerscreen.tooltip.betterbienvenue": "Activer le better Bienvenue (envoi d'un message de Bienvenue en plus du /b)",
   "gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacement": "Activer les textes de remplacement",
@@ -24,5 +25,16 @@
   "log.magiqol-sky.chat.emoji_loaded": "Configuration par défaut des emoji chargée",
   "log.magiqol-sky.chat.emoji_error": "Échec du chargement de la configuration par défaut des emoji depuis %s",
   "log.magiqol-sky.chat.url_error": "Erreur de syntaxe dans l'URL des emoji par défaut",
-  "log.magiqol-sky.chat.save_error": "Échec de la sauvegarde de la configuration du Chat Manager vers %s"
+  "log.magiqol-sky.chat.save_error": "Échec de la sauvegarde de la configuration du Chat Manager vers %s",
+  "log.magiqol-sky.containervalue.load_error": "Échec du chargement de la configuration de la valeur des containeurs vers %s",
+  "log.magiqol-sky.containervalue.save_error": "Échec de la sauvegarde de la configuration de la valeur des containeurs vers %s",
+  "gui.magiqol-sky.containervaluescreen.title.main": "Configuration Valeur du Conteneur",
+  "gui.magiqol-sky.containervaluescreen.title.settings": "Paramètres",
+  "gui.magiqol-sky.containervaluescreen.text.containervalue": "Valeur du Conteneur",
+  "gui.magiqol-sky.containervaluescreen.tooltip.containervalue": "Activer la valeur du conteneur",
+  "gui.magiqol-sky.containervaluescreen.text.save": "Retour et Sauvegarder",
+  "gui.magiqol-sky.containervaluescreen.text.decimalseparator": "Séparateur décimal",
+  "gui.magiqol-sky.containervaluescreen.text.groupingseparator": "Séparateur de milliers",
+  "gui.magiqol-sky.containervaluescreen.tooltip.decimalseparator": "Séparateur décimal pour la valeur du conteneur",
+  "gui.magiqol-sky.containervaluescreen.tooltip.groupingseparator": "Séparateur de milliers pour la valeur (laisser vide pour désactiver le groupement)"
 }
