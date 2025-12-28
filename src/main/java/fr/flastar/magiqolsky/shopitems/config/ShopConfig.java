@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.shopitems.model.ShopItem;
-import net.minecraft.util.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,6 @@ public class ShopConfig {
 
     private void loadConfig() {
         String jsonUrl = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/database/items.json";
-        Language lang = Language.getInstance();
 
         try (InputStream inputStream = new URI(jsonUrl).toURL().openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
@@ -46,7 +44,7 @@ public class ShopConfig {
             List<ShopItem> items = GSON.fromJson(reader, type);
 
             if (items == null || items.isEmpty()) {
-                MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.shop.no_items"));
+                MagiQoLSky.LOGGER.error("No items found in the shop configuration");
                 return;
             }
 
@@ -54,14 +52,14 @@ public class ShopConfig {
                 shopItems.put(item.getId(), item.getSell());
             }
 
-            String loadedMsg = String.format("Shop items loaded : %s", shopItems.size());
+            String loadedMsg = String.format("Shop configuration loaded (%s items)", shopItems.size());
             MagiQoLSky.LOGGER.info(loadedMsg);
 
         } catch (IOException e) {
-            String errorMsg = String.format(lang.get("log.magiqol-sky.shop.error"), jsonUrl);
+            String errorMsg = String.format("Failed to load shop configuration from %s", jsonUrl);
             MagiQoLSky.LOGGER.error(errorMsg, e);
         } catch (URISyntaxException e) {
-            MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.shop.url_error"), e);
+            MagiQoLSky.LOGGER.error("Syntax error in the shop URL", e);
         }
     }
 

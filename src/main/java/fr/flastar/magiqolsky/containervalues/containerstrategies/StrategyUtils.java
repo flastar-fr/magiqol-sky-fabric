@@ -1,6 +1,6 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
-import fr.flastar.magiqolsky.containervalues.ContainerValueConfig;
+import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
 import fr.flastar.magiqolsky.utils.Coordinates;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -9,7 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.text.Text;
 
 import static fr.flastar.magiqolsky.containervalues.ContainerValueCalculator.getContainerTotalValue;
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig.*;
 import static fr.flastar.magiqolsky.utils.FloatToString.convertDecimalFloatToString;
 
 public class StrategyUtils {

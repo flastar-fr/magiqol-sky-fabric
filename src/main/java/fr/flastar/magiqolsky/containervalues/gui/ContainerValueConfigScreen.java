@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky.containervalues.gui;
 
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
-import fr.flastar.magiqolsky.containervalues.ContainerValueConfig;
+import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;

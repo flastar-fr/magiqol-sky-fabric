@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.customfoods.model.CustomFood;
-import net.minecraft.util.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,8 +37,6 @@ public class CustomFoodConfig {
     }
 
     private void loadConfig() {
-        Language lang = Language.getInstance();
-
         try (InputStream inputStream = new URI(JSON_URL).toURL().openStream();
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
 
@@ -47,7 +44,7 @@ public class CustomFoodConfig {
             List<CustomFood> items = GSON.fromJson(reader, type);
 
             if (items == null || items.isEmpty()) {
-                MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.customfoods.no_items"));
+                MagiQoLSky.LOGGER.error("No custom foods found in the configuration file");
                 return;
             }
 
@@ -55,14 +52,14 @@ public class CustomFoodConfig {
                 customFoods.put(item.id(), item);
             }
 
-            String loadedMsg = String.format(lang.get("log.magiqol-sky.customfoods.loaded"), customFoods.size());
+            String loadedMsg = String.format("Custom foods loaded (%s foods)", customFoods.size());
             MagiQoLSky.LOGGER.info(loadedMsg);
 
         } catch (IOException e) {
-            String errorMsg = String.format(lang.get("log.magiqol-sky.customfoods.error"), JSON_URL);
+            String errorMsg = String.format("Failed to load custom foods configuration from %s", JSON_URL);
             MagiQoLSky.LOGGER.error(errorMsg, e);
         } catch (URISyntaxException e) {
-            MagiQoLSky.LOGGER.error(lang.get("log.magiqol-sky.customfoods.url_error"), e);
+            MagiQoLSky.LOGGER.error("Syntax error in the custom food URL", e);
         }
     }
 

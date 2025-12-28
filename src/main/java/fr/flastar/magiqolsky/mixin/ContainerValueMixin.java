@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.TEXT_COLOR;
+import static fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig.TEXT_COLOR;
 
 @Mixin(HandledScreen.class)
 public abstract class ContainerValueMixin {
