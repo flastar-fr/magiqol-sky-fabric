@@ -7,7 +7,7 @@ import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.chatmanager.model.ChatManagerData;
 import fr.flastar.magiqolsky.chatmanager.model.TextReplacerEntry;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Language; // Ajouté
+import net.minecraft.util.Language;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -24,8 +24,6 @@ public class ChatManagerConfig {
     public static final String NV_COMMAND = "nv";
 
     public static final String BIENVENUE_MESSAGE = "Bienvenue !";
-
-    public static final int TIMEOUT_DELAY = 750;
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("magiqolsky_autocommand_config.json").toFile();
