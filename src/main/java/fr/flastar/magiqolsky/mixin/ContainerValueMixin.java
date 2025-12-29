@@ -1,6 +1,7 @@
 package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
+import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
 import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
 import net.minecraft.client.gui.DrawContext;
@@ -56,6 +57,8 @@ public abstract class ContainerValueMixin {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (!ContainerValueConfig.getConfig().isContainerValueEnabled()) return;
+
         if (currentStrategy == null) {
             return;
         }
