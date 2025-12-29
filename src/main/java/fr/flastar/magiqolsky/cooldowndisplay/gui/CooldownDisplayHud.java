@@ -13,6 +13,8 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
+
 public class CooldownDisplayHud {
     private static final Identifier LAYER_ID = Identifier.of("magiqol-sky", "cooldowns_layer");
     private static final int WIDTH_HOTBAR = 182;
@@ -72,8 +74,17 @@ public class CooldownDisplayHud {
     }
 
     public static void addBoostCooldown(int cooldown, ItemStack stack) {
+        if (isBoostPotionAlreadyInUsed(stack)) return;
         CooldownDisplayWidget widget = new CooldownDisplayWidget();
         widget.setCooldown(cooldown, stack);
         cooldownDisplayWidgets.add(widget);
+    }
+
+    private static boolean isBoostPotionAlreadyInUsed(ItemStack stack) {
+        String stackNbt = retrieveIDFromStack(stack);
+        for (CooldownDisplayWidget widget : cooldownDisplayWidgets) {
+            if (widget.getNbt().equals(stackNbt)) return true;
+        }
+        return false;
     }
 }

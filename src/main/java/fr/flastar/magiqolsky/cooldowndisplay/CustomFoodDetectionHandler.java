@@ -1,81 +1,61 @@
 package fr.flastar.magiqolsky.cooldowndisplay;
 
+import fr.flastar.magiqolsky.config.BoostPotionConfig;
 import fr.flastar.magiqolsky.config.CustomFoodConfig;
+import fr.flastar.magiqolsky.config.data.BoostPotion;
 import fr.flastar.magiqolsky.config.data.CustomFood;
 import fr.flastar.magiqolsky.cooldowndisplay.gui.CooldownDisplayHud;
-import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 
+import java.util.Date;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
 
 public class CustomFoodDetectionHandler {
-    private static final String REGEN_TEXT = "[Régénération]";
-    private static final String HEAL_TEXT = "Tu as été régénérer de";
-
-    private static final String JOBS_TEXT = "[Jobs]";
-    private static final String XP_BOOST_TEXT_PART1 = "Vous avez gagné un bonus d'expérience";
-    private static final String XP_BOOST_TEXT_PART2 = "pour le métier";
-
-    private static final String SHOP_TEXT = "[Shop]";
-    private static final String SELL_BOOST_TEXT_PART1 = "Vous avez gagné un bonus";
-    private static final String SELL_BOOST_TEXT_PART2 = "de vente pour le métier";
-
     private static final int SECONDS_IN_MINUTE = 60;
-
-    private static ItemStack lastClickedItem;
+    private static Date lastPotionUsed;
 
     public static void register() {
-        ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
-            String content = message.getString();
-
-            if (content.contains(REGEN_TEXT) && content.contains(HEAL_TEXT)) {
-                handleCustomFoodTriggered();
-            }
-
-            if (content.contains(JOBS_TEXT) && content.contains(XP_BOOST_TEXT_PART1) && content.contains(XP_BOOST_TEXT_PART2)) {
-                handleXpBoostTriggered(content);
-            }
-
-            if (content.contains(SHOP_TEXT) && content.contains(SELL_BOOST_TEXT_PART1) && content.contains(SELL_BOOST_TEXT_PART2)) {
-                handleXpBoostTriggered(content);
-            }
-        });
-
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (world.isClient) {
-                lastClickedItem = player.getStackInHand(hand).copy();
+                ItemStack currentStack = player.getStackInHand(hand).copy();
+                handleClickedItem(currentStack);
             }
             return ActionResult.PASS;
         });
     }
 
-    private static void handleCustomFoodTriggered() {
-        String foodID = retrieveIDNameFromStack(lastClickedItem);
-        int foodCooldown = determineCustomFoodCooldownFromID(foodID);
-        CooldownDisplayHud.setCustomFoodCooldown(foodCooldown, lastClickedItem);
-    }
+    public static void handleClickedItem(ItemStack lastClickedItem) {
+        String itemID = retrieveIDNameFromStack(lastClickedItem);
+        boolean isCustomFood = CustomFoodConfig.getInstance().getValues().containsKey(itemID);
+        boolean isBoostPotion = BoostPotionConfig.getInstance().getValues().containsKey(itemID);
 
-    public static void handleXpBoostTriggered(String message) {
-        int cooldown = extractCooldownFromMessage(message);
-        CooldownDisplayHud.addBoostCooldown(cooldown, lastClickedItem);
-    }
-
-    private static int extractCooldownFromMessage(String message) {
-        Pattern pattern = Pattern.compile("(\\d+)\\s+minute");
-        Matcher matcher = pattern.matcher(message);
-
-        if (matcher.find()) {
-            int minutes = Integer.parseInt(matcher.group(1));
-            return minutes * SECONDS_IN_MINUTE;
+        if (isCustomFood) {
+            handleCustomFoodTriggered(lastClickedItem);
+            return;
         }
+        if (isBoostPotion) {
+            boolean isPotionAskingUse = lastPotionUsed == null || lastPotionUsed.getTime() + 5000 < new Date().getTime();
+            if (isPotionAskingUse) {
+                lastPotionUsed = new Date();
+                return;
+            }
+            BoostPotion boostPotion = BoostPotionConfig.getInstance().getValues().get(itemID);
+            handleXpBoostTriggered(boostPotion.cooldown() * SECONDS_IN_MINUTE, lastClickedItem);
+        }
+    }
 
-        return 0;
+    private static void handleCustomFoodTriggered(ItemStack currentStack) {
+        String foodID = retrieveIDNameFromStack(currentStack);
+        int foodCooldown = determineCustomFoodCooldownFromID(foodID);
+        CooldownDisplayHud.setCustomFoodCooldown(foodCooldown, currentStack);
+    }
+
+    public static void handleXpBoostTriggered(int cooldown, ItemStack currentStack) {
+        CooldownDisplayHud.addBoostCooldown(cooldown, currentStack);
     }
 
     private static int determineCustomFoodCooldownFromID(String itemID) {

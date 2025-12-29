@@ -5,12 +5,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 
 import static fr.flastar.magiqolsky.cooldowndisplay.gui.CooldownDisplayHud.TICK_PER_SECOND;
+import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
 
 public class CooldownDisplayWidget {
     private ItemStack lastStackUsed;
     private int currentTickCooldown;
 
     private boolean isAlive;
+    private String nbt;
 
     public void render(DrawContext context, int x, int y, boolean alignRight) {
         if (currentTickCooldown <= 0 || lastStackUsed == null) return;
@@ -39,6 +41,7 @@ public class CooldownDisplayWidget {
     }
 
     public void setCooldown(int cooldown, ItemStack stack) {
+        this.nbt = retrieveIDFromStack(stack);
         currentTickCooldown = (int) (cooldown * TICK_PER_SECOND);
         lastStackUsed = stack;
         isAlive = true;
@@ -46,5 +49,9 @@ public class CooldownDisplayWidget {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public String getNbt() {
+        return nbt;
     }
 }
