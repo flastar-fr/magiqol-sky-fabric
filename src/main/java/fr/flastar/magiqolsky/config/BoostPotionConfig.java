@@ -12,7 +12,7 @@ public class BoostPotionConfig
     private static BoostPotionConfig instance;
 
     private static final String JSON_URL =
-            "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/refs/heads/dev/flastar/database/boost_potions.json";
+            "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/database/boost_potions.json";
 
     private BoostPotionConfig() {}
 
