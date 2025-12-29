@@ -28,8 +28,7 @@ public class CustomFoodDetectionHandler {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
         ItemStack stack = client.player.getActiveItem();
-        String foodID = retrieveIDFromStack(stack);
-        foodID = foodID.replace("nexo:", "");
+        String foodID = retrieveIDNameFromStack(stack);
         int foodCooldown = determineCustomFoodCooldownFromID(foodID);
         CooldownDisplayHud.setCooldown(foodCooldown, stack);
     }
@@ -40,5 +39,16 @@ public class CustomFoodDetectionHandler {
         CustomFood food = customFoods.get(itemID);
 
         return food.cooldown();
+    }
+
+    private static String retrieveIDNameFromStack(ItemStack stack) {
+        String foodID = retrieveIDFromStack(stack);
+        String[] splitted = foodID.split(":");
+
+        if (splitted.length > 1) {
+            return splitted[1];
+        } else {
+            return foodID;
+        }
     }
 }
