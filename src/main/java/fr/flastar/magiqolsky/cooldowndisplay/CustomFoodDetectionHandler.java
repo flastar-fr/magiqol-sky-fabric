@@ -1,7 +1,9 @@
 package fr.flastar.magiqolsky.cooldowndisplay;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
-import fr.flastar.magiqolsky.customfoods.model.CustomFood;
+import fr.flastar.magiqolsky.config.CustomFoodConfig;
+import fr.flastar.magiqolsky.config.ShopConfig;
+import fr.flastar.magiqolsky.config.data.CustomFood;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
@@ -35,7 +37,7 @@ public class CustomFoodDetectionHandler {
     }
 
     private static int determineCustomFoodCooldownFromID(String itemID) {
-        Map<String, CustomFood> customFoods = MagiQoLSky.customFoodCreator.getShopItems();
+        Map<String, CustomFood> customFoods = CustomFoodConfig.getInstance().getValues();
         if (!customFoods.containsKey(itemID)) return 0;
         CustomFood food = customFoods.get(itemID);
 
