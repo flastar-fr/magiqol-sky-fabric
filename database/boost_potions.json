@@ -1,0 +1,572 @@
+[
+  {
+    "id": "potion_assassin_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_assassin_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_assassin_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_assassin_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_assassin_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_assassin_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_cook_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_cook_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_cook_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_cook_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_cook_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_cook_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_cook_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_cook_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_cook_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_cook_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_farmer_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_farmer_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_farmer_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_farmer_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_farmer_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_farmer_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_farmer_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_farmer_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_farmer_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_farmer_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_fisherman_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_fisherman_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_fisherman_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_fisherman_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_fisherman_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_fisherman_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_fisherman_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_fisherman_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_fisherman_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_fisherman_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_global_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_global_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_global_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_global_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_global_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_global_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_hunter_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_hunter_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_hunter_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_hunter_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_hunter_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_hunter_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_hunter_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_hunter_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_hunter_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_hunter_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_knight_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_knight_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_knight_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_knight_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_knight_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_knight_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_lumberjack_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_lumberjack_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_lumberjack_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_lumberjack_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_lumberjack_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_lumberjack_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_lumberjack_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_lumberjack_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_lumberjack_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_lumberjack_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_miner_x1_5sell_1",
+    "cooldown": "1",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_miner_x1_5sell_2",
+    "cooldown": "2",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_miner_x1_5sell_5",
+    "cooldown": "5",
+    "boost": "1.5"
+  },
+  {
+    "id": "potion_miner_x2sell_1",
+    "cooldown": "1",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x2sell_2",
+    "cooldown": "2",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x2sell_5",
+    "cooldown": "5",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_miner_x3sell_1",
+    "cooldown": "1",
+    "boost": "3"
+  },
+  {
+    "id": "potion_miner_x3sell_2",
+    "cooldown": "2",
+    "boost": "3"
+  },
+  {
+    "id": "potion_miner_x3sell_5",
+    "cooldown": "5",
+    "boost": "3"
+  },
+  {
+    "id": "potion_miner_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_miner_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_miner_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  },
+  {
+    "id": "potion_ranger_x2xp_15",
+    "cooldown": "15",
+    "boost": "2"
+  },
+  {
+    "id": "potion_ranger_x2xp_30",
+    "cooldown": "30",
+    "boost": "2"
+  },
+  {
+    "id": "potion_ranger_x2xp_60",
+    "cooldown": "60",
+    "boost": "2"
+  },
+  {
+    "id": "potion_ranger_x5xp_10",
+    "cooldown": "10",
+    "boost": "5"
+  },
+  {
+    "id": "potion_ranger_x5xp_15",
+    "cooldown": "15",
+    "boost": "5"
+  },
+  {
+    "id": "potion_ranger_x5xp_5",
+    "cooldown": "5",
+    "boost": "5"
+  }
+]

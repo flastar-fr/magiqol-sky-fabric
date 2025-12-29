@@ -11,7 +11,7 @@ import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-import static fr.flastar.magiqolsky.containervalues.ContainerValueConfig.*;
+import static fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig.*;
 import static fr.flastar.magiqolsky.containervalues.containerstrategies.StrategyUtils.retrieveContainerAmountText;
 
 public class CraftingInventoryStrategy implements InventoryManagementStrategy {

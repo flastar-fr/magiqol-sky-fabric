@@ -1,8 +1,8 @@
-package fr.flastar.magiqolsky.containervalues;
+package fr.flastar.magiqolsky.containervalues.gui.config;
 
 import fr.flastar.magiqolsky.MagiQoLSky;
+import fr.flastar.magiqolsky.containervalues.gui.model.ContainerValueData;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Language;
 
 import java.io.*;
 import java.util.Locale;
@@ -34,7 +34,6 @@ public class ContainerValueConfig {
     }
 
     public synchronized static void load() {
-        Language lang = Language.getInstance();
         Locale locale = getClientLocale();
 
         if (!CONFIG_FILE.exists()) {
@@ -46,18 +45,17 @@ public class ContainerValueConfig {
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             currentConfig = GSON.fromJson(reader, ContainerValueData.class);
         } catch (IOException e) {
-            String errorMsg = String.format(lang.get("log.magiqol-sky.containervalue.load_error"), CONFIG_FILE.getName());
+            String errorMsg = String.format("Failed to load container value configuration from %s", CONFIG_FILE.getName());
             MagiQoLSky.LOGGER.error(errorMsg, e);
             currentConfig = new ContainerValueData(locale);
         }
     }
 
     public static void save() {
-        Language lang = Language.getInstance();
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(currentConfig, writer);
         } catch (IOException e) {
-            String errorMsg = String.format(lang.get("log.magiqol-sky.containervalue.save_error"), CONFIG_FILE.getName());
+            String errorMsg = String.format("Failed to save container value configuration to %s", CONFIG_FILE.getName());
             MagiQoLSky.LOGGER.error(errorMsg, e);
         }
     }

@@ -1,4 +1,4 @@
-package fr.flastar.magiqolsky.containervalues;
+package fr.flastar.magiqolsky.containervalues.gui.model;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;

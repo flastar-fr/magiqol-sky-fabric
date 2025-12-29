@@ -16,6 +16,7 @@
     "ChatHudMixin",
     "ClientPlayerEntityMixin",
     "ContainerValueMixin",
+    "MinecraftClientMixin",
     "accessors.HandledScreenAccessor"
   ]
 }

@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky.containervalues.gui;
 
-import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
-import fr.flastar.magiqolsky.containervalues.ContainerValueConfig;
+import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
+import fr.flastar.magiqolsky.containervalues.gui.model.ContainerValueData;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -24,13 +24,13 @@ public class ContainerValueConfigScreen extends Screen {
     public ContainerValueConfigScreen(Screen parent) {
         super(Text.translatable("gui.magiqol-sky.containervaluescreen.title.main"));
         this.parent = parent;
-        this.decimalSeparator = "";
-        this.groupingSeparator = "";
+        ContainerValueData config = ContainerValueConfig.getConfig();
+        this.decimalSeparator = String.valueOf(config.decimalSeparator());
+        this.groupingSeparator = config.enableGrouping() ? String.valueOf(config.groupingSeparator()) : "";
     }
 
     @Override
     protected void init() {
-        decimalSeparator = ChatManagerConfig.getConfig().messageHourFormat();
         int center = this.width / 2;
 
         int currentY = 10;
@@ -71,13 +71,10 @@ public class ContainerValueConfigScreen extends Screen {
         decimalSeparatorTextField.setChangedListener(s -> decimalSeparator = s);
         addDrawableChild(decimalSeparatorTextField);
 
-        String groupingSeparatorValue = ContainerValueConfig.getConfig().enableGrouping() ?
-                ContainerValueConfig.getConfig().groupingSeparator() + "" : "";
-
         TextFieldWidget groupingSeparatorTextField = prepareSeparatorTextField(
                 center + FIELDS_OFFSETS,
                 currentY,
-                Text.literal(groupingSeparatorValue),
+                Text.literal(groupingSeparator),
                 Text.translatable("gui.magiqol-sky.containervaluescreen.text.groupingseparator"),
                 Text.translatable("gui.magiqol-sky.containervaluescreen.tooltip.groupingseparator")
         );
