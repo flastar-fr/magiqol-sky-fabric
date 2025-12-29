@@ -1,7 +1,7 @@
 package fr.flastar.magiqolsky;
 
 import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
-import fr.flastar.magiqolsky.cooldowndisplay.CooldownDisplayHud;
+import fr.flastar.magiqolsky.cooldowndisplay.gui.CooldownDisplayHud;
 import fr.flastar.magiqolsky.customfoods.CustomFoodCreator;
 import fr.flastar.magiqolsky.shopitems.ShopItemCreator;
 import net.fabricmc.api.ModInitializer;
