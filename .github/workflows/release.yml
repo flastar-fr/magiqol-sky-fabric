@@ -33,13 +33,19 @@ jobs:
         id: set_vars
         run: |
           MOD_VERSION=$(grep 'mod_version=' gradle.properties | sed -E 's/mod_version=(.*)/\1/' | tr -d '\n')
+          MC_VERSION=$(grep 'minecraft_version=' gradle.properties | sed -E 's/minecraft_version=(.*)/\1/' | tr -d '\n')
           
           if [ -z "$MOD_VERSION" ]; then
             echo "Error : Mod version (mod_version) cannot be read from gradle.properties."
             exit 1
           fi
           
-          TAG_NAME="v$MOD_VERSION"
+          if [ -z "$MC_VERSION" ]; then
+            echo "Error : MC version (minecraft_version) cannot be read from gradle.properties."
+            exit 1
+          fi
+          
+          TAG_NAME="mc$MC_VERSION--v$MOD_VERSION"
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
           
           echo "Readed version : $MOD_VERSION"
@@ -101,7 +107,7 @@ jobs:
           tag_name: ${{ steps.set_vars.outputs.tag }}
           name: Release ${{ steps.set_vars.outputs.tag }}
           body: |
-            ## Nouveauté
+            ## Nouveauté ${{ steps.set_vars.outputs.tag }}
             
             - Détails de la version ici.
           draft: false
