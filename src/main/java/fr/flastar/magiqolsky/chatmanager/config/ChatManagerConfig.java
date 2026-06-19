@@ -26,7 +26,6 @@ public class ChatManagerConfig {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("magiqolsky_autocommand_config.json").toFile();
-    private static final String JSON_DEFAULT_PATH = "https://raw.githubusercontent.com/flastar-fr/magiqol-sky-fabric/master/database/default_emoji.json";
 
     private static ChatManagerData currentConfig;
 
@@ -39,7 +38,7 @@ public class ChatManagerConfig {
 
     public synchronized static void load() {
         if (!CONFIG_FILE.exists()) {
-            List<TextReplacerEntry> textReplacers = loadDefaultEmoji();
+            List<TextReplacerEntry> textReplacers = new ArrayList<>();
             currentConfig = new ChatManagerData(textReplacers);
             save();
             return;
@@ -55,27 +54,6 @@ public class ChatManagerConfig {
             MagiQoLSky.LOGGER.error(errorMsg, e);
             currentConfig = new ChatManagerData();
         }
-    }
-
-    private synchronized static List<TextReplacerEntry> loadDefaultEmoji() {
-        try (InputStream inputStream = new URI(JSON_DEFAULT_PATH).toURL().openStream();
-             InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-
-            Type type = new TypeToken<List<TextReplacerEntry>>() {}.getType();
-            List<TextReplacerEntry> emoji = GSON.fromJson(reader, type);
-
-            MagiQoLSky.LOGGER.info("Default emoji configuration loaded");
-
-            return emoji;
-
-        } catch (IOException e) {
-            String errorMsg = String.format("Failed to load default emoji configuration from %s", JSON_DEFAULT_PATH);
-            MagiQoLSky.LOGGER.error(errorMsg, e);
-        } catch (URISyntaxException e) {
-            MagiQoLSky.LOGGER.error("Syntax error in the default emoji URL", e);
-        }
-
-        return new ArrayList<>();
     }
 
     public static void save() {
