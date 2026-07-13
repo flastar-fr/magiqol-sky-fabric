@@ -6,6 +6,7 @@
   - [ ] Shulker
   - [ ] Barrel
   - [ ] End chest
+  - [ ] Inventaire
 - [ ] Better Bienvenue 
 - [ ] Auto Night Vision
   - [ ] Donjons
