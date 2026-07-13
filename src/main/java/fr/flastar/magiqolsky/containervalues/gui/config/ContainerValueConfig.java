@@ -1,5 +1,7 @@
 package fr.flastar.magiqolsky.containervalues.gui.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.containervalues.gui.model.ContainerValueData;
 import net.fabricmc.loader.api.FabricLoader;
@@ -8,9 +10,10 @@ import java.io.*;
 import java.util.Locale;
 
 import static fr.flastar.magiqolsky.utils.ClientLocaleUtils.getClientLocale;
-import static net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil.GSON;
 
 public class ContainerValueConfig {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
     public static int DESIRED_PRECISION = 2;
 
     public static final int INVENTORY_TEXT_Y_OFFSET = 65;

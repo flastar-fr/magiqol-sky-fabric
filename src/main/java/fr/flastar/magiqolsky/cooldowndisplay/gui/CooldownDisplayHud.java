@@ -2,13 +2,12 @@ package fr.flastar.magiqolsky.cooldowndisplay.gui;
 
 import fr.flastar.magiqolsky.cooldowndisplay.CustomFoodDetectionHandler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
 
 public class CooldownDisplayHud {
-    private static final Identifier LAYER_ID = Identifier.of("magiqol-sky", "cooldowns_layer");
+    private static final Identifier LAYER_ID = Identifier.fromNamespaceAndPath("magiqol-sky", "cooldowns");
     private static final int WIDTH_HOTBAR = 182;
     private static final int Y_OFFSET = 25;
 
@@ -26,21 +25,24 @@ public class CooldownDisplayHud {
     private static List<CooldownDisplayWidget> cooldownDisplayWidgets;
 
     public static void register() {
-        HudLayerRegistrationCallback.EVENT.register(
-                layeredDrawer -> layeredDrawer.attachLayerBefore(IdentifiedLayer.CHAT, LAYER_ID, CooldownDisplayHud::render)
+        HudElementRegistry.attachElementBefore(
+                VanillaHudElements.CHAT,
+                LAYER_ID,
+                (context, _) -> CooldownDisplayHud.render(context)
         );
-        ClientTickEvents.START_CLIENT_TICK.register(client -> CooldownDisplayHud.tick());
+
+        ClientTickEvents.START_CLIENT_TICK.register(_ -> CooldownDisplayHud.tick());
         CustomFoodDetectionHandler.register();
 
         cooldownDisplayWidgets = new ArrayList<>();
     }
 
-    private static void render(DrawContext context, RenderTickCounter tickCounter) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.options.hudHidden) return;
+    private static void render(GuiGraphicsExtractor context) {
+        Minecraft client = Minecraft.getInstance();
+        if (client.options.hideGui) return;
 
-        int width = context.getScaledWindowWidth();
-        int height = context.getScaledWindowHeight();
+        int width = context.guiWidth();
+        int height = context.guiHeight();
 
         if (customFoodDisplayWidget != null && customFoodDisplayWidget.isAlive()) {
             int x = width / 2 + WIDTH_HOTBAR / 2 + 5;

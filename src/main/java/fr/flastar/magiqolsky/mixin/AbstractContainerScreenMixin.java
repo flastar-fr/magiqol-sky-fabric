@@ -2,14 +2,14 @@ package fr.flastar.magiqolsky.mixin;
 
 import fr.flastar.magiqolsky.containervalues.containerstrategies.*;
 import fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig;
-import fr.flastar.magiqolsky.mixin.accessors.HandledScreenAccessor;
+import fr.flastar.magiqolsky.mixin.accessors.AbstractContainerScreenAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,8 +20,8 @@ import java.util.List;
 
 import static fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig.TEXT_COLOR;
 
-@Mixin(HandledScreen.class)
-public abstract class ContainerValueMixin {
+@Mixin(AbstractContainerScreen.class)
+public abstract class AbstractContainerScreenMixin {
     @Unique
     private final List<InventoryManagementStrategy> strategies = List.of(
             new GenericContainerStrategy(),
@@ -36,15 +36,15 @@ public abstract class ContainerValueMixin {
     @Unique
     private StrategyContext strategyContext;
 
-    @Inject(method = "<init>(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At("RETURN"))
-    private void cacheStrategyContext(ScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {
-        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        this.strategyContext = new StrategyContext(handler, title, inventory, ((HandledScreenAccessor) screen).backgroundHeight());
+    @Inject(method = "<init>(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;)V", at = @At("RETURN"))
+    private void cacheStrategyContext(AbstractContainerMenu handler, Inventory inventory, Component title, CallbackInfo ci) {
+        AbstractContainerScreen<?> screen = (AbstractContainerScreen<?>) (Object) this;
+        this.strategyContext = new StrategyContext(handler, title, inventory, ((AbstractContainerScreenAccessor) screen).backgroundHeight());
     }
 
-    @Inject(method = "handledScreenTick", at = @At("HEAD"))
+    @Inject(method = "containerTick", at = @At("HEAD"))
     private void updateContainerValue(CallbackInfo ci) {
-        ScreenHandler handler = ((HandledScreen<?>) (Object) this).getScreenHandler();
+        AbstractContainerMenu handler = ((AbstractContainerScreen<?>) (Object) this).getMenu();
 
         if (currentStrategy == null) {
             determineContainerInventory(handler);
@@ -55,20 +55,20 @@ public abstract class ContainerValueMixin {
         }
     }
 
-    @Inject(method = "render", at = @At(value = "TAIL"))
-    protected void renderContainerValue(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    @Inject(method = "extractContents", at = @At(value = "TAIL"))
+    protected void renderContainerValue(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!ContainerValueConfig.getConfig().isContainerValueEnabled()) return;
 
         if (currentStrategy == null) {
             return;
         }
 
-        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        int x = ((HandledScreenAccessor) screen).x();
-        int y = ((HandledScreenAccessor) screen).y();
+        AbstractContainerScreen<?> screen = (AbstractContainerScreen<?>) (Object) this;
+        int x = ((AbstractContainerScreenAccessor) screen).x();
+        int y = ((AbstractContainerScreenAccessor) screen).y();
         Coordinates screenCoordinates = new Coordinates(x, y);
-        int backgroundWidth = ((HandledScreenAccessor) screen).backgroundWidth();
-        strategyContext.updateBackgroundHeight(((HandledScreenAccessor) screen).backgroundHeight());
+        int backgroundWidth = ((AbstractContainerScreenAccessor) screen).backgroundWidth();
+        strategyContext.updateBackgroundHeight(((AbstractContainerScreenAccessor) screen).backgroundHeight());
 
         Coordinates topCornerCoordinates = new Coordinates(x + backgroundWidth, screenCoordinates.y());
 
@@ -76,14 +76,14 @@ public abstract class ContainerValueMixin {
     }
 
     @Unique
-    private void determineContainerInventory(ScreenHandler handler) {
+    private void determineContainerInventory(AbstractContainerMenu handler) {
         if (handler == null) {
             return;
         }
 
         for (InventoryManagementStrategy strategy : strategies) {
             if (strategy.supports(strategyContext)) {
-                Inventory containerInventory = strategy.extract(strategyContext);
+                Container containerInventory = strategy.extract(strategyContext);
 
                 if (containerInventory != null) {
                     currentStrategy = strategy;

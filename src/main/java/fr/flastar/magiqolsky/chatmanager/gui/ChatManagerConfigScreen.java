@@ -3,14 +3,11 @@ package fr.flastar.magiqolsky.chatmanager.gui;
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import fr.flastar.magiqolsky.chatmanager.model.TextReplacerEntry;
 import fr.flastar.magiqolsky.utils.StackItems;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +19,7 @@ public class ChatManagerConfigScreen extends Screen {
     private String messageHourFormat;
 
     public ChatManagerConfigScreen(Screen parent) {
-        super(Text.translatable("gui.magiqol-sky.chatmanagerscreen.title.main"));
+        super(Component.translatable("gui.magiqol-sky.chatmanagerscreen.title.main"));
         this.parent = parent;
         this.messageHourFormat = "";
     }
@@ -33,7 +30,7 @@ public class ChatManagerConfigScreen extends Screen {
         int center = this.width / 2;
 
         int currentY = 10;
-        addDrawableChild(new TextWidget(center - 100, currentY, 200, 20, Text.translatable("gui.magiqol-sky.chatmanagerscreen.title.generalsetting"), textRenderer));
+        addRenderableWidget(new StringWidget(center - 100, currentY, 200, 20, Component.translatable("gui.magiqol-sky.chatmanagerscreen.title.generalsetting"), font));
 
         currentY += 25;
 
@@ -45,87 +42,91 @@ public class ChatManagerConfigScreen extends Screen {
 
         currentY += 30;
 
-        addDrawableChild(new TextWidget(center - 200, currentY, 200, 20, Text.translatable("gui.magiqol-sky.chatmanagerscreen.title.textreplacement"), textRenderer));
+        addRenderableWidget(new StringWidget(center - 200, currentY, 200, 20, Component.translatable("gui.magiqol-sky.chatmanagerscreen.title.textreplacement"), font));
 
-        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> {
-            ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
-            list.refreshEntries();
-        })
-                .dimensions(center - 13, currentY, 140, 20)
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacementbutton")))
+        addRenderableWidget(Button.builder(Component.literal("+"), _ -> {
+                    ChatManagerConfig.getConfig().textReplacers().add(new TextReplacerEntry("", ""));
+                    list.refreshEntries();
+                })
+                .bounds(center - 13, currentY, 140, 20)
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacementbutton")))
                 .build());
 
         int yReplacementList = ChatManagerConfig.getConfig().isMessageHourEnabled() ? this.height - 165 : this.height - 135;
-        list = new ReplacementListWidget(client, this.width, yReplacementList, currentY + 30, 25);
-        addSelectableChild(list);
 
-        addDrawableChild(ButtonWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.save"), button -> close())
-                .dimensions(center - 100, this.height - 30, 200, 20).build());
+        list = new ReplacementListWidget(minecraft, this.width, yReplacementList, currentY + 30, 25);
+        addRenderableWidget(list);
+
+        addRenderableWidget(Button.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.save"), _ -> onClose())
+                .bounds(center - 100, this.height - 30, 200, 20).build());
     }
 
     private void drawCheckboxesConfig(int center, int currentY) {
         int spacing = 20;
 
-        CheckboxWidget cbAutoFly = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.autofly"), textRenderer)
-                .checked(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsAutoFlyingEnabled(checked))
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.autofly")))
-                .build();
-        CheckboxWidget cbBetterBienvenue = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.betterbienvenue"), textRenderer)
-                .checked(ChatManagerConfig.getConfig().isBetterBienvenueEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.betterbienvenue")))
-                .build();
-        CheckboxWidget cbTextReplacement = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.textreplacement"), textRenderer)
-                .checked(ChatManagerConfig.getConfig().isTextReplacementEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsTextReplacementEnabled(checked))
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacement")))
-                .build();
-        CheckboxWidget cbAutoNightVision = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.autonightvision"), textRenderer)
-                .checked(ChatManagerConfig.getConfig().isAutoNightVisionEnabled())
-                .callback((cb, checked) -> ChatManagerConfig.getConfig().changeIsAutoNightVisionEnabled(checked))
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.autonightvision")))
-                .build();
-        CheckboxWidget cbHourMessages = CheckboxWidget.builder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.text.hourmessages"), textRenderer)
-                .checked(ChatManagerConfig.getConfig().isMessageHourEnabled())
-                .callback((cb, checked) -> {
-                    ChatManagerConfig.getConfig().changeIsMessageHourEnabled(checked);
-                    clearAndInit();
-                })
-                .tooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourmessages")))
+        Checkbox cbAutoFly = Checkbox.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.autofly"), font)
+                .selected(ChatManagerConfig.getConfig().isAutoFlyingEnabled())
+                .onValueChange((_, checked) -> ChatManagerConfig.getConfig().changeIsAutoFlyingEnabled(checked))
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.autofly")))
                 .build();
 
-        List<CheckboxWidget> checkboxes = Arrays.asList(cbAutoFly, cbBetterBienvenue, cbTextReplacement, cbAutoNightVision, cbHourMessages);
-        StackItems<CheckboxWidget> stackItems = new StackItems<>(this, center, currentY, spacing, SIZE_CHECKBOX_CASE, checkboxes);
+        Checkbox cbBetterBienvenue = Checkbox.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.betterbienvenue"), font)
+                .selected(ChatManagerConfig.getConfig().isBetterBienvenueEnabled())
+                .onValueChange((_, checked) -> ChatManagerConfig.getConfig().changeIsBetterBienvenueEnabled(checked))
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.betterbienvenue")))
+                .build();
+
+        Checkbox cbTextReplacement = Checkbox.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.textreplacement"), font)
+                .selected(ChatManagerConfig.getConfig().isTextReplacementEnabled())
+                .onValueChange((_, checked) -> ChatManagerConfig.getConfig().changeIsTextReplacementEnabled(checked))
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.textreplacement")))
+                .build();
+
+        Checkbox cbAutoNightVision = Checkbox.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.autonightvision"), font)
+                .selected(ChatManagerConfig.getConfig().isAutoNightVisionEnabled())
+                .onValueChange((_, checked) -> ChatManagerConfig.getConfig().changeIsAutoNightVisionEnabled(checked))
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.autonightvision")))
+                .build();
+
+        Checkbox cbHourMessages = Checkbox.builder(Component.translatable("gui.magiqol-sky.chatmanagerscreen.text.hourmessages"), font)
+                .selected(ChatManagerConfig.getConfig().isMessageHourEnabled())
+                .onValueChange((_, checked) -> {
+                    ChatManagerConfig.getConfig().changeIsMessageHourEnabled(checked);
+                    rebuildWidgets();
+                })
+                .tooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourmessages")))
+                .build();
+
+        List<Checkbox> checkboxes = Arrays.asList(cbAutoFly, cbBetterBienvenue, cbTextReplacement, cbAutoNightVision, cbHourMessages);
+
+        StackItems<Checkbox> stackItems = new StackItems<>(this, center, currentY, spacing, SIZE_CHECKBOX_CASE, checkboxes);
         stackItems.layout();
 
-        for (CheckboxWidget item : stackItems.getItems()) {
-            addDrawableChild(item);
+        for (Checkbox item : stackItems.getItems()) {
+            addRenderableWidget(item);
         }
 
         if (ChatManagerConfig.getConfig().isMessageHourEnabled()) {
             currentY += 30;
-            TextFieldWidget hourFormatTextField = new TextFieldWidget(textRenderer, stackItems.getCorrespondingX(4), currentY, 140, 20, Text.empty());
-            hourFormatTextField.setText(ChatManagerConfig.getConfig().messageHourFormat());
-            hourFormatTextField.setTooltip(Tooltip.of(Text.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourformat")));
-            hourFormatTextField.setChangedListener(s -> messageHourFormat = s);
-            addDrawableChild(hourFormatTextField);
+            EditBox hourFormatTextField = new EditBox(font, stackItems.getCorrespondingX(4), currentY, 140, 20, Component.empty());
+            hourFormatTextField.setValue(ChatManagerConfig.getConfig().messageHourFormat());
+            hourFormatTextField.setTooltip(Tooltip.create(Component.translatable("gui.magiqol-sky.chatmanagerscreen.tooltip.hourformat")));
+            hourFormatTextField.setResponder(s -> messageHourFormat = s);
+            addRenderableWidget(hourFormatTextField);
         }
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        this.list.render(context, mouseX, mouseY, delta);
+    public void extractRenderState(@NotNull GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(context, mouseX, mouseY, delta);
+        this.list.extractRenderState(context, mouseX, mouseY, delta);
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         if (messageHourFormat != null)
             ChatManagerConfig.getConfig().changeMessageHourFormat(messageHourFormat);
         ChatManagerConfig.save();
-        if (this.client != null) {
-            this.client.setScreen(parent);
-        }
+        this.minecraft.setScreen(parent);
     }
 }

@@ -4,8 +4,8 @@ import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.effect.MobEffects;
 
 import static fr.flastar.magiqolsky.utils.CommandUtils.isCommandAvailable;
 
@@ -18,13 +18,13 @@ public class AutoNightVision implements Registerable {
 
     @Override
     public void register() {
-        ClientEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof ClientPlayerEntity player && player.isMainPlayer()) {
+        ClientEntityEvents.ENTITY_LOAD.register((entity, _) -> {
+            if (entity instanceof LocalPlayer player && player.isLocalPlayer()) {
                 triggerRespawn();
             }
         });
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> triggerRespawn());
+        ClientPlayConnectionEvents.JOIN.register((_, _, _) -> triggerRespawn());
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (!pendingNightVision || client.player == null) return;
@@ -34,15 +34,13 @@ public class AutoNightVision implements Registerable {
             }
 
             if (!ChatManagerConfig.getConfig().isAutoNightVisionEnabled() ||
-                    client.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
+                    client.player.hasEffect(MobEffects.NIGHT_VISION)) {
                 pendingNightVision = false;
                 return;
             }
 
-            if (client.player.networkHandler != null) {
-                client.player.networkHandler.sendCommand(ChatManagerConfig.NV_COMMAND);
-                pendingNightVision = false;
-            }
+            client.player.connection.sendUnattendedCommand(ChatManagerConfig.NV_COMMAND, client.screen);
+            pendingNightVision = false;
         });
     }
 }

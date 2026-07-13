@@ -1,8 +1,9 @@
 package fr.flastar.magiqolsky.cooldowndisplay.gui;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.item.ItemStack;
 
 import static fr.flastar.magiqolsky.cooldowndisplay.gui.CooldownDisplayHud.TICK_PER_SECOND;
 import static fr.flastar.magiqolsky.utils.IDFromStack.retrieveIDFromStack;
@@ -14,21 +15,22 @@ public class CooldownDisplayWidget {
     private boolean isAlive;
     private String nbt;
 
-    public void render(DrawContext context, int x, int y, boolean alignRight) {
+    public void render(GuiGraphicsExtractor context, int x, int y, boolean alignRight) {
         if (currentTickCooldown <= 0 || lastStackUsed == null) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
+        Font font = client.font;
         float secondsLeft = currentTickCooldown / TICK_PER_SECOND;
 
         String text = String.format("%.1fs", secondsLeft);
-        int textWidth = client.textRenderer.getWidth(text);
+        int textWidth = font.width(text);
 
         if (alignRight) {
-            context.drawItem(lastStackUsed, x - 18, y);
-            context.drawText(client.textRenderer, text, x - 20 - textWidth, y + 4, 0xFFFFFF, true);
+            context.item(lastStackUsed, x - 18, y);
+            context.text(font, text, x - 20 - textWidth, y + 4, 0xFFFFFF, true);
         } else {
-            context.drawItem(lastStackUsed, x, y);
-            context.drawText(client.textRenderer, text, x + 18, y + 4, 0xFFFFFF, true);
+            context.item(lastStackUsed, x, y);
+            context.text(font, text, x + 18, y + 4, 0xFFFFFF, true);
         }
     }
 

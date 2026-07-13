@@ -2,22 +2,23 @@ package fr.flastar.magiqolsky.chatmanager.gui;
 
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import fr.flastar.magiqolsky.chatmanager.model.TextReplacerEntry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplacementListWidget extends ElementListWidget<ReplacementListWidget.ReplacementEntry> {
+public class ReplacementListWidget extends ContainerObjectSelectionList<ReplacementListWidget.ReplacementEntry> {
 
-    public ReplacementListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
-        super(client, width, height, y, itemHeight);
+    public ReplacementListWidget(Minecraft minecraft, int width, int height, int y, int itemHeight) {
+        super(minecraft, width, height, y, itemHeight);
         refreshEntries();
     }
 
@@ -34,31 +35,31 @@ public class ReplacementListWidget extends ElementListWidget<ReplacementListWidg
     }
 
     @Override
-    protected int getScrollbarX() {
+    protected int scrollBarX() {
         return this.width / 2 + 165;
     }
 
-    public class ReplacementEntry extends ElementListWidget.Entry<ReplacementEntry> {
-        private final List<Element> children = new ArrayList<>();
-        private final TextFieldWidget keyField;
-        private final TextFieldWidget valField;
-        private final ButtonWidget deleteBtn;
+    public class ReplacementEntry extends ContainerObjectSelectionList.Entry<ReplacementEntry> {
+        private final List<GuiEventListener> children = new ArrayList<>();
+        private final EditBox keyField;
+        private final EditBox valField;
+        private final Button deleteBtn;
 
         public ReplacementEntry(TextReplacerEntry configEntry) {
-            MinecraftClient client = MinecraftClient.getInstance();
+            Minecraft minecraft = Minecraft.getInstance();
 
-            keyField = new TextFieldWidget(client.textRenderer, 0, 0, 140, 20, Text.empty());
-            keyField.setText(configEntry.key);
-            keyField.setChangedListener(s -> configEntry.key = s);
+            keyField = new EditBox(minecraft.font, 0, 0, 140, 20, Component.empty());
+            keyField.setValue(configEntry.key);
+            keyField.setResponder(s -> configEntry.key = s);
 
-            valField = new TextFieldWidget(client.textRenderer, 0, 0, 140, 20, Text.empty());
-            valField.setText(configEntry.value);
-            valField.setChangedListener(s -> configEntry.value = s);
+            valField = new EditBox(minecraft.font, 0, 0, 140, 20, Component.empty());
+            valField.setValue(configEntry.value);
+            valField.setResponder(s -> configEntry.value = s);
 
-            deleteBtn = ButtonWidget.builder(Text.literal("§cX"), b -> {
+            deleteBtn = Button.builder(Component.literal("§cX"), _ -> {
                 ChatManagerConfig.getConfig().textReplacers().remove(configEntry);
                 refreshEntries();
-            }).dimensions(0, 0, 20, 20).build();
+            }).bounds(0, 0, 20, 20).build();
 
             children.add(keyField);
             children.add(valField);
@@ -66,28 +67,34 @@ public class ReplacementListWidget extends ElementListWidget<ReplacementListWidg
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
-            keyField.setX(x);
+        public void extractContent(@NotNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float delta) {
+            int x = getX();
+            int y = getY();
+
             keyField.setY(y);
-            keyField.setPlaceholder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtodetect"));
+            keyField.setHint(Component.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtodetect"));
+
             valField.setX(x + 145);
             valField.setY(y);
-            valField.setPlaceholder(Text.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtoreplacewith"));
+            valField.setHint(Component.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtoreplacewith"));
+
             deleteBtn.setX(x + 290);
             deleteBtn.setY(y);
 
-            keyField.render(context, mouseX, mouseY, delta);
-            valField.render(context, mouseX, mouseY, delta);
-            deleteBtn.render(context, mouseX, mouseY, delta);
+            keyField.extractRenderState(graphics, mouseX, mouseY, delta);
+            valField.extractRenderState(graphics, mouseX, mouseY, delta);
+            deleteBtn.extractRenderState(graphics, mouseX, mouseY, delta);
         }
 
         @Override
-        public List<? extends Element> children() {
+        @NotNull
+        public List<? extends GuiEventListener> children() {
             return children;
         }
 
         @Override
-        public List<? extends Selectable> selectableChildren() {
+        @NotNull
+        public List<? extends NarratableEntry> narratables() {
             return List.of(keyField, valField, deleteBtn);
         }
     }

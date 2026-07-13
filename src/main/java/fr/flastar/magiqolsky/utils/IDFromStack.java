@@ -1,18 +1,19 @@
 package fr.flastar.magiqolsky.utils;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class IDFromStack {
     public static String retrieveIDFromStack(ItemStack stack) {
-        NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
-        if (nbtComponent == null) {
-            Identifier itemIDIdentifier = Registries.ITEM.getId(stack.getItem());
+        CustomData customData = stack.getComponents().get(DataComponents.CUSTOM_DATA);
 
-            return itemIDIdentifier.toString();
+        if (customData == null) {
+            Identifier itemIDLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
+
+            return itemIDLocation.toString();
         } else {
             return ItemIDExtractor.extractPluginIdentifier(stack);
         }

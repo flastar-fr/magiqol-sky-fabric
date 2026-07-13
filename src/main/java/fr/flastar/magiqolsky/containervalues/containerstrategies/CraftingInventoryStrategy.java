@@ -1,14 +1,15 @@
 package fr.flastar.magiqolsky.containervalues.containerstrategies;
 
-import fr.flastar.magiqolsky.mixin.accessors.CraftingScreenHandlerAccessor;
+import fr.flastar.magiqolsky.mixin.accessors.CraftingMenuAccessor;
 import fr.flastar.magiqolsky.utils.Coordinates;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.CraftingScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import static fr.flastar.magiqolsky.containervalues.gui.config.ContainerValueConfig.*;
@@ -16,33 +17,33 @@ import static fr.flastar.magiqolsky.containervalues.containerstrategies.Strategy
 
 public class CraftingInventoryStrategy implements InventoryManagementStrategy {
 
-    private Text amountText = Text.of("");
+    private Component amountText = Component.literal("");
 
     @Override
     public boolean supports(StrategyContext strategyContext) {
-        return strategyContext.handler() instanceof CraftingScreenHandler;
+        return strategyContext.handler() instanceof CraftingMenu;
     }
 
     @Override
     public @Nullable Inventory extract(StrategyContext strategyContext) {
-        if (!(strategyContext.handler() instanceof CraftingScreenHandler craftingHandler)) {
+        if (!(strategyContext.handler() instanceof CraftingMenu craftingHandler)) {
             return null;
         }
 
-        CraftingScreenHandlerAccessor accessor = (CraftingScreenHandlerAccessor) craftingHandler;
-        PlayerEntity player = accessor.invokeGetPlayer();
+        CraftingMenuAccessor accessor = (CraftingMenuAccessor) craftingHandler;
+        Player player = accessor.player();
 
         return player.getInventory();
     }
 
     @Override
-    public void render(DrawContext context, int color, Coordinates topCornerCoordinates) {
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    public void render(GuiGraphicsExtractor context, int color, Coordinates topCornerCoordinates) {
+        Font font = Minecraft.getInstance().font;
 
-        context.drawText(
-                textRenderer,
+        context.text(
+                font,
                 amountText,
-                topCornerCoordinates.x() - TEXT_X_OFFSET - textRenderer.getWidth(amountText),
+                topCornerCoordinates.x() - TEXT_X_OFFSET - font.width(amountText),
                 topCornerCoordinates.y() + INVENTORY_TEXT_Y_OFFSET + TEXT_Y,
                 color,
                 false
@@ -51,13 +52,8 @@ public class CraftingInventoryStrategy implements InventoryManagementStrategy {
 
     @Override
     public void update(StrategyContext strategyContext) {
-        Inventory containerInventory = extract(strategyContext);
+        Container containerInventory = extract(strategyContext);
         if (containerInventory == null) return;
         amountText = retrieveContainerAmountText(containerInventory);
-    }
-
-    @Override
-    public Text getContainerAmountText() {
-        return amountText;
     }
 }

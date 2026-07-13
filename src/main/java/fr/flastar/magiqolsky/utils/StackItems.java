@@ -1,12 +1,12 @@
 package fr.flastar.magiqolsky.utils;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 import java.util.List;
 
-public class StackItems<T extends ClickableWidget> {
+public class StackItems<T extends AbstractWidget> {
     private final Screen screen;
     private final int spacing;
     private final int sizeAdditionToWidget;
@@ -28,14 +28,14 @@ public class StackItems<T extends ClickableWidget> {
     }
 
     public void layout() {
-        TextRenderer textRenderer = screen.getTextRenderer();
+        Font font = screen.getFont();
 
         int currentX = centerX - (totalWidth / 2);
         for (T item : items) {
             item.setX(currentX);
             item.setY(y);
 
-            int itemWidth = textRenderer.getWidth(item.getMessage()) + sizeAdditionToWidget;
+            int itemWidth = font.width(item.getMessage()) + sizeAdditionToWidget;
             currentX += itemWidth + spacing;
         }
     }
@@ -49,11 +49,11 @@ public class StackItems<T extends ClickableWidget> {
     }
 
     private int getTotalWidth() {
-        TextRenderer textRenderer = screen.getTextRenderer();
+        Font font = screen.getFont();
 
         int totalWidth = 0;
         for (T item : items) {
-            totalWidth += textRenderer.getWidth(item.getMessage()) + sizeAdditionToWidget;
+            totalWidth += font.width(item.getMessage()) + sizeAdditionToWidget;
         }
         return totalWidth + (items.size() - 1) * spacing;
     }

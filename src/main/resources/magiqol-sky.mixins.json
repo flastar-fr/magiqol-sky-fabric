@@ -3,8 +3,8 @@
   "package": "fr.flastar.magiqolsky.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "accessors.CraftingScreenHandlerAccessor",
-    "accessors.ShulkerBoxScreenHandlerAccessor"
+    "accessors.CraftingMenuAccessor",
+    "accessors.ShulkerBoxMenuAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -13,10 +13,10 @@
     "requireAnnotations": true
   },
   "client": [
-    "ChatHudMixin",
-    "ClientPlayerEntityMixin",
-    "ContainerValueMixin",
-    "MinecraftClientMixin",
-    "accessors.HandledScreenAccessor"
+    "ChatComponentMixin",
+    "LocalPlayerMixin",
+    "AbstractContainerScreenMixin",
+    "MinecraftMixin",
+    "accessors.AbstractContainerScreenAccessor"
   ]
 }

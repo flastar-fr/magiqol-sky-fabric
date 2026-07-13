@@ -6,8 +6,8 @@ import fr.flastar.magiqolsky.config.data.BoostPotion;
 import fr.flastar.magiqolsky.config.data.CustomFood;
 import fr.flastar.magiqolsky.cooldowndisplay.gui.CooldownDisplayHud;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Date;
 import java.util.Map;
@@ -20,11 +20,11 @@ public class CustomFoodDetectionHandler {
 
     public static void register() {
         UseItemCallback.EVENT.register((player, world, hand) -> {
-            if (world.isClient) {
-                ItemStack currentStack = player.getStackInHand(hand).copy();
+            if (world.isClientSide()) {
+                ItemStack currentStack = player.getItemInHand(hand).copy();
                 handleClickedItem(currentStack);
             }
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         });
     }
 

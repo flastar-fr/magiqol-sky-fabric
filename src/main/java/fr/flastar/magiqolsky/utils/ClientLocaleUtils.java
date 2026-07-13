@@ -1,14 +1,14 @@
 package fr.flastar.magiqolsky.utils;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.util.Locale;
 
 public class ClientLocaleUtils {
     public static Locale getClientLocale() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
 
-        String localeCode = client.getLanguageManager().getLanguage();
+        String localeCode = client.getLanguageManager().getSelected();
 
         String languageTag = localeCode.replace('_', '-');
 

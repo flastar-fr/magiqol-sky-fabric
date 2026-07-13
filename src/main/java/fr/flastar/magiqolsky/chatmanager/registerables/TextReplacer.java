@@ -2,7 +2,7 @@ package fr.flastar.magiqolsky.chatmanager.registerables;
 
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class TextReplacer implements Registerable {
     private boolean hasBeenChanged = false;
@@ -25,12 +25,12 @@ public class TextReplacer implements Registerable {
                 return true;
             }
 
-            MinecraftClient client = MinecraftClient.getInstance();
+            Minecraft client = Minecraft.getInstance();
             if (client.player == null) {
                 return true;
             }
             hasBeenChanged = true;
-            client.player.networkHandler.sendChatMessage(newMessage);
+            client.player.connection.sendChat(newMessage);
 
             return false;
         });

@@ -2,7 +2,7 @@ package fr.flastar.magiqolsky.chatmanager.registerables;
 
 import fr.flastar.magiqolsky.chatmanager.config.ChatManagerConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.util.Arrays;
 
@@ -16,9 +16,9 @@ public class BetterBienvenue implements Registerable {
             if (!ChatManagerConfig.getConfig().isBetterBienvenueEnabled()) return;
 
             if (Arrays.stream(BIENVENUE_COMMANDS).anyMatch(command::equalsIgnoreCase)) {
-                MinecraftClient client = MinecraftClient.getInstance();
+                Minecraft client = Minecraft.getInstance();
                 if (client.player != null) {
-                    client.player.networkHandler.sendChatMessage(BIENVENUE_MESSAGE);
+                    client.player.connection.sendChat(BIENVENUE_MESSAGE);
                 }
             }
         });
