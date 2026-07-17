@@ -12,6 +12,6 @@
 - [x] Auto Night Vision
   - [ ] Donjons
   - [x] Dimensions
-- [ ] Text replacement
+- [x] Text replacement
 - [x] Auto-Fly
 - [x] Message timestamps
