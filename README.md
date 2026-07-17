@@ -1,16 +1,17 @@
 # Bump vers la 26.1.2
 ## Test à faire
-- [ ] Vérifier fonctionnement de la valeur des conteneurs :
-  - [ ] Coffre
-  - [ ] Double coffre
-  - [ ] Shulker
-  - [ ] Barrel
-  - [ ] End chest
-  - [ ] Inventaire
-- [ ] Better Bienvenue 
-- [ ] Auto Night Vision
+
+- [x] Vérifier fonctionnement de la valeur des conteneurs :
+  - [x] Coffre
+  - [x] Double coffre
+  - [x] Shulker
+  - [x] Barrel
+  - [x] End chest
+  - [x] Inventaire
+- [x] Better Bienvenue
+- [x] Auto Night Vision
   - [ ] Donjons
-  - [ ] Dimensions
+  - [x] Dimensions
 - [ ] Text replacement
-- [ ] Auto-Fly
-- [ ] Message timestamps
+- [x] Auto-Fly
+- [x] Message timestamps

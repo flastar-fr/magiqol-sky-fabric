@@ -71,6 +71,7 @@ public class ReplacementListWidget extends ContainerObjectSelectionList<Replacem
             int x = getX();
             int y = getY();
 
+            keyField.setX(x);
             keyField.setY(y);
             keyField.setHint(Component.translatable("gui.magiqol-sky.chatmanagerscreen.placeholder.wordtodetect"));
 
