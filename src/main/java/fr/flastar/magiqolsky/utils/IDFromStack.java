@@ -1,10 +1,10 @@
 package fr.flastar.magiqolsky.utils;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
 public class IDFromStack {
     public static String retrieveIDFromStack(ItemStack stack) {
@@ -14,8 +14,7 @@ public class IDFromStack {
             Identifier itemIDLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
             return itemIDLocation.toString();
-        } else {
-            return ItemIDExtractor.extractPluginIdentifier(stack);
         }
+        return ItemIDExtractor.extractPluginIdentifier(stack);
     }
 }

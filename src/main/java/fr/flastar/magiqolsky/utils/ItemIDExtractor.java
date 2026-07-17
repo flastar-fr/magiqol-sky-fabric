@@ -1,10 +1,9 @@
 package fr.flastar.magiqolsky.utils;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
 import java.util.Optional;
 
@@ -16,12 +15,9 @@ public class ItemIDExtractor {
             return "";
         }
 
-        CompoundTag nbt = customData.copyTag();
-        if (!nbt.contains("PublicBukkitValues") || nbt.getId() != Tag.TAG_COMPOUND) {
-            return "";
-        }
+        CompoundTag tag = customData.copyTag();
 
-        Optional<CompoundTag> publicBukkitValuesOpt = nbt.getCompound("PublicBukkitValues");
+        Optional<CompoundTag> publicBukkitValuesOpt = tag.getCompound("PublicBukkitValues");
 
         if (publicBukkitValuesOpt.isEmpty()) {
             return "";
@@ -36,11 +32,10 @@ public class ItemIDExtractor {
 
                 if (publicBukkitValues.contains(nbtKey)) {
                     Optional<String> pathValue = publicBukkitValues.getString(nbtKey);
-                    return namespace + ":" + pathValue;
+                    return namespace + ":" + pathValue.orElse("notfound");
                 }
             }
         }
-
         return "";
     }
 }
