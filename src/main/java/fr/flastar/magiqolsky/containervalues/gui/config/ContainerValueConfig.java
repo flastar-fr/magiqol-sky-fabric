@@ -6,7 +6,10 @@ import fr.flastar.magiqolsky.MagiQoLSky;
 import fr.flastar.magiqolsky.containervalues.gui.model.ContainerValueData;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Locale;
 
 import static fr.flastar.magiqolsky.utils.ClientLocaleUtils.getClientLocale;
@@ -22,7 +25,7 @@ public class ContainerValueConfig {
 
     public static final int TEXT_X_OFFSET = 8;
 
-    public static final int TEXT_COLOR = 0x404040;
+    public static final int TEXT_COLOR = 0xFF404040;
 
     public static final int INVENTORY_CONTAINER_OFFSET_FROM_BOTTOM = 94;
 
